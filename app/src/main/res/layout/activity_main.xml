@@ -24,6 +24,7 @@
         android:inputType="text"/>
 
     <Button
+        android:id="@+id/main_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/margin_medium"
@@ -34,7 +35,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/main_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

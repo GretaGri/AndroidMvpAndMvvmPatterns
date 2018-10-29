@@ -3,4 +3,6 @@
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="card_corner_radius">10dp</dimen>
     <dimen name="card_elevation">8dp</dimen>
+    <dimen name="text_size_small">16sp</dimen>
+    <dimen name="text_size_big">26sp</dimen>
 </resources>
