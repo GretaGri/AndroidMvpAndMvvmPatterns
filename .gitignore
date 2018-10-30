@@ -9,3 +9,9 @@
 /build
 /captures
 .externalNativeBuild
+/gradle.properties
+.idea/
+app/src/main/java/com/enpassio/androidmvpandmvvmpatterns/mvp_pattern/presenter/
+gradle/
+gradlew
+gradlew.bat
