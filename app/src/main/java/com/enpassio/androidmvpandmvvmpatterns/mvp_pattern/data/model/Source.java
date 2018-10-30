@@ -1,4 +1,4 @@
-package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.model;
+package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,6 +8,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Source implements Parcelable {
 
+    @SerializedName("id")
+    @Expose
+    private String id;
+    @SerializedName("name")
+    @Expose
+    private String name;
     public final static Parcelable.Creator<Source> CREATOR = new Creator<Source>() {
 
 
@@ -23,14 +29,8 @@ public class Source implements Parcelable {
         }
 
     };
-    @SerializedName("id")
-    @Expose
-    private String id;
-    @SerializedName("name")
-    @Expose
-    private String name;
 
-    protected Source(Parcel in) {
+    private Source(Parcel in) {
         this.id = ((String) in.readValue((String.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
     }

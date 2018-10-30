@@ -1,4 +1,4 @@
-package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.model;
+package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,6 +10,15 @@ import java.util.List;
 
 public class NewsResponse implements Parcelable {
 
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("totalResults")
+    @Expose
+    private Integer totalResults;
+    @SerializedName("articles")
+    @Expose
+    private List<Article> articles = null;
     public final static Parcelable.Creator<NewsResponse> CREATOR = new Creator<NewsResponse>() {
 
 
@@ -25,20 +34,11 @@ public class NewsResponse implements Parcelable {
         }
 
     };
-    @SerializedName("status")
-    @Expose
-    private String status;
-    @SerializedName("totalResults")
-    @Expose
-    private Integer totalResults;
-    @SerializedName("articles")
-    @Expose
-    private List<Article> articles = null;
 
-    protected NewsResponse(Parcel in) {
+    private NewsResponse(Parcel in) {
         this.status = ((String) in.readValue((String.class.getClassLoader())));
         this.totalResults = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        in.readList(this.articles, (com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.model.Article.class.getClassLoader()));
+        in.readList(this.articles, (Article.class.getClassLoader()));
     }
 
     public NewsResponse() {
