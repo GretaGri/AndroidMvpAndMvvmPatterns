@@ -2,6 +2,8 @@ package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,11 +20,27 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
 
     Button button;
     private MainActivityPresenter mainActivityPresenter;
+    /* Adapters for inflating different recyclerview */
+    NewsAdapter mNewsAdapter;
+    /* Set layout managers on those recycler views */
+    LinearLayoutManager newslayoutmanager;
+
+    RecyclerView mNewsrecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mNewsrecyclerView = findViewById(R.id.main_recycler_view);
+        /*
+         * Setup layout manager for items with orientation
+         * Also supports `LinearLayoutManager.HORIZONTAL`
+         */
+        newslayoutmanager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
+        /* Attach layout manager to the RecyclerView */
+        mNewsrecyclerView.setLayoutManager(newslayoutmanager);
 
         button = findViewById(R.id.main_button);
         mainActivityPresenter = new MainActivityPresenter(NewsRepository.getInstance());
@@ -45,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
     @Override
     public void showSearchedTopicArticles(List<Article> articleList) {
         Log.d("my_tag", "inside MainActivity, articles received size is: " + articleList.size());
+        mNewsrecyclerView.setAdapter(new NewsAdapter(this, articleList));
     }
 
     @Override
