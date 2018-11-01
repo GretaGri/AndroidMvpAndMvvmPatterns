@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.NewsRepository;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.NewsResponse;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.NewsRepository;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.RemoteCallback;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.base.BasePresenter;
 

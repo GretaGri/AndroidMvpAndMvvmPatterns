@@ -22,7 +22,6 @@
         card_view:cardElevation="@dimen/card_elevation">
 
         <LinearLayout
-            android:id="@+id/linear_layout_item_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
