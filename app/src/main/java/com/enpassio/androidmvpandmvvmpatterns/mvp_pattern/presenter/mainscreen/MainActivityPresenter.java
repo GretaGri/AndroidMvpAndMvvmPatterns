@@ -2,13 +2,12 @@ package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.mainscreen;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.NewsRepository;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.RemoteCallback;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.base.BasePresenter;
-
-import java.util.List;
 
 public class MainActivityPresenter extends BasePresenter<ListContract.RecyclerView> implements ListContract.ViewActions {
 
@@ -26,6 +25,7 @@ public class MainActivityPresenter extends BasePresenter<ListContract.RecyclerVi
 
     @Override
     public void onTopicSearchedSearched(String searchQuery) {
+        Log.d("my_tag", "inside presenter onTopicSearchedSearched called with: " + searchQuery);
         getArticles(searchQuery);
     }
 
@@ -33,20 +33,21 @@ public class MainActivityPresenter extends BasePresenter<ListContract.RecyclerVi
         if (!isViewAttached()) return;
         mView.showMessageLayout(false);
         mView.showProgress();
-        mNewsRepository.getNewsForQueriedParameter(searchQuery, new RemoteCallback<List<Article>>() {
+        mNewsRepository.getNewsForQueriedParameter(searchQuery, new RemoteCallback<NewsResponse>() {
             @Override
-            public void onSuccess(List<Article> response) {
+            public void onSuccess(NewsResponse response) {
+                Log.d("my_tag", "inside presenter onSuccess size is: " + response.getArticles().size());
                 if (!isViewAttached()) return;
                 mView.hideProgress();
-                if (response.isEmpty()) {
+                if (response.getArticles().isEmpty()) {
                     mView.showEmpty();
                     return;
                 }
 
                 if (TextUtils.isEmpty(searchQuery)) {
-                    mView.showArticles(response);
+                    mView.showArticles(response.getArticles());
                 } else {
-                    mView.showSearchedTopicArticles(response);
+                    mView.showSearchedTopicArticles(response.getArticles());
                 }
             }
 
@@ -59,6 +60,7 @@ public class MainActivityPresenter extends BasePresenter<ListContract.RecyclerVi
 
             @Override
             public void onFailed(Throwable throwable) {
+                Log.d("my_tag", "inside presenter onFailed error is: " + throwable.getMessage());
                 if (!isViewAttached()) return;
                 mView.hideProgress();
                 mView.showError(throwable.getMessage());

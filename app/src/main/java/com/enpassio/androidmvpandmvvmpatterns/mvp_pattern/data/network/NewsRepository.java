@@ -3,9 +3,7 @@ package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network;
 import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
-
-import java.util.List;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.NewsResponse;
 
 public class NewsRepository {
 
@@ -31,7 +29,7 @@ public class NewsRepository {
         return sInstance;
     }
 
-    public void getNewsForQueriedParameter(String searchQuery, RemoteCallback<List<Article>> listener) {
+    public void getNewsForQueriedParameter(String searchQuery, RemoteCallback<NewsResponse> listener) {
         mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, searchQuery).enqueue(listener);
     }
 }
