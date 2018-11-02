@@ -2,11 +2,12 @@ package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Article implements Parcelable {
+public class Article implements Parcelable, Comparable {
 
     @SerializedName("source")
     @Expose
@@ -60,6 +61,20 @@ public class Article implements Parcelable {
     }
 
     public Article() {
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        Article compare = (Article) o;
+
+        if (compare.source.equals(this.source)
+                && compare.author.equals(this.author)
+                && compare.title.equals(this.title)
+                && compare.url.equals(this.url)
+                && compare.urlToImage.equals(this.urlToImage)) {
+            return 0;
+        }
+        return 1;
     }
 
     public Source getSource() {

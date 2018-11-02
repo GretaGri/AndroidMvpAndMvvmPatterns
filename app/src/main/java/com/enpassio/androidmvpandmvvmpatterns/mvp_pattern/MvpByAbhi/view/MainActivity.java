@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +14,7 @@ import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model.A
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.presenter.mainscreen.ListContract;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.presenter.mainscreen.MainActivityPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ListContract.RecyclerView {
@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
         mainActivityPresenter = new MainActivityPresenter(NewsRepository.getInstance());
         mainActivityPresenter.attachView(this);
         mainActivityPresenter.onInitialListRequested("top news");
-
+        mNewsAdapter = new NewsAdapter(this, new ArrayList<Article>());
+        mNewsrecyclerView.setAdapter(mNewsAdapter);
         searchQueryEditText = findViewById(R.id.search_query_edit_text);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,13 +62,13 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
 
     @Override
     public void showArticles(List<Article> articleList) {
-        mNewsrecyclerView.setAdapter(new NewsAdapter(this, articleList));
+        mNewsAdapter.onNewData((ArrayList<Article>) articleList);
     }
 
     @Override
     public void showSearchedTopicArticles(List<Article> articleList) {
-        Log.d("my_tag", "inside MainActivity, articles received size is: " + articleList.size());
-        mNewsrecyclerView.setAdapter(new NewsAdapter(this, articleList));
+        mNewsAdapter.onNewData((ArrayList<Article>) articleList);
+
     }
 
     @Override

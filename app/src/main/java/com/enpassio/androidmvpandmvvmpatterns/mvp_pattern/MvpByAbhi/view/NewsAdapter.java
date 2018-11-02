@@ -2,6 +2,7 @@ package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.widget.TextView;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.view.utils.NewsAdapterDiffUtilCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
@@ -84,5 +87,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             newsTitleTextView = itemView.findViewById(R.id.list_item_title);
             newsLinkTextView = itemView.findViewById(R.id.list_item_url);
         }
+    }
+
+    public void onNewData(ArrayList<Article> newData) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new NewsAdapterDiffUtilCallback(newData, (ArrayList<Article>) articleArrayList));
+        diffResult.dispatchUpdatesTo(this);
+        articleArrayList.clear();
+        articleArrayList.addAll(newData);
     }
 }
