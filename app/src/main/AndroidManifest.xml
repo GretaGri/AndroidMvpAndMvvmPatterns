@@ -14,14 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".mvp_pattern.view.MainActivity">
+        <activity android:name=".mvp_pattern.MvpByAbhi.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp_pattern.view.DetailsActivity" />
+        <activity android:name=".mvp_pattern.MvpByAbhi.view.DetailsActivity" />
     </application>
 
 </manifest>

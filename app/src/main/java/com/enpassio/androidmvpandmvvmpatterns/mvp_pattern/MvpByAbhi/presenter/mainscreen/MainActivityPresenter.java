@@ -1,13 +1,13 @@
-package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.mainscreen;
+package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.presenter.mainscreen;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.NewsRepository;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.NewsResponse;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.RemoteCallback;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.base.BasePresenter;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.NewsRepository;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model.NewsResponse;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.network.RemoteCallback;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.presenter.base.BasePresenter;
 
 public class MainActivityPresenter extends BasePresenter<ListContract.RecyclerView> implements ListContract.ViewActions {
 
@@ -18,8 +18,8 @@ public class MainActivityPresenter extends BasePresenter<ListContract.RecyclerVi
     }
 
     @Override
-    public void onInitialListRequested() {
-        getArticles(null);
+    public void onInitialListRequested(String searchQuery) {
+        getArticles(searchQuery);
     }
 
 

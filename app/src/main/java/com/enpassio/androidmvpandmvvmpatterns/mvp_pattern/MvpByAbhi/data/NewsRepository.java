@@ -1,12 +1,12 @@
-package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data;
+package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data;
 
 import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.NewsResponse;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.APIClient;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.NewsApiService;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.RemoteCallback;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model.NewsResponse;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.network.APIClient;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.network.NewsApiService;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.network.RemoteCallback;
 
 public class NewsRepository {
 

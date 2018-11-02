@@ -1,4 +1,4 @@
-package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.view;
+package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model.Article;
 
 import java.util.List;
 

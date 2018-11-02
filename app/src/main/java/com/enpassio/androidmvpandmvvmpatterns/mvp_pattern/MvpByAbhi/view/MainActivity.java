@@ -1,4 +1,4 @@
-package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.view;
+package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,12 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.NewsRepository;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.mainscreen.ListContract;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.mainscreen.MainActivityPresenter;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.NewsRepository;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.presenter.mainscreen.ListContract;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.presenter.mainscreen.MainActivityPresenter;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
     LinearLayoutManager newslayoutmanager;
 
     RecyclerView mNewsrecyclerView;
+    EditText searchQueryEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +47,21 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
         button = findViewById(R.id.main_button);
         mainActivityPresenter = new MainActivityPresenter(NewsRepository.getInstance());
         mainActivityPresenter.attachView(this);
+        mainActivityPresenter.onInitialListRequested("top news");
 
+        searchQueryEditText = findViewById(R.id.search_query_edit_text);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: show list in recyclerView with search results.
-                mainActivityPresenter.onTopicSearchedSearched("obama");
+                //COMPLETED: show list in recyclerView with search results.
+                mainActivityPresenter.onTopicSearchedSearched(searchQueryEditText.getText().toString());
             }
         });
     }
 
     @Override
     public void showArticles(List<Article> articleList) {
-
+        mNewsrecyclerView.setAdapter(new NewsAdapter(this, articleList));
     }
 
     @Override
