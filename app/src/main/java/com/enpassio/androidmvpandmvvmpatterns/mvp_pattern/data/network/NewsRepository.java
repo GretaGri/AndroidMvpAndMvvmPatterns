@@ -11,8 +11,7 @@ public class NewsRepository {
     private  final NewsApiService newsApiService;
 
 
-    // private constructor restricted to this class itself
-    private NewsRepository()
+    public NewsRepository()
     {
         newsApiService = APIClient.getClient().create(NewsApiService.class);
     }

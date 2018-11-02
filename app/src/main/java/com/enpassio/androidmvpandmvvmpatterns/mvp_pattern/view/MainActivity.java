@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.NewsRepository;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.MainActivityContract;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.MainActivityPresenter;
 
@@ -31,20 +32,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         editText = findViewById(R.id.search_query_edit_text);
         recyclerView = findViewById(R.id.main_recycler_view);
 
+        NewsRepository newsRepository = new NewsRepository();
+
+        final MainActivityPresenter mainActivityPresenter = new MainActivityPresenter(newsRepository, recyclerView);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.onButtonClick();
+               getSearchPhrase();
+               mainActivityPresenter.onButtonClick();
             }
         });
-    }
-
-
-    @Override
-    public void showNewsList(List<Article> news) {
-        NewsAdapter mAdapter = new NewsAdapter(news);
-        recyclerView.setAdapter(mAdapter);
     }
 
     @Override

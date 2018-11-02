@@ -1,25 +1,30 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.NewsRepository;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.RemoteCallBack;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.view.NewsAdapter;
 
 import java.util.List;
 
-public class MainActivityPresenter extends BasePresenter<MainActivityContract.MainView> implements MainActivityContract.Presenter{
+public class MainActivityPresenter  extends BasePresenter<MainActivityContract.MainView> implements MainActivityContract.Presenter{
     MainActivityContract.MainView mainView;
     private final NewsRepository mNewsRepository;
+    String searchPhrase;
+    RecyclerView mRecyclerView;
 
-    public MainActivityPresenter(@NonNull NewsRepository newsRepository) {
+    public MainActivityPresenter(@NonNull NewsRepository newsRepository, RecyclerView recyclerView) {
         mNewsRepository = newsRepository;
-    }
+        mRecyclerView = recyclerView;
+        }
 
     @Override
     public void onButtonClick() {
-        String searchPhrase = mainView.getSearchPhrase();
         getNewsList(searchPhrase);
     }
 
@@ -33,7 +38,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivityContract.Ma
                 List<Article> responseResults = response;
                 if (responseResults.isEmpty()) {return;
                 }
-                else mainView.showNewsList(responseResults);
+                else showNewsList(responseResults);
             }
 
             @Override
@@ -46,6 +51,12 @@ public class MainActivityPresenter extends BasePresenter<MainActivityContract.Ma
 
             }
         });
+    }
+
+    @Override
+    public void showNewsList(List<Article> news) {
+        NewsAdapter mAdapter = new NewsAdapter(news);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override

@@ -10,8 +10,6 @@ import java.util.List;
 public interface MainActivityContract {
 
     interface MainView {
-        //for showing search results
-        void showNewsList (List <Article> news);
 
         //for getting user input
         String getSearchPhrase();
@@ -20,5 +18,8 @@ public interface MainActivityContract {
    interface Presenter {
        void onButtonClick ();
        void onDestroy ();
+
+       //for showing search results
+       void showNewsList (List <Article> news);
    }
 }
