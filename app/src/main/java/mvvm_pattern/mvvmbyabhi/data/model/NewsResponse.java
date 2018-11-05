@@ -33,12 +33,12 @@ public class NewsResponse implements Parcelable {
     private Integer totalResults;
     @SerializedName("articles")
     @Expose
-    private List<com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model.Article> articles = null;
+    private List<Article> articles = null;
 
     private NewsResponse(Parcel in) {
         this.status = ((String) in.readValue((String.class.getClassLoader())));
         this.totalResults = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        in.readList(this.articles, (com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model.Article.class.getClassLoader()));
+        in.readList(this.articles, (Article.class.getClassLoader()));
     }
 
     public NewsResponse() {
@@ -60,11 +60,11 @@ public class NewsResponse implements Parcelable {
         this.totalResults = totalResults;
     }
 
-    public List<com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model.Article> getArticles() {
+    public List<Article> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model.Article> articles) {
+    public void setArticles(List<Article> articles) {
         this.articles = articles;
     }
 

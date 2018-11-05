@@ -1,7 +1,7 @@
-package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.view;
+package mvvm_pattern.mvvmbyabhi.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 
