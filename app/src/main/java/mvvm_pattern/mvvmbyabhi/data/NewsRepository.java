@@ -4,10 +4,16 @@ import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import mvvm_pattern.mvvmbyabhi.data.model.Article;
 import mvvm_pattern.mvvmbyabhi.data.model.NewsResponse;
 import mvvm_pattern.mvvmbyabhi.data.network.APIClient;
 import mvvm_pattern.mvvmbyabhi.data.network.NewsApiService;
-import mvvm_pattern.mvvmbyabhi.data.network.RemoteCallback;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NewsRepository {
 
@@ -33,7 +39,20 @@ public class NewsRepository {
         return sInstance;
     }
 
-    public void getNewsForQueriedParameter(String searchQuery, RemoteCallback<NewsResponse> listener) {
-        mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, searchQuery).enqueue(listener);
+    public List<Article> getNewsForQueriedParameter(String searchQuery) {
+        final List<Article> articleLIst = new ArrayList<Article>();
+        mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, searchQuery).enqueue(new Callback<NewsResponse>() {
+            @Override
+            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+                assert response != null;
+                articleLIst.addAll(response.body().getArticles());
+            }
+
+            @Override
+            public void onFailure(Call<NewsResponse> call, Throwable t) {
+
+            }
+        });
+        return articleLIst;
     }
 }
