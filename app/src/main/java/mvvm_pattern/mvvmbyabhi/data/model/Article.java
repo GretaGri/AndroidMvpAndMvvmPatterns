@@ -2,6 +2,7 @@ package mvvm_pattern.mvvmbyabhi.data.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -16,12 +17,12 @@ public class Article implements Parcelable, Comparable {
     @Expose(deserialize = false, serialize = false)
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
-    Integer id = 0;
-    @ColumnInfo(name = "source")
+    private Integer id = 0;
     @SerializedName("source")
+    @Ignore
     @Expose
     private Source source;
-    @ColumnInfo(name = "author")
+    @Ignore
     @SerializedName("author")
     @Expose
     private Object author;
@@ -91,6 +92,14 @@ public class Article implements Parcelable, Comparable {
 
     public String getTitle() {
         return title;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {

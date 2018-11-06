@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -23,19 +22,11 @@ import retrofit2.Response;
 public class ArticlesRepository {
 
     private static final String LOG_TAG = ArticlesRepository.class.getSimpleName();
-    // For Singleton instantiation
-    private static final Object LOCK = new Object();
-    private ArticlesRepository sInstance;
     private NewsApiService mNewsApiService;
     private ArticlesDao mArticlesDao;
     private Executor mExecutor;
 
     public ArticlesRepository(Application application) {
-        if (sInstance == null) {
-            synchronized (LOCK) {
-                sInstance = new ArticlesRepository(application);
-            }
-        }
         mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
         //create the service
         mNewsApiService = APIClient.getClient().create(NewsApiService.class);
@@ -43,12 +34,12 @@ public class ArticlesRepository {
     }
 
     public LiveData<List<Article>> getNewsForQueriedParameter(String searchQuery) {
-        final List<Article> articleLIst = new ArrayList<Article>();
+
         mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, searchQuery).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
                 assert response.body() != null;
-                articleLIst.addAll(response.body().getArticles());
+                mExecutor.execute(() -> insertArticlesList(response.body().getArticles()));
             }
 
             @Override
@@ -56,7 +47,6 @@ public class ArticlesRepository {
 
             }
         });
-        mExecutor.execute(() -> insertArticlesList(articleLIst));
         return mArticlesDao.getAllArticles();
     }
 

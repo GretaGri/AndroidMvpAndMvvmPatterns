@@ -18,7 +18,7 @@ public class ArticlesViewModel extends AndroidViewModel {
         mRepository = new ArticlesRepository(application);
     }
 
-    LiveData<List<Article>> getNewsForQueriedParameter(String searchQuery) {
+    public LiveData<List<Article>> getNewsForQueriedParameter(String searchQuery) {
         return mRepository.getNewsForQueriedParameter(searchQuery);
     }
 
