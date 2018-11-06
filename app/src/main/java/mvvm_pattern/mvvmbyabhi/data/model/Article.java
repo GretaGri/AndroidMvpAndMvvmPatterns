@@ -13,21 +13,6 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "articlestable")
 public class Article implements Parcelable, Comparable {
 
-    public final static Parcelable.Creator<Article> CREATOR = new Creator<Article>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Article createFromParcel(Parcel in) {
-            return new Article(in);
-        }
-
-        public Article[] newArray(int size) {
-            return (new Article[size]);
-        }
-
-    };
     @Expose(deserialize = false, serialize = false)
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
@@ -60,6 +45,19 @@ public class Article implements Parcelable, Comparable {
     @SerializedName("publishedAt")
     @Expose
     private String publishedAt;
+    public final static Parcelable.Creator<Article> CREATOR = new Creator<Article>() {
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Article createFromParcel(Parcel in) {
+            return new Article(in);
+        }
+
+        public Article[] newArray(int size) {
+            return (new Article[size]);
+        }
+
+    };
 
     private Article(Parcel in) {
         this.source = ((Source) in.readValue((Source.class.getClassLoader())));
@@ -139,25 +137,9 @@ public class Article implements Parcelable, Comparable {
         this.content = content;
     }
 
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(source);
-        dest.writeValue(author);
-        dest.writeValue(title);
-        dest.writeValue(description);
-        dest.writeValue(url);
-        dest.writeValue(urlToImage);
-        dest.writeValue(publishedAt);
-        dest.writeValue(content);
-    }
-
     public int describeContents() {
         return 0;
     }
-
-    @ColumnInfo(name = "content")
-    @SerializedName("content")
-    @Expose
-    private String content;
 
     @Override
     public int compareTo(@NonNull Object o) {
@@ -171,5 +153,21 @@ public class Article implements Parcelable, Comparable {
             return 0;
         }
         return 1;
+    }
+
+    @ColumnInfo(name = "content")
+    @SerializedName("content")
+    @Expose
+    private String content;
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(source);
+        dest.writeValue(author);
+        dest.writeValue(title);
+        dest.writeValue(description);
+        dest.writeValue(url);
+        dest.writeValue(urlToImage);
+        dest.writeValue(publishedAt);
+        dest.writeValue(content);
     }
 }
