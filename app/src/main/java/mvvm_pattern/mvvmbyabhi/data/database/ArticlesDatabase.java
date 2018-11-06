@@ -9,7 +9,6 @@ import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
 @Database(entities = {Article.class}, version = 1)
 public abstract class ArticlesDatabase extends RoomDatabase {
-
     // marking the instance as volatile to ensure atomic access to the variable
     private static volatile ArticlesDatabase INSTANCE;
 
@@ -27,6 +26,5 @@ public abstract class ArticlesDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
-
     public abstract ArticlesDao articlesDao();
 }

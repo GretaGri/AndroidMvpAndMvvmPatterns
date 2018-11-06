@@ -1,5 +1,6 @@
 package mvvm_pattern.mvvmbyabhi.data;
 
+import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 import mvvm_pattern.mvvmbyabhi.data.database.ArticlesDao;
+import mvvm_pattern.mvvmbyabhi.data.database.ArticlesDatabase;
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 import mvvm_pattern.mvvmbyabhi.data.model.NewsResponse;
 import mvvm_pattern.mvvmbyabhi.data.network.APIClient;
@@ -23,29 +25,21 @@ public class ArticlesRepository {
     private static final String LOG_TAG = ArticlesRepository.class.getSimpleName();
     // For Singleton instantiation
     private static final Object LOCK = new Object();
-    private static ArticlesRepository sInstance;
+    private ArticlesRepository sInstance;
     private NewsApiService mNewsApiService;
     private ArticlesDao mArticlesDao;
     private Executor mExecutor;
 
-    private ArticlesRepository(NewsApiService newsApiService, Executor executor) {
-        this.mNewsApiService = newsApiService;
-
-        this.mExecutor = executor;
-        //create the service
-        mNewsApiService = APIClient.getClient().create(newsApiService.getClass());
-    }
-
-    private ArticlesRepository() {
-    }
-
-    public synchronized static ArticlesRepository getInstance() {
+    public ArticlesRepository(Application application) {
         if (sInstance == null) {
             synchronized (LOCK) {
-                sInstance = new ArticlesRepository();
+                sInstance = new ArticlesRepository(application);
             }
         }
-        return sInstance;
+        mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
+        //create the service
+        mNewsApiService = APIClient.getClient().create(NewsApiService.class);
+        mExecutor = AppExecutors.getInstance().diskIO();
     }
 
     public LiveData<List<Article>> getNewsForQueriedParameter(String searchQuery) {
