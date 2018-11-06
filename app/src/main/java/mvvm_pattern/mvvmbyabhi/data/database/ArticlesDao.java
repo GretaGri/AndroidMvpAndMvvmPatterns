@@ -14,7 +14,7 @@ import mvvm_pattern.mvvmbyabhi.data.model.Article;
 @Dao
 public interface ArticlesDao {
 
-    @Query("SELECT * from articlestable ORDER BY id ASC")
+    @Query("SELECT * from articlestable")
     LiveData<List<Article>> getAllArticles();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -22,9 +22,6 @@ public interface ArticlesDao {
 
     @Query("DELETE FROM articlestable")
     void deleteAll();
-
-    @Query("DELETE FROM articlestable WHERE id = :id")
-    void deleteArticleWithId(Integer id);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateArticle(Article article);

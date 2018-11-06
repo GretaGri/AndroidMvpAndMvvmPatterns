@@ -14,10 +14,6 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "articlestable")
 public class Article implements Parcelable, Comparable {
 
-    @Expose(deserialize = false, serialize = false)
-    @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    private Integer id = 0;
     @SerializedName("source")
     @Ignore
     @Expose
@@ -26,6 +22,8 @@ public class Article implements Parcelable, Comparable {
     @SerializedName("author")
     @Expose
     private Object author;
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "title")
     @SerializedName("title")
     @Expose
@@ -92,14 +90,6 @@ public class Article implements Parcelable, Comparable {
 
     public String getTitle() {
         return title;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setTitle(String title) {
