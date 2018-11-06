@@ -1,5 +1,9 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.MvpByAbhi.data.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -7,35 +11,40 @@ import android.support.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "articlestable")
 public class Article implements Parcelable, Comparable {
 
     @SerializedName("source")
+    @Ignore
     @Expose
     private Source source;
+    @Ignore
     @SerializedName("author")
     @Expose
     private Object author;
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "title")
     @SerializedName("title")
     @Expose
     private String title;
+    @ColumnInfo(name = "description")
     @SerializedName("description")
     @Expose
     private String description;
+    @ColumnInfo(name = "url")
     @SerializedName("url")
     @Expose
     private String url;
+    @ColumnInfo(name = "urlToImage")
     @SerializedName("urlToImage")
     @Expose
     private String urlToImage;
+    @ColumnInfo(name = "publishedAt")
     @SerializedName("publishedAt")
     @Expose
     private String publishedAt;
-    @SerializedName("content")
-    @Expose
-    private String content;
     public final static Parcelable.Creator<Article> CREATOR = new Creator<Article>() {
-
-
         @SuppressWarnings({
                 "unchecked"
         })
@@ -61,20 +70,6 @@ public class Article implements Parcelable, Comparable {
     }
 
     public Article() {
-    }
-
-    @Override
-    public int compareTo(@NonNull Object o) {
-        Article compare = (Article) o;
-
-        if (compare.source.equals(this.source)
-                && compare.author.equals(this.author)
-                && compare.title.equals(this.title)
-                && compare.url.equals(this.url)
-                && compare.urlToImage.equals(this.urlToImage)) {
-            return 0;
-        }
-        return 1;
     }
 
     public Source getSource() {
@@ -141,6 +136,29 @@ public class Article implements Parcelable, Comparable {
         this.content = content;
     }
 
+    @ColumnInfo(name = "content")
+    @SerializedName("content")
+    @Expose
+    private String content;
+
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        Article compare = (Article) o;
+
+        if (compare.source.equals(this.source)
+                && compare.author.equals(this.author)
+                && compare.title.equals(this.title)
+                && compare.url.equals(this.url)
+                && compare.urlToImage.equals(this.urlToImage)) {
+            return 0;
+        }
+        return 1;
+    }
+
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(source);
         dest.writeValue(author);
@@ -151,9 +169,4 @@ public class Article implements Parcelable, Comparable {
         dest.writeValue(publishedAt);
         dest.writeValue(content);
     }
-
-    public int describeContents() {
-        return 0;
-    }
-
 }
