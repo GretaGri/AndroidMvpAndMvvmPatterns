@@ -9,3 +9,14 @@
 /build
 /captures
 .externalNativeBuild
+/gradle.properties
+.idea/caches/
+.idea/codeStyles/
+.idea/encodings.xml
+.idea/gradle.xml
+.idea/markdown-navigator/
+.idea/runConfigurations.xml
+.idea/vcs.xml
+gradle/
+gradlew
+gradlew.bat
