@@ -68,6 +68,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         diffResult.dispatchUpdatesTo(this);
         articleArrayList.clear();
         articleArrayList.addAll(newData);
+
     }
 
     /*

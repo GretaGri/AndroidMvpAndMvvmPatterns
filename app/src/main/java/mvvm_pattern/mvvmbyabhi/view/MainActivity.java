@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayoutManager.VERTICAL, false);
         /* Attach layout manager to the RecyclerView */
         mNewsrecyclerView.setLayoutManager(newslayoutmanager);
+        mNewsAdapter = new NewsAdapter(this, new ArrayList<>());
         mNewsrecyclerView.setAdapter(mNewsAdapter);
 
         button = findViewById(R.id.main_button);

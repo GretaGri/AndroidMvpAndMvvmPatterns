@@ -13,7 +13,6 @@ import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "articlestable")
 public class Article implements Parcelable, Comparable {
-
     @SerializedName("source")
     @Ignore
     @Expose
@@ -27,7 +26,7 @@ public class Article implements Parcelable, Comparable {
     @ColumnInfo(name = "title")
     @SerializedName("title")
     @Expose
-    private String title;
+    private String title = "";
     @ColumnInfo(name = "description")
     @SerializedName("description")
     @Expose
@@ -143,10 +142,7 @@ public class Article implements Parcelable, Comparable {
     @Override
     public int compareTo(@NonNull Object o) {
         Article compare = (Article) o;
-
-        if (compare.source.equals(this.source)
-                && compare.author.equals(this.author)
-                && compare.title.equals(this.title)
+        if (compare.title.equals(this.title)
                 && compare.url.equals(this.url)
                 && compare.urlToImage.equals(this.urlToImage)) {
             return 0;
