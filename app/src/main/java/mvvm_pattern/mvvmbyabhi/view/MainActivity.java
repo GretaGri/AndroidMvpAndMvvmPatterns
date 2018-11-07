@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     /* Set layout managers on those recycler views */
     LinearLayoutManager newslayoutmanager;
     RecyclerView mNewsrecyclerView;
+    EditText searchQueryEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mNewsrecyclerView = findViewById(R.id.main_recycler_view);
+        searchQueryEditText = findViewById(R.id.search_query_edit_text);
         /*
          * Setup layout manager for items with orientation
          * Also supports `LinearLayoutManager.HORIZONTAL`
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 articlesViewModel
-                        .getNewsForQueriedParameter("India")
+                        .getNewsForQueriedParameter(searchQueryEditText.getText().toString())
                         .observe(MainActivity.this, new Observer<List<Article>>() {
                             @Override
                             public void onChanged(@Nullable List<Article> articles) {
