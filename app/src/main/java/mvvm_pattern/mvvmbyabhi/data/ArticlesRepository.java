@@ -2,9 +2,9 @@ package mvvm_pattern.mvvmbyabhi.data;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
-
-import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
+import android.util.Log;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -12,12 +12,8 @@ import java.util.concurrent.Executor;
 import mvvm_pattern.mvvmbyabhi.data.database.ArticlesDao;
 import mvvm_pattern.mvvmbyabhi.data.database.ArticlesDatabase;
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
-import mvvm_pattern.mvvmbyabhi.data.model.NewsResponse;
 import mvvm_pattern.mvvmbyabhi.data.network.APIClient;
 import mvvm_pattern.mvvmbyabhi.data.network.NewsApiService;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ArticlesRepository {
 
@@ -33,21 +29,22 @@ public class ArticlesRepository {
         mExecutor = AppExecutors.getInstance().diskIO();
     }
 
-    public LiveData<List<Article>> getNewsForQueriedParameter(String searchQuery) {
+    public LiveData<List<PagedList<Article>>> getNewsForQueriedParameter(String searchQuery) {
+        ArticleDataFactory feedDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery);
 
-        mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, searchQuery).enqueue(new Callback<NewsResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
-                assert response.body() != null;
-                mExecutor.execute(() -> insertArticlesList(response.body().getArticles()));
-            }
+        PagedList.Config pagedListConfig =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(10)
+                        .setPageSize(20).build();
+        LiveData<List<PagedList<Article>>> articleLiveData = (new LivePagedListBuilder(feedDataFactory, pagedListConfig))
+                .setFetchExecutor(mExecutor)
+                .build();
 
-            @Override
-            public void onFailure(@NonNull Call<NewsResponse> call, @NonNull Throwable throwable) {
+        if (articleLiveData != null && articleLiveData.getValue() != null)
+            Log.v("my_tag", "loadInitial articles size is: " + articleLiveData.getValue().size());
 
-            }
-        });
-        return mArticlesDao.getAllArticles();
+        return articleLiveData;
     }
 
     private void insertArticlesList(List<Article> articleLIst) {

@@ -3,6 +3,7 @@ package mvvm_pattern.mvvmbyabhi.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.paging.PagedList;
 
 import java.util.List;
 
@@ -18,11 +19,11 @@ public class ArticlesViewModel extends AndroidViewModel {
         mRepository = new ArticlesRepository(application);
     }
 
-    public LiveData<List<Article>> getNewsForQueriedParameter(String searchQuery) {
-        return mRepository.getNewsForQueriedParameter(searchQuery);
-    }
-
     void insert(Article article) {
         mRepository.insert(article);
+    }
+
+    public LiveData<List<PagedList<Article>>> getArticleLiveData(String searchQuery) {
+        return mRepository.getNewsForQueriedParameter(searchQuery);
     }
 }

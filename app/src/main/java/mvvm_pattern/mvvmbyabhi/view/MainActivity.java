@@ -2,6 +2,7 @@ package mvvm_pattern.mvvmbyabhi.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -57,12 +58,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 articlesViewModel
-                        .getNewsForQueriedParameter(searchQueryEditText.getText().toString())
-                        .observe(MainActivity.this, new Observer<List<Article>>() {
+                        .getArticleLiveData(searchQueryEditText.getText().toString())
+                        .observe(MainActivity.this, new Observer<List<PagedList<Article>>>() {
                             @Override
-                            public void onChanged(@Nullable List<Article> articles) {
-                                Log.d("my_tag", "size of articles received is: " + articles.size());
-                                mNewsAdapter.onNewData((ArrayList<Article>) articles);
+                            public void onChanged(@Nullable List<PagedList<Article>> pagedLists) {
+                                if (pagedLists != null && pagedLists.size() > 0) {
+                                    Log.v("my_tag", "articles are: " + pagedLists.get(0).get(0).getTitle());
+                                    ArrayList<Article> articles = new ArrayList<>();
+                                    for (int i = 0; i < pagedLists.size(); i++) {
+                                        articles.add(pagedLists.get(i).get(i));
+                                    }
+                                    mNewsAdapter.onNewData(articles);
+                                }
                             }
                         });
             }

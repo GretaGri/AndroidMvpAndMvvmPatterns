@@ -1,6 +1,6 @@
 package mvvm_pattern.mvvmbyabhi.data.database;
 
-import android.arch.lifecycle.LiveData;
+import android.arch.paging.DataSource;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -9,14 +9,13 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import androidx.paging.DataSource;
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
 @Dao
 public interface ArticlesDao {
 
     @Query("SELECT * from articlestable")
-    LiveData<List<Article>> getAllArticles();
+    List<Article> getAllArticles();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertArticle(Article article);
