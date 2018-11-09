@@ -9,6 +9,7 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import androidx.paging.DataSource;
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
 @Dao
@@ -25,4 +26,7 @@ public interface ArticlesDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateArticle(Article article);
+
+    @Query("SELECT * from articlestable")
+    DataSource.Factory<Integer, Article> getAllArticlesPage();
 }
