@@ -8,15 +8,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 import mvvm_pattern.mvvmbyabhi.viewmodel.ArticlesViewModel;
@@ -27,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ArticlesViewModel articlesViewModel;
 
     /* Adapters for inflating different recyclerview */
-    NewsAdapter mNewsAdapter;
+    ArticlePagedListAdapter mNewsAdapter;
     /* Set layout managers on those recycler views */
     LinearLayoutManager newslayoutmanager;
     RecyclerView mNewsrecyclerView;
@@ -48,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayoutManager.VERTICAL, false);
         /* Attach layout manager to the RecyclerView */
         mNewsrecyclerView.setLayoutManager(newslayoutmanager);
-        mNewsAdapter = new NewsAdapter(this, new ArrayList<>());
+        mNewsAdapter = new ArticlePagedListAdapter(this);
         mNewsrecyclerView.setAdapter(mNewsAdapter);
 
         button = findViewById(R.id.main_button);
@@ -59,17 +55,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 articlesViewModel
                         .getArticleLiveData(searchQueryEditText.getText().toString())
-                        .observe(MainActivity.this, new Observer<List<PagedList<Article>>>() {
+                        .observe(MainActivity.this, new Observer<PagedList<Article>>() {
                             @Override
-                            public void onChanged(@Nullable List<PagedList<Article>> pagedLists) {
-                                if (pagedLists != null && pagedLists.size() > 0) {
-                                    Log.v("my_tag", "articles are: " + pagedLists.get(0).get(0).getTitle());
-                                    ArrayList<Article> articles = new ArrayList<>();
-                                    for (int i = 0; i < pagedLists.size(); i++) {
-                                        articles.add(pagedLists.get(i).get(i));
-                                    }
-                                    mNewsAdapter.onNewData(articles);
-                                }
+                            public void onChanged(@Nullable PagedList<Article> pagedLists) {
+                                mNewsAdapter.submitList(pagedLists);
                             }
                         });
             }

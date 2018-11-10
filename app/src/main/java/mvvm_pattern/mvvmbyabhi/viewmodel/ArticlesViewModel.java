@@ -5,14 +5,14 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.PagedList;
 
-import java.util.List;
-
 import mvvm_pattern.mvvmbyabhi.data.ArticlesRepository;
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
 public class ArticlesViewModel extends AndroidViewModel {
 
     private ArticlesRepository mRepository;
+
+    private LiveData<PagedList<Article>> articleLiveData;
 
     public ArticlesViewModel(Application application) {
         super(application);
@@ -23,7 +23,8 @@ public class ArticlesViewModel extends AndroidViewModel {
         mRepository.insert(article);
     }
 
-    public LiveData<List<PagedList<Article>>> getArticleLiveData(String searchQuery) {
-        return mRepository.getNewsForQueriedParameter(searchQuery);
+    public LiveData<PagedList<Article>> getArticleLiveData(String searchQuery) {
+        articleLiveData = mRepository.getLiveDataOfPagedList(searchQuery);
+        return articleLiveData;
     }
 }
