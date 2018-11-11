@@ -39,7 +39,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         /* Inflate the custom layout */
-        View newsView = inflater.inflate(R.layout.list_item, parent, false);
+        View newsView = inflater.inflate(R.layout.list_item_mvp_abhi, parent, false);
 
         /* Return a new holder instance */
         return new ViewHolder(newsView);

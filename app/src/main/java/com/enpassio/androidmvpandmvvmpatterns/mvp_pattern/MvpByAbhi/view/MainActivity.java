@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_mvp_abhi);
 
         mNewsrecyclerView = findViewById(R.id.main_recycler_view);
         /*
