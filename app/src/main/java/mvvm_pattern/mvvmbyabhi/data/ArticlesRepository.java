@@ -21,8 +21,10 @@ public class ArticlesRepository {
     private NewsApiService mNewsApiService;
     private ArticlesDao mArticlesDao;
     private Executor mExecutor;
+    Application mApplication;
 
     public ArticlesRepository(Application application) {
+        this.mApplication = application;
         mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
         //create the service
         mNewsApiService = APIClient.getClient().create(NewsApiService.class);
@@ -30,16 +32,18 @@ public class ArticlesRepository {
     }
 
     public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery) {
-        ArticleDataFactory feedDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery);
-
+        ArticleDataFactory articleDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery);
+        ArticleBoundaryCallback articleBoundaryCallback = new ArticleBoundaryCallback();
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
                         .setInitialLoadSizeHint(10)
                         .setPageSize(20).build();
-        LiveData<PagedList<Article>> articleLiveData = (new LivePagedListBuilder(feedDataFactory, pagedListConfig))
+        LiveData<PagedList<Article>> articleLiveData = (new LivePagedListBuilder(articleDataFactory, pagedListConfig))
                 .setFetchExecutor(mExecutor)
+                .setBoundaryCallback(articleBoundaryCallback)
                 .build();
+
 
         if (articleLiveData != null && articleLiveData.getValue() != null)
             Log.v("my_tag", "loadInitial articles size is: " + articleLiveData.getValue().size());
