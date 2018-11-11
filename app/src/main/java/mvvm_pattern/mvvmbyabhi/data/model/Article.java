@@ -14,7 +14,6 @@ import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "articlestable")
 public class Article implements Parcelable, Comparable {
-
     @Expose(deserialize = false, serialize = false)
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
@@ -181,7 +180,7 @@ public class Article implements Parcelable, Comparable {
     public static DiffUtil.ItemCallback<Article> DIFF_CALLBACK = new DiffUtil.ItemCallback<Article>() {
         @Override
         public boolean areItemsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
-            return oldItem.url == newItem.url;
+            return oldItem.url.equals(newItem.url);
         }
 
         @Override

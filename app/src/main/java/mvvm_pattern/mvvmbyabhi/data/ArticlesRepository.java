@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
+import android.util.Log;
 
 import java.util.concurrent.Executor;
 
@@ -44,7 +45,7 @@ public class ArticlesRepository {
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
-                        .setInitialLoadSizeHint(20)
+                        .setInitialLoadSizeHint(20 * 3)
                         .setPageSize(20)
                         .setPrefetchDistance(10)
                         .build();
@@ -52,6 +53,13 @@ public class ArticlesRepository {
                 .setFetchExecutor(mExecutor)
                 .setBoundaryCallback(articleBoundaryCallback)
                 .build();
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.v("my_tag", "size of articles is: " + mArticlesDao.getAllArticles().size());
+
+            }
+        });
 
         return articleLiveData;
     }

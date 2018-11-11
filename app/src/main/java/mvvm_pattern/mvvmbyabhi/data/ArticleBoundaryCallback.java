@@ -2,6 +2,7 @@ package mvvm_pattern.mvvmbyabhi.data;
 
 import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
 
@@ -38,13 +39,14 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
         mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, mSearchQuery, mPageNumber).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
+                Log.v("my_tag", "onZeroItemsLoaded onResponse called");
                 if (response.body() != null) {
                     mExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
                             for (Article aricle :
                                     response.body().getArticles()) {
-                                assert aricle != null;
+                                if (aricle != null)
                                 mArticlesDao.insertArticle(aricle);
                             }
                         }
@@ -71,13 +73,14 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
         mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, mSearchQuery, mPageNumber).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
+                Log.v("my_tag", "onItemAtEndLoaded onResponse called");
                 if (response.body() != null) {
                     mExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
                             for (Article aricle :
                                     response.body().getArticles()) {
-                                assert aricle != null;
+                                if (aricle != null)
                                 mArticlesDao.insertArticle(aricle);
                             }
                         }
