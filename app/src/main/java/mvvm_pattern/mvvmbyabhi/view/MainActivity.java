@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,9 +20,8 @@ import mvvm_pattern.mvvmbyabhi.viewmodel.ArticlesViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button button;
+    private Button button;
     private ArticlesViewModel articlesViewModel;
-
     /* Adapters for inflating different recyclerview */
     ArticlePagedListAdapter mNewsAdapter;
     /* Set layout managers on those recycler views */
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mNewsrecyclerView = findViewById(R.id.main_recycler_view);
         searchQueryEditText = findViewById(R.id.search_query_edit_text);
         /*
@@ -53,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                articlesViewModel
-                        .getArticleLiveData(searchQueryEditText.getText().toString())
+                articlesViewModel.getArticleLiveData(searchQueryEditText.getText().toString())
                         .observe(MainActivity.this, new Observer<PagedList<Article>>() {
                             @Override
                             public void onChanged(@Nullable PagedList<Article> pagedLists) {

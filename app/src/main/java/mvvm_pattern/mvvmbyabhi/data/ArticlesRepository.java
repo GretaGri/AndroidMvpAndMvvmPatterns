@@ -4,9 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
-import android.util.Log;
 
-import java.util.List;
 import java.util.concurrent.Executor;
 
 import mvvm_pattern.mvvmbyabhi.data.database.ArticlesDao;
@@ -21,39 +19,41 @@ public class ArticlesRepository {
     private NewsApiService mNewsApiService;
     private ArticlesDao mArticlesDao;
     private Executor mExecutor;
-    Application mApplication;
 
     public ArticlesRepository(Application application) {
-        this.mApplication = application;
         mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
         //create the service
         mNewsApiService = APIClient.getClient().create(NewsApiService.class);
-        mExecutor = AppExecutors.getInstance().networkIO();
+        mExecutor = AppExecutors.getInstance().diskIO();
     }
 
     public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery) {
+
         ArticleDataFactory articleDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery);
-        ArticleBoundaryCallback articleBoundaryCallback = new ArticleBoundaryCallback();
+
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mArticlesDao.deleteAll();
+
+            }
+        });
+        ArticleBoundaryCallback articleBoundaryCallback = new ArticleBoundaryCallback(mNewsApiService,
+                searchQuery, mExecutor, mArticlesDao);
+
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
-                        .setInitialLoadSizeHint(10)
-                        .setPageSize(20).build();
-        LiveData<PagedList<Article>> articleLiveData = (new LivePagedListBuilder(articleDataFactory, pagedListConfig))
+                        .setInitialLoadSizeHint(20)
+                        .setPageSize(20)
+                        .setPrefetchDistance(10)
+                        .build();
+        LiveData<PagedList<Article>> articleLiveData = (new LivePagedListBuilder(mArticlesDao.getAllArticlesPage(), pagedListConfig))
                 .setFetchExecutor(mExecutor)
                 .setBoundaryCallback(articleBoundaryCallback)
                 .build();
 
-
-        if (articleLiveData != null && articleLiveData.getValue() != null)
-            Log.v("my_tag", "loadInitial articles size is: " + articleLiveData.getValue().size());
         return articleLiveData;
-    }
-
-    private void insertArticlesList(List<Article> articleLIst) {
-        for (int i = 0; i < articleLIst.size(); i++) {
-            mArticlesDao.insertArticle(articleLIst.get(i));
-        }
     }
 
     public void insert(Article article) {

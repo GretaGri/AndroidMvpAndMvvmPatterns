@@ -14,6 +14,11 @@ import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "articlestable")
 public class Article implements Parcelable, Comparable {
+
+    @Expose(deserialize = false, serialize = false)
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
+    private int id = 0;
     @SerializedName("source")
     @Ignore
     @Expose
@@ -22,12 +27,10 @@ public class Article implements Parcelable, Comparable {
     @SerializedName("author")
     @Expose
     private Object author;
-    @PrimaryKey
-    @NonNull
     @ColumnInfo(name = "title")
     @SerializedName("title")
     @Expose
-    private String title = "";
+    private String title = "title";
     @ColumnInfo(name = "description")
     @SerializedName("description")
     @Expose
@@ -74,6 +77,14 @@ public class Article implements Parcelable, Comparable {
 
     public Source getSource() {
         return source;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int i) {
+        this.id = i;
     }
 
     public void setSource(Source source) {

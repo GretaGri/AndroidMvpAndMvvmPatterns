@@ -15,11 +15,8 @@ import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
 public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerView.ViewHolder> {
 
-    private Context context;
-
-    public ArticlePagedListAdapter(Context context) {
+    ArticlePagedListAdapter(Context context) {
         super(Article.DIFF_CALLBACK);
-        this.context = context;
     }
 
     @NonNull
@@ -67,8 +64,10 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
         }
 
         void bindTo(Article article) {
-            newsTitleTextView.setText(article.getTitle());
-            newsLinkTextView.setText(article.getUrl());
+            if (article != null) {
+                newsTitleTextView.setText("" + article.getId());
+                newsLinkTextView.setText(article.getUrl());
+            }
         }
     }
 }
