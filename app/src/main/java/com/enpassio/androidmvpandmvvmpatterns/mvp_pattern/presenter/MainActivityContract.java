@@ -2,24 +2,22 @@ package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Greta Grigutė on 2018-11-01.
  */
+
 public interface MainActivityContract {
 
     interface MainView {
-
         //for getting user input
-        String getSearchPhrase();
+        void onButtonClick (String search);
+        void onDestroy ();
     }
 
-   interface Presenter {
-       void onButtonClick ();
-       void onDestroy ();
-
-       //for showing search results
-       void showNewsList (List <Article> news);
-   }
+    interface PresenterPushedSomeAction {
+        //for showing search results
+        void showNewsList (ArrayList<Article> news);
+    }
 }

@@ -1,39 +1,58 @@
-package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model;
+package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
+@Entity(tableName = "news_table")
 public class Article implements Parcelable {
 
+    @Ignore
     @SerializedName("source")
     @Expose
     private Source source;
+
+    @Ignore
     @SerializedName("author")
     @Expose
     private Object author;
+
+    @PrimaryKey
+    @NotNull
     @SerializedName("title")
     @Expose
     private String title;
+
     @SerializedName("description")
     @Expose
     private String description;
+
     @SerializedName("url")
     @Expose
     private String url;
+
     @SerializedName("urlToImage")
     @Expose
     private String urlToImage;
+
     @SerializedName("publishedAt")
     @Expose
     private String publishedAt;
+
     @SerializedName("content")
     @Expose
     private String content;
-    public final static Parcelable.Creator<Article> CREATOR = new Creator<Article>() {
+
+    public final static Creator<Article> CREATOR = new Creator<Article>() {
 
 
         @SuppressWarnings({
@@ -52,7 +71,7 @@ public class Article implements Parcelable {
     private Article(Parcel in) {
         this.source = ((Source) in.readValue((Source.class.getClassLoader())));
         this.author = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.title = ((String) in.readValue((String.class.getClassLoader())));
+        this.title = (( String) Objects.requireNonNull(in.readValue((String.class.getClassLoader()))));
         this.description = ((String) in.readValue((String.class.getClassLoader())));
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.urlToImage = ((String) in.readValue((String.class.getClassLoader())));
@@ -79,11 +98,11 @@ public class Article implements Parcelable {
         this.author = author;
     }
 
-    public String getTitle() {
+    public @NotNull String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void  setTitle(@NotNull String title) {
         this.title = title;
     }
 

@@ -2,7 +2,7 @@ package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter;
 
 abstract class BasePresenter <View> {
 
-    private View mView;
+    public View mView;
 
     /**
      * Check if the view is attached.
@@ -12,7 +12,7 @@ abstract class BasePresenter <View> {
         return mView != null;
    }
 
-   View attachView(View view) {
+  public View attachView(View view) {
     return mView = view;
     }
 

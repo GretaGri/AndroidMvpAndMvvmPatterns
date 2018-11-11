@@ -2,6 +2,7 @@ package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.NewsResponse;
 
 import java.util.List;
 
@@ -16,9 +17,9 @@ public class NewsRepository {
         newsApiService = APIClient.getClient().create(NewsApiService.class);
     }
 
-    public void getNewsList(String searchQuery, RemoteCallBack<List<Article>> listener) {
+    public void getNewsList(String searchQuery, RemoteCallBack<NewsResponse> listener) {
         newsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
-                "happy").enqueue(listener);
+                searchQuery).enqueue(listener);
     }
 
     // static method to create instance of Singleton/NewsRepository class

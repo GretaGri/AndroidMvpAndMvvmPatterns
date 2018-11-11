@@ -8,7 +8,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.enpassio.androidmvpandmvvmpatterns"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -24,10 +24,12 @@ android {
         it.buildConfigField "String", "NEWS_API_DOT_ORG_KEY", newsApiKey
     }
 }
+
 //for handling Parcelable
 androidExtensions {
     experimental = true
 }
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -43,15 +45,26 @@ dependencies {
     // RecyclerView
     implementation 'com.android.support:recyclerview-v7:28.0.0'
 
-    //retrofit
+    // Retrofit
     implementation('com.squareup.retrofit2:retrofit:2.4.0') {
         // exclude Retrofit’s OkHttp dependency module and define your own module import
         exclude module: 'okhttp'
     }
-    //Google Gson
+
+    // Google Gson
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-    //okhttp
+
+    // Okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+
+    // Room components
+    implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+    androidTestImplementation "android.arch.persistence.room:testing:$rootProject.roomVersion"
+
+    // Lifecycle components
+    implementation "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
 }
