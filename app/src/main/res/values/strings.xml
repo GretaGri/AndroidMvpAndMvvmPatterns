@@ -2,4 +2,7 @@
     <string name="app_name">AndroidMvpAndMvvmPatterns</string>
     <string name="find_your_news">Find your news</string>
     <string name="give_me_my_news">Give me my news</string>
+    <string name="mvp_example">MVP example</string>
+    <string name="mvvm_example">MVVM example</string>
+    <string name="mvvm_example_by_abhi">Mvvm by Abhi</string>
 </resources>
