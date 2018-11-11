@@ -20,10 +20,10 @@ import java.util.List;
  * Created by Greta Grigutė on 2018-11-09.
  */
 public class NewsRepository {
-    private static NewsRepository newsRepository = null;
-    private final NewsApiService newsApiService;
     private NewsDao mNewsDao;
     private LiveData<List<Article>> mAllNews;
+    private static NewsRepository newsRepository = null;
+    private final NewsApiService newsApiService;
 
 
     // A constructor that gets a handle to the database and initializes the member variables.

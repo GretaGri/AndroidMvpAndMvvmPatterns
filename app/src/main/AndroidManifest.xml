@@ -24,8 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MvpByAbhi.view.DetailsActivity" />
-        <activity android:name=".MvpByAbhi.view.MainActivity" />
     </application>
 
 </manifest>

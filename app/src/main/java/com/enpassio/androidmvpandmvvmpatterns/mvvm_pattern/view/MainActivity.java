@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mNewsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
 
 
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -10,6 +10,15 @@ import java.util.List;
 
 public class NewsResponse implements Parcelable {
 
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("totalResults")
+    @Expose
+    private Integer totalResults;
+    @SerializedName("articles")
+    @Expose
+    private List<Article> articles = null;
     public final static Parcelable.Creator<NewsResponse> CREATOR = new Creator<NewsResponse>() {
 
 
@@ -25,15 +34,6 @@ public class NewsResponse implements Parcelable {
         }
 
     };
-    @SerializedName("status")
-    @Expose
-    private String status;
-    @SerializedName("totalResults")
-    @Expose
-    private Integer totalResults;
-    @SerializedName("articles")
-    @Expose
-    private List<Article> articles = null;
 
     private NewsResponse(Parcel in) {
         this.status = ((String) in.readValue((String.class.getClassLoader())));

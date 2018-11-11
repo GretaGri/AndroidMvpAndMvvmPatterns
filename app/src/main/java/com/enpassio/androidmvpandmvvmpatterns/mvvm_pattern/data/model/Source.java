@@ -8,6 +8,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Source implements Parcelable {
 
+    @SerializedName("id")
+    @Expose
+    private String id;
+    @SerializedName("name")
+    @Expose
+    private String name;
     public final static Creator<Source> CREATOR = new Creator<Source>() {
 
 
@@ -23,12 +29,6 @@ public class Source implements Parcelable {
         }
 
     };
-    @SerializedName("id")
-    @Expose
-    private String id;
-    @SerializedName("name")
-    @Expose
-    private String name;
 
     private Source(Parcel in) {
         this.id = ((String) in.readValue((String.class.getClassLoader())));

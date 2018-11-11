@@ -16,6 +16,42 @@ import java.util.Objects;
 @Entity(tableName = "news_table")
 public class Article implements Parcelable {
 
+    @Ignore
+    @SerializedName("source")
+    @Expose
+    private Source source;
+
+    @Ignore
+    @SerializedName("author")
+    @Expose
+    private Object author;
+
+    @PrimaryKey
+    @NotNull
+    @SerializedName("title")
+    @Expose
+    private String title;
+
+    @SerializedName("description")
+    @Expose
+    private String description;
+
+    @SerializedName("url")
+    @Expose
+    private String url;
+
+    @SerializedName("urlToImage")
+    @Expose
+    private String urlToImage;
+
+    @SerializedName("publishedAt")
+    @Expose
+    private String publishedAt;
+
+    @SerializedName("content")
+    @Expose
+    private String content;
+
     public final static Creator<Article> CREATOR = new Creator<Article>() {
 
 
@@ -31,34 +67,6 @@ public class Article implements Parcelable {
         }
 
     };
-    @Ignore
-    @SerializedName("source")
-    @Expose
-    private Source source;
-    @Ignore
-    @SerializedName("author")
-    @Expose
-    private Object author;
-    @PrimaryKey
-    @NotNull
-    @SerializedName("title")
-    @Expose
-    private String title;
-    @SerializedName("description")
-    @Expose
-    private String description;
-    @SerializedName("url")
-    @Expose
-    private String url;
-    @SerializedName("urlToImage")
-    @Expose
-    private String urlToImage;
-    @SerializedName("publishedAt")
-    @Expose
-    private String publishedAt;
-    @SerializedName("content")
-    @Expose
-    private String content;
 
     private Article(Parcel in) {
         this.source = ((Source) in.readValue((Source.class.getClassLoader())));

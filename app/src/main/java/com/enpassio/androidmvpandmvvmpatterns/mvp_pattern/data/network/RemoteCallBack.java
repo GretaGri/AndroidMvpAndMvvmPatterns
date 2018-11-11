@@ -3,7 +3,6 @@ package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network;
 /**
  * Created by Greta Grigutė on 2018-11-01.
  */
-
 import java.net.HttpURLConnection;
 
 import javax.net.ssl.HttpsURLConnection;
