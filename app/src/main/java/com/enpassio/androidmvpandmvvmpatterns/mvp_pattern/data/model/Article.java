@@ -141,5 +141,4 @@ public class Article implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
 }

@@ -1,12 +1,15 @@
 package com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
 import android.util.Log;
 
-import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
-import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.NewsResponse;
+import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.APIClient;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.NewsApiService;
-import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.RemoteCallback;
+
+import java.util.concurrent.Executor;
 
 public class NewsRepository {
 
@@ -14,14 +17,13 @@ public class NewsRepository {
     // For Singleton instantiation
     private static final Object LOCK = new Object();
     private static NewsRepository sInstance;
-    private final NewsApiService mNewsApiService;
-
-    private NewsRepository() {
-        //create the service
-        mNewsApiService = APIClient.getClient().create(NewsApiService.class);
-    }
+    private static NewsApiService mNewsApiService;
+    private static Executor mExecutor;
 
     public synchronized static NewsRepository getInstance() {
+        //create the service
+        mNewsApiService = APIClient.getClient().create(NewsApiService.class);
+        mExecutor = AppExecutors.getInstance().networkIO();
         Log.d(LOG_TAG, "Getting the repository");
         if (sInstance == null) {
             synchronized (LOCK) {
@@ -32,7 +34,21 @@ public class NewsRepository {
         return sInstance;
     }
 
-    public void getNewsForQueriedParameter(String searchQuery, RemoteCallback<NewsResponse> listener) {
-        mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, searchQuery).enqueue(listener);
+    public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery) {
+
+        ArticleDataFactory articleDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery);
+
+        PagedList.Config pagedListConfig =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(20 * 3)
+                        .setPageSize(20)
+                        .setPrefetchDistance(10)
+                        .build();
+        LiveData<PagedList<Article>> articleLiveData = (new LivePagedListBuilder(articleDataFactory, pagedListConfig))
+                .setFetchExecutor(mExecutor)
+                .build();
+
+        return articleLiveData;
     }
 }

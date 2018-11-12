@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         recyclerView.setLayoutManager(mLayoutManager);
 
 
-        NewsRepository newsRepository = new NewsRepository();
+        NewsRepository newsRepository = NewsRepository.getInstance();
 
         mainActivityPresenter = new MainActivityPresenter(newsRepository);
         mainActivityPresenter.attachView(this);
@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public void showNewsList(ArrayList<Article> news) {
         Log.d("my_tag", "inside MainActivity, news size is :" + news.size());
         NewsAdapter adapter = new NewsAdapter(news);
-        recyclerView.setAdapter(adapter);
+        //recyclerView.setAdapter(adapter);
     }
+
+
 }

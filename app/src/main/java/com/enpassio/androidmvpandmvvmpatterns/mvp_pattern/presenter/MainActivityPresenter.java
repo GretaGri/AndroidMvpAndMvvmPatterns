@@ -34,6 +34,9 @@ public class MainActivityPresenter extends BasePresenter<MainActivityContract.Pr
             Log.d("my_tag", "getNewsList the view is not attached");
             return;
         }
+        mNewsRepository.getLiveDataOfPagedList(searchPhrase);
+
+
         mNewsRepository.getNewsList(searchPhrase, new RemoteCallBack<NewsResponse>() {
             @Override
             public void onSuccess(NewsResponse response) {
@@ -42,10 +45,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivityContract.Pr
                     return;
                 }
                 ArrayList<Article> responseResults = (ArrayList<Article>) response.getArticles();
-                if (responseResults.isEmpty()) {
-                    Log.d("my_tag", "getNewsList onSuccess the response is empty");
-                    return;
-                } else {
+                if (!responseResults.isEmpty()) {
                     Log.d("my_tag", "getNewsList onSuccess showNewsList called");
                     mView.showNewsList(responseResults);
                     Log.d("my_tag", "inside MainActivityPresenter, response size is: " + responseResults.size());

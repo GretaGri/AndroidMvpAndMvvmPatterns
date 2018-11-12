@@ -8,7 +8,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class AppExecutors {
-
     // For Singleton instantiation
     private static final Object LOCK = new Object();
     private static AppExecutors sInstance;
@@ -27,7 +26,7 @@ public class AppExecutors {
             synchronized (LOCK) {
                 sInstance = new AppExecutors(Executors.newSingleThreadExecutor(),
                         Executors.newFixedThreadPool(3),
-                        new MainThreadExecutor());
+                        new AppExecutors.MainThreadExecutor());
             }
         }
         return sInstance;
