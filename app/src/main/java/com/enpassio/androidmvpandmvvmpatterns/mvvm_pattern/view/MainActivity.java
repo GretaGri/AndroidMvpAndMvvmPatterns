@@ -52,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                  Toast.makeText(MainActivity.this, "Button clicked",Toast.LENGTH_LONG).show();
-                mNewsViewModel.passSearchPhrase(getSearchPhrase());
-                mNewsViewModel.getAllNews().observe(MainActivity.this, new Observer<List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article>>() {
+                mNewsViewModel.getAllNews(getSearchPhrase()).observe(MainActivity.this, new Observer<List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article>>() {
                     @Override
                     public void onChanged(@Nullable final List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> news) {
                         // Update the cached copy of the words in the adapter.

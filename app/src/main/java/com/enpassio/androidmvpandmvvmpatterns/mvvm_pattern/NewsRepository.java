@@ -34,22 +34,13 @@ public class NewsRepository {
     }
 
     // A constructor that gets a handle to the database and initializes the member variables.
-     public NewsRepository(final Application application, String searchQuery) {
+     public NewsRepository(final Application application) {
 
         newsApiService = APIClient.getClient().create(NewsApiService.class);
-        getNewsList(searchQuery, new RemoteCallBack<NewsResponse>() {
+        getNewsList("news", new RemoteCallBack<NewsResponse>() {
             @Override
             public void onSuccess(NewsResponse response) {
                responseResults = (ArrayList<Article>) response.getArticles();
-               NewsDatabase db = NewsDatabase.getDatabase(application);
-                newsDao = db.newsDao();
-                if (responseResults != null) {
-                    int i;
-                    for (i = 0; i < responseResults.size(); i++) {
-                        newsDao.insert(responseResults.get(i));
-                    }
-                    allNews = newsDao.getAllNews();
-                }
             }
 
             @Override
@@ -63,12 +54,21 @@ public class NewsRepository {
             }
         });
 
-
+         NewsDatabase db = NewsDatabase.getDatabase(application);
+         newsDao = db.newsDao();
+         if (responseResults != null) {
+             int i;
+             for (i = 0; i < responseResults.size(); i++) {
+                 newsDao.insert(responseResults.get(i));
+             }
+             allNews = newsDao.getAllNews();
+         }
     }
 
     // A wrapper for getAllWords(). Room executes all queries on a separate thread. Observed
     // LiveData will notify the observer when the data has changed.
-    public LiveData<List<Article>> getAllNews() {
+    public LiveData<List<Article>> getAllNews(String searchQuery) {
+
         return allNews;
     }
 
