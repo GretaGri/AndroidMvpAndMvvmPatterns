@@ -8,6 +8,7 @@ import android.util.Log;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.APIClient;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.NewsApiService;
+import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.presenter.mainscreen.ListContract;
 
 import java.util.concurrent.Executor;
 
@@ -34,9 +35,9 @@ public class NewsRepository {
         return sInstance;
     }
 
-    public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery) {
+    public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery, ListContract.RecyclerView mView) {
 
-        ArticleDataFactory articleDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery);
+        ArticleDataFactory articleDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery, mView);
 
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())

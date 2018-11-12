@@ -29,6 +29,6 @@ public class MainActivityPresenter extends BasePresenter<ListContract.RecyclerVi
         if (!isViewAttached()) return;
         mView.showMessageLayout(false);
         mView.showProgress();
-        mView.getPagedListData(mNewsRepository.getLiveDataOfPagedList(searchQuery));
+        mView.getPagedListData(mNewsRepository.getLiveDataOfPagedList(searchQuery, mView));
     }
 }

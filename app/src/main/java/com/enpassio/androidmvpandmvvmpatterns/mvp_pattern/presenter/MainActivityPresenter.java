@@ -34,7 +34,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivityContract.Pr
             Log.d("my_tag", "getNewsList the view is not attached");
             return;
         }
-        mNewsRepository.getLiveDataOfPagedList(searchPhrase);
+
 
 
         mNewsRepository.getNewsList(searchPhrase, new RemoteCallBack<NewsResponse>() {

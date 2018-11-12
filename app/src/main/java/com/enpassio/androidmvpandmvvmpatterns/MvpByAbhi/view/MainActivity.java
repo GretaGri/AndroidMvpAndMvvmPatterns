@@ -5,12 +5,14 @@ import android.arch.lifecycle.Observer;
 import android.arch.paging.PagedList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.NewsRepository;
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
     private MainActivityPresenter mainActivityPresenter;
     /* Adapters for inflating different recyclerview */
     ArticlePagedListAdapter mArticlePagedListAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ProgressBar mContentLoadingProgress;
+    private String mUsersSearchQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,18 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
         mNewsrecyclerView.setLayoutManager(newslayoutmanager);
         mArticlePagedListAdapter = new ArticlePagedListAdapter(this);
         mNewsrecyclerView.setAdapter(mArticlePagedListAdapter);
+        mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (mUsersSearchQuery == null || mUsersSearchQuery.isEmpty()){
+                    mainActivityPresenter.onInitialListRequested("India");
+                }else {
+                    mainActivityPresenter.onTopicSearchedSearched(mUsersSearchQuery);
+                }
+            }
+        });
+        mContentLoadingProgress = findViewById(R.id.progress);
 
         button = findViewById(R.id.main_button);
         mainActivityPresenter = new MainActivityPresenter(NewsRepository.getInstance());
@@ -55,11 +72,11 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String usersSearchQuery = searchQueryEditText.getText().toString();
-                if (usersSearchQuery.isEmpty()){
+                mUsersSearchQuery = searchQueryEditText.getText().toString();
+                if (mUsersSearchQuery.isEmpty()){
                     Toast.makeText(MainActivity.this, "Please input a query for news", Toast.LENGTH_SHORT).show();
                 }else {
-                    mainActivityPresenter.onTopicSearchedSearched(usersSearchQuery);
+                    mainActivityPresenter.onTopicSearchedSearched(mUsersSearchQuery);
                 }
             }
         });
@@ -76,12 +93,15 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
     }
     @Override
     public void showProgress() {
-
+        if (!mSwipeRefreshLayout.isRefreshing()) {
+            mContentLoadingProgress.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void hideProgress() {
-
+        mSwipeRefreshLayout.setRefreshing(false);
+        mContentLoadingProgress.setVisibility(View.GONE);
     }
 
     @Override
@@ -91,12 +111,16 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
 
     @Override
     public void showEmpty() {
-
+        mSwipeRefreshLayout.setRefreshing(false);
+        mContentLoadingProgress.setVisibility(View.GONE);
+        Toast.makeText(MainActivity.this, "No data found. Please try again", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showError(String errorMessage) {
-
+        mSwipeRefreshLayout.setRefreshing(false);
+        mContentLoadingProgress.setVisibility(View.GONE);
+        Toast.makeText(MainActivity.this, "Error occured: "+errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override

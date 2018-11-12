@@ -9,6 +9,7 @@ import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.NewsApiService;
+import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.presenter.mainscreen.ListContract;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,12 +20,14 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
     private NewsApiService mNewsApiService;
     private int mPageNumber;
     private String mSearchQuery;
+    private ListContract.RecyclerView mView;
 
     ArticleDataSource(NewsApiService newsApiService,
-                      String searchQuery) {
+                      String searchQuery, ListContract.RecyclerView view) {
         this.mNewsApiService = newsApiService;
         this.mPageNumber = 1;
         this.mSearchQuery = searchQuery;
+        this.mView = view;
     }
 
     @Override
@@ -35,13 +38,19 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
             @Override
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
                 if (response.body() != null) {
-                    callback.onResult(response.body().getArticles(), (long) mPageNumber, (long) mPageNumber + 1);
+                    if (!(response.body().getArticles().size() > 0)) {
+                        mView.showEmpty();
+
+                    } else {
+                        mView.hideProgress();
+                        callback.onResult(response.body().getArticles(), (long) mPageNumber, (long) mPageNumber + 1);
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<NewsResponse> call, @NonNull Throwable throwable) {
-
+                    mView.showError(throwable.getMessage().toString());
             }
         });
     }
@@ -60,13 +69,19 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
             @Override
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
                 if (response.body() != null) {
-                    callback.onResult(response.body().getArticles(), params.key + 1);
+                    if (!(response.body().getArticles().size() > 0)) {
+                        mView.showEmpty();
+
+                    } else {
+                        mView.hideProgress();
+                        callback.onResult(response.body().getArticles(), params.key + 1);
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<NewsResponse> call, @NonNull Throwable throwable) {
-
+                mView.showError(throwable.getMessage().toString());
             }
         });
     }
