@@ -8,8 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.GlideApp;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.R;
 
@@ -19,11 +20,12 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
         super(Article.DIFF_CALLBACK);
     }
 
+    private Context mContext;
     @NonNull
     @Override
     public ArticlePagedListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
+        mContext = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(mContext);
 
         /* Inflate the custom layout */
         View newsView = inflater.inflate(R.layout.list_item, parent, false);
@@ -47,7 +49,9 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
         for any view that will be set as you render a row
         */
         final TextView newsTitleTextView;
-        final TextView newsLinkTextView;
+        final TextView newsAuthorTextView;
+        final TextView newsPublishingDateTextView;
+        final ImageView newsPosterImageView;
 
         /*
         We also create a constructor that accepts the entire item row
@@ -60,13 +64,22 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
             */
             super(itemView);
             newsTitleTextView = itemView.findViewById(R.id.list_item_title);
-            newsLinkTextView = itemView.findViewById(R.id.list_item_url);
+            newsAuthorTextView = itemView.findViewById(R.id.list_item_author);
+            newsPublishingDateTextView = itemView.findViewById(R.id.list_item_published_date);
+            newsPosterImageView = itemView.findViewById(R.id.list_item_image);
         }
 
         void bindTo(Article article) {
             if (article != null) {
                 newsTitleTextView.setText("" + article.getTitle());
-                newsLinkTextView.setText(article.getUrl());
+                newsAuthorTextView.setText(""+article.getAuthor());
+                newsPublishingDateTextView.setText(""+article.getPublishedAt());
+                newsAuthorTextView.setText(article.getUrl());
+                GlideApp
+                        .with(mContext)
+                        .load(article.getUrlToImage())
+                        .centerCrop()
+                        .into(newsPosterImageView);
             }
         }
     }
