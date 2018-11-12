@@ -12,6 +12,7 @@ public class FirstActivity extends AppCompatActivity {
 
     Button mvpButton;
     Button mvvmButton;
+    Button mvvmAbhiButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,7 @@ public class FirstActivity extends AppCompatActivity {
 
         mvpButton = findViewById(R.id.mvp_example_button);
         mvvmButton = findViewById(R.id.mvvm_example_button);
+        mvvmAbhiButton = findViewById(R.id.mvvm_example_by_abhi_button);
 
 
         mvpButton.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +36,14 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FirstActivity.this, com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.view.MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mvvmAbhiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FirstActivity.this, com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.view.MainActivity.class);
                 startActivity(intent);
             }
         });

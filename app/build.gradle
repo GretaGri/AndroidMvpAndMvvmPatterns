@@ -67,4 +67,7 @@ dependencies {
     // Lifecycle components
     implementation "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
+
+    //adding paging library
+    implementation "android.arch.paging:runtime:1.0.1"
 }
