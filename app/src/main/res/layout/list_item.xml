@@ -33,15 +33,15 @@
                 android:id="@+id/list_item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
-                tools:text="Name" />
+                tools:text="Name"
+                android:textColor="@color/colorWhite"/>
 
             <TextView
                 android:id="@+id/list_item_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
-                tools:text="Place" />
+                tools:text="Place"
+                android:textColor="@color/colorWhite"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
