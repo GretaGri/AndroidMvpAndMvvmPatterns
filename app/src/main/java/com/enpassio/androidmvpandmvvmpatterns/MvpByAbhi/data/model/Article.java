@@ -1,17 +1,14 @@
 package com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "articlestable")
 public class Article implements Parcelable, Comparable {
 
     public final static Parcelable.Creator<Article> CREATOR = new Creator<Article>() {
@@ -35,29 +32,21 @@ public class Article implements Parcelable, Comparable {
     @SerializedName("author")
     @Expose
     private Object author;
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "title")
     @SerializedName("title")
     @Expose
     private String title;
-    @ColumnInfo(name = "description")
     @SerializedName("description")
     @Expose
     private String description;
-    @ColumnInfo(name = "url")
     @SerializedName("url")
     @Expose
     private String url;
-    @ColumnInfo(name = "urlToImage")
     @SerializedName("urlToImage")
     @Expose
     private String urlToImage;
-    @ColumnInfo(name = "publishedAt")
     @SerializedName("publishedAt")
     @Expose
     private String publishedAt;
-    @ColumnInfo(name = "content")
     @SerializedName("content")
     @Expose
     private String content;
@@ -168,4 +157,16 @@ public class Article implements Parcelable, Comparable {
         dest.writeValue(publishedAt);
         dest.writeValue(content);
     }
+
+    public static DiffUtil.ItemCallback<Article> DIFF_CALLBACK = new DiffUtil.ItemCallback<Article>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
+            return oldItem.url.equals(newItem.url);
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 }
