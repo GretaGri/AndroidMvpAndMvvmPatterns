@@ -3,6 +3,7 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -22,9 +23,10 @@ import java.util.List;
  * Created by Greta Grigutė on 2018-11-09.
  */
 public class NewsRepository {
+    private static final String LOG_TAG = "my_tag";
     private NewsDao newsDao;
-    private LiveData<List<Article>> allNews;
-    private final NewsApiService newsApiService;
+    private MutableLiveData<List<Article>> allNews;
+    private NewsApiService newsApiService;
     private ArrayList<Article> responseResults;
 
 
@@ -35,12 +37,28 @@ public class NewsRepository {
 
     // A constructor that gets a handle to the database and initializes the member variables.
      public NewsRepository(final Application application) {
+         NewsDatabase db = NewsDatabase.getDatabase(application);
+         newsDao = db.newsDao();
+         if (responseResults != null) {
+             Log.d(LOG_TAG, "response is not null");
+             int i;
+             for (i = 0; i < responseResults.size(); i++) {
+                 newsDao.insert(responseResults.get(i));
+             }
+             allNews = (MutableLiveData<List<Article>>) newsDao.getAllNews();
+         }
+    }
 
+    // A wrapper for getAllWords(). Room executes all queries on a separate thread. Observed
+    // LiveData will notify the observer when the data has changed.
+    public LiveData<List<Article>> getAllNews(String searchQuery) {
+        Log.d(LOG_TAG, "Getting the repository");
         newsApiService = APIClient.getClient().create(NewsApiService.class);
-        getNewsList("news", new RemoteCallBack<NewsResponse>() {
+        getNewsList(searchQuery, new RemoteCallBack<NewsResponse>() {
             @Override
             public void onSuccess(NewsResponse response) {
-               responseResults = (ArrayList<Article>) response.getArticles();
+                responseResults = (ArrayList<Article>) response.getArticles();
+                Log.d(LOG_TAG, "Getting the reponse");
             }
 
             @Override
@@ -53,22 +71,6 @@ public class NewsRepository {
 
             }
         });
-
-         NewsDatabase db = NewsDatabase.getDatabase(application);
-         newsDao = db.newsDao();
-         if (responseResults != null) {
-             int i;
-             for (i = 0; i < responseResults.size(); i++) {
-                 newsDao.insert(responseResults.get(i));
-             }
-             allNews = newsDao.getAllNews();
-         }
-    }
-
-    // A wrapper for getAllWords(). Room executes all queries on a separate thread. Observed
-    // LiveData will notify the observer when the data has changed.
-    public LiveData<List<Article>> getAllNews(String searchQuery) {
-
         return allNews;
     }
 
