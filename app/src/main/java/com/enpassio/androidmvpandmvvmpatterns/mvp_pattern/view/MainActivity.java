@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,7 +16,6 @@ import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.MainActivity
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.MainActivityPresenter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MainActivityContract.PresenterPushedSomeAction {
 
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public void showNewsList(ArrayList<Article> news) {
         Log.d("my_tag", "inside MainActivity, news size is :" + news.size());
         NewsAdapter adapter = new NewsAdapter(news);
-        //recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
 

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.NewsRepository;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
@@ -54,7 +55,12 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivityPresenter.onTopicSearchedSearched(searchQueryEditText.getText().toString());
+                String usersSearchQuery = searchQueryEditText.getText().toString();
+                if (usersSearchQuery.isEmpty()){
+                    Toast.makeText(MainActivity.this, "Please input a query for news", Toast.LENGTH_SHORT).show();
+                }else {
+                    mainActivityPresenter.onTopicSearchedSearched(usersSearchQuery);
+                }
             }
         });
     }
