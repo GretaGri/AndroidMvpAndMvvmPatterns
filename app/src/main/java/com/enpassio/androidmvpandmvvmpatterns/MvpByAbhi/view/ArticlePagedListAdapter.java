@@ -28,7 +28,7 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
         /* Inflate the custom layout */
-        View newsView = inflater.inflate(R.layout.list_item, parent, false);
+        View newsView = inflater.inflate(R.layout.list_item_mvp_abhi, parent, false);
 
         /* Return a new holder instance */
         return new ArticlePagedListAdapter.ViewHolder(newsView);
@@ -73,7 +73,10 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
             if (article != null) {
                 newsTitleTextView.setText("" + article.getTitle());
                 newsAuthorTextView.setText(""+article.getAuthor());
-                newsPublishingDateTextView.setText(""+article.getPublishedAt());
+                String date = article.getPublishedAt();
+                String[] dateArray= date.split("T");
+
+                newsPublishingDateTextView.setText(""+dateArray[0]+" "+dateArray[1].subSequence(0, dateArray[1].length()-1));
                 newsAuthorTextView.setText(article.getUrl());
                 GlideApp
                         .with(mContext)
