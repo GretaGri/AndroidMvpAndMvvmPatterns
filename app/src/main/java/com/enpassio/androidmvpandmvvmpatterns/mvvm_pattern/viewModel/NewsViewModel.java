@@ -31,11 +31,11 @@ public class NewsViewModel extends AndroidViewModel {
     }
 
     // a "getter" method for all the news. This completely hides the implementation from the UI.
-    public LiveData<List<Article>> getAllNews() {
+   public LiveData<List<Article>> getAllNews() {
         return allNews;
     }
 
-    public void passSearchPhrase(String searchPhrase) {
+    public void passSearchPhrase (String searchPhrase) {
         this.searchPhrase = searchPhrase;
     }
 

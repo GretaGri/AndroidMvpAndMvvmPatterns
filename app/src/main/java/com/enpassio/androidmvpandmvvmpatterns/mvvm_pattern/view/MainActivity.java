@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     String searchQuery;
     RecyclerView recyclerView;
     private NewsViewModel mNewsViewModel;
-    private ArrayList<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> newsList;
+    private ArrayList <com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> newsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Button clicked", Toast.LENGTH_LONG).show();
+                 Toast.makeText(MainActivity.this, "Button clicked",Toast.LENGTH_LONG).show();
                 mNewsViewModel.passSearchPhrase(getSearchPhrase());
                 mNewsViewModel.getAllNews().observe(MainActivity.this, new Observer<List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article>>() {
                     @Override

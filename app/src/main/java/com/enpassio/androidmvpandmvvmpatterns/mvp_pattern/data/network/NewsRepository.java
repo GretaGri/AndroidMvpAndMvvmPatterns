@@ -9,23 +9,25 @@ import java.util.List;
 public class NewsRepository {
     // static variable single_instance of type Singleton/NewsRepository
     private static NewsRepository newsRepository = null;
-    private final NewsApiService newsApiService;
+    private  final NewsApiService newsApiService;
 
 
-    public NewsRepository() {
+    public NewsRepository()
+    {
         newsApiService = APIClient.getClient().create(NewsApiService.class);
-    }
-
-    // static method to create instance of Singleton/NewsRepository class
-    public static NewsRepository getInstance() {
-        if (newsRepository == null)
-            newsRepository = new NewsRepository();
-
-        return newsRepository;
     }
 
     public void getNewsList(String searchQuery, RemoteCallBack<NewsResponse> listener) {
         newsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
                 searchQuery).enqueue(listener);
+    }
+
+    // static method to create instance of Singleton/NewsRepository class
+    public static NewsRepository getInstance()
+    {
+        if (newsRepository == null)
+            newsRepository = new NewsRepository();
+
+        return newsRepository;
     }
 }

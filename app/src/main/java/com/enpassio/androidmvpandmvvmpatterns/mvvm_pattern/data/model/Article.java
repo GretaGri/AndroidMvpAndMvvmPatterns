@@ -71,7 +71,7 @@ public class Article implements Parcelable {
     private Article(Parcel in) {
         this.source = ((Source) in.readValue((Source.class.getClassLoader())));
         this.author = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.title = ((String) Objects.requireNonNull(in.readValue((String.class.getClassLoader()))));
+        this.title = (( String) Objects.requireNonNull(in.readValue((String.class.getClassLoader()))));
         this.description = ((String) in.readValue((String.class.getClassLoader())));
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.urlToImage = ((String) in.readValue((String.class.getClassLoader())));
@@ -98,12 +98,11 @@ public class Article implements Parcelable {
         this.author = author;
     }
 
-    public @NotNull
-    String getTitle() {
+    public @NotNull String getTitle() {
         return title;
     }
 
-    public void setTitle(@NotNull String title) {
+    public void  setTitle(@NotNull String title) {
         this.title = title;
     }
 

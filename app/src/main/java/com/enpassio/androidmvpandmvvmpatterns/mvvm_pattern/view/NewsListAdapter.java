@@ -35,28 +35,28 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.MyView
 
     }
 
-    void setNews(List<Article> articles) {
+    void setNews (List < Article > articles) {
         mArticleList = articles;
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getItemCount() {
-        if (mArticleList != null) return mArticleList.size();
-        else return 0;
-    }
+        @Override
+        public int getItemCount(){
+            if (mArticleList != null) return mArticleList.size();
+            else return 0;
+        }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
-        public TextView url;
+        // Provide a reference to the views for each data item
+        // Complex data items may need more than one view per item, and
+        // you provide access to all the views for a data item in a view holder
+        class MyViewHolder extends RecyclerView.ViewHolder {
+            public TextView title;
+            public TextView url;
 
-        public MyViewHolder(View view) {
-            super(view);
-            title = view.findViewById(R.id.list_item_title);
-            url = view.findViewById(R.id.list_item_url);
+            public MyViewHolder(View view) {
+                super(view);
+                title = view.findViewById(R.id.list_item_title);
+                url = view.findViewById(R.id.list_item_url);
+            }
         }
     }
-}

@@ -11,16 +11,16 @@ import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.RemoteCal
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivityPresenter extends BasePresenter<MainActivityContract.PresenterPushedSomeAction> implements MainActivityContract.MainView {
+public class MainActivityPresenter extends BasePresenter<MainActivityContract.PresenterPushedSomeAction> implements MainActivityContract.MainView{
     private final NewsRepository mNewsRepository;
 
     public MainActivityPresenter(@NonNull NewsRepository newsRepository) {
         mNewsRepository = newsRepository;
-    }
+        }
 
     @Override
     public void onButtonClick(String searchPhrase) {
-        getNewsList(searchPhrase);
+       getNewsList(searchPhrase);
     }
 
     @Override
@@ -29,28 +29,21 @@ public class MainActivityPresenter extends BasePresenter<MainActivityContract.Pr
     }
 
 
-    private void getNewsList(final String searchPhrase) {
-        Log.d("my_tag", "getNewsList called");
-        if (!isViewAttached()) {
-            Log.d("my_tag", "getNewsList the view is not attached");
-            return;
-        }
+    private void getNewsList (final String searchPhrase) {
+      Log.d("my_tag", "getNewsList called");
+        if (!isViewAttached()){ Log.d("my_tag", "getNewsList the view is not attached");
+        return;}
         mNewsRepository.getNewsList(searchPhrase, new RemoteCallBack<NewsResponse>() {
             @Override
             public void onSuccess(NewsResponse response) {
-                if (!isViewAttached()) {
-                    Log.d("my_tag", "getNewsList onSuccess the view is not attached");
-                    return;
-                }
+                if (!isViewAttached()) {Log.d("my_tag", "getNewsList onSuccess the view is not attached");
+                return;}
                 ArrayList<Article> responseResults = (ArrayList<Article>) response.getArticles();
-                if (responseResults.isEmpty()) {
-                    Log.d("my_tag", "getNewsList onSuccess the response is empty");
-                    return;
-                } else {
-                    Log.d("my_tag", "getNewsList onSuccess showNewsList called");
-                    mView.showNewsList(responseResults);
-                    Log.d("my_tag", "inside MainActivityPresenter, response size is: " + responseResults.size());
+                if (responseResults.isEmpty()) {Log.d("my_tag", "getNewsList onSuccess the response is empty");return;
                 }
+                else   {Log.d("my_tag", "getNewsList onSuccess showNewsList called");
+                mView.showNewsList(responseResults);
+                    Log.d("my_tag", "inside MainActivityPresenter, response size is: " +responseResults.size());}
             }
 
             @Override

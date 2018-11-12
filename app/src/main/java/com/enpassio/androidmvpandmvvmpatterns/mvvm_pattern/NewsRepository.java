@@ -28,15 +28,20 @@ public class NewsRepository {
     private ArrayList<Article> responseResults;
 
 
+    public void getNewsList(String searchQuery, RemoteCallBack<NewsResponse> listener) {
+        newsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
+                searchQuery).enqueue(listener);
+    }
+
     // A constructor that gets a handle to the database and initializes the member variables.
-    public NewsRepository(final Application application, String searchQuery) {
+     public NewsRepository(final Application application, String searchQuery) {
 
         newsApiService = APIClient.getClient().create(NewsApiService.class);
         getNewsList(searchQuery, new RemoteCallBack<NewsResponse>() {
             @Override
             public void onSuccess(NewsResponse response) {
-                responseResults = (ArrayList<Article>) response.getArticles();
-                NewsDatabase db = NewsDatabase.getDatabase(application);
+               responseResults = (ArrayList<Article>) response.getArticles();
+               NewsDatabase db = NewsDatabase.getDatabase(application);
                 newsDao = db.newsDao();
                 if (responseResults != null) {
                     int i;
@@ -59,11 +64,6 @@ public class NewsRepository {
         });
 
 
-    }
-
-    public void getNewsList(String searchQuery, RemoteCallBack<NewsResponse> listener) {
-        newsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
-                searchQuery).enqueue(listener);
     }
 
     // A wrapper for getAllWords(). Room executes all queries on a separate thread. Observed

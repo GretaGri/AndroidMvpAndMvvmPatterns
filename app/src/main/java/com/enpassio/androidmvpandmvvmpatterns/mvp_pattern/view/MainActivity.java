@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
         NewsRepository newsRepository = new NewsRepository();
 
-        mainActivityPresenter = new MainActivityPresenter(newsRepository);
+       mainActivityPresenter = new MainActivityPresenter(newsRepository);
         mainActivityPresenter.attachView(this);
 
         button.setOnClickListener(new View.OnClickListener() {

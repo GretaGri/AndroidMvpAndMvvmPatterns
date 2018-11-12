@@ -17,7 +17,7 @@ import java.util.List;
 @Dao
 public interface NewsDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
     void insert(Article article);
 
     @Query("DELETE FROM news_table")

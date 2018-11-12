@@ -12,13 +12,12 @@ public interface MainActivityContract {
 
     interface MainView {
         //for getting user input
-        void onButtonClick(String search);
-
-        void onDestroy();
+        void onButtonClick (String search);
+        void onDestroy ();
     }
 
     interface PresenterPushedSomeAction {
         //for showing search results
-        void showNewsList(ArrayList<Article> news);
+        void showNewsList (ArrayList<Article> news);
     }
 }

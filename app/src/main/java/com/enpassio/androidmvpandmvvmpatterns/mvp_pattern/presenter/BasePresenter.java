@@ -1,6 +1,6 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter;
 
-abstract class BasePresenter<View> {
+abstract class BasePresenter <View> {
 
     public View mView;
 
@@ -8,15 +8,15 @@ abstract class BasePresenter<View> {
      * Check if the view is attached.
      * This checking is only necessary when returning from an asynchronous call
      */
-    Boolean isViewAttached() {
+   Boolean isViewAttached(){
         return mView != null;
+   }
+
+  public View attachView(View view) {
+    return mView = view;
     }
 
-    public View attachView(View view) {
-        return mView = view;
-    }
-
-    public void detachView() {
+  public void detachView() {
         mView = null;
     }
 }
