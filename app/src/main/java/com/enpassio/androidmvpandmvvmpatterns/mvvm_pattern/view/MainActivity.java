@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.viewModel.NewsViewModel;
 
 import java.util.ArrayList;
@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                  Toast.makeText(MainActivity.this, "Button clicked",Toast.LENGTH_LONG).show();
-                mNewsViewModel.getAllNews(getSearchPhrase()).observe(MainActivity.this, new Observer<List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article>>() {
+                mNewsViewModel.getAllNews(getSearchPhrase()).observe(MainActivity.this, new Observer<NewsResponse>() {
                     @Override
-                    public void onChanged(@Nullable final List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> news) {
+                    public void onChanged(@Nullable NewsResponse news) {
                         // Update the cached copy of the words in the adapter.
-                        adapter.setNews(news);
+                        adapter.setNews(news.getArticles());
                         adapter.notifyDataSetChanged();
                     }
                 });
