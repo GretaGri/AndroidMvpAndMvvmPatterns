@@ -19,6 +19,7 @@ import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.RemoteCa
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,52 +31,53 @@ import retrofit2.Response;
 public class NewsRepository {
     private static final String LOG_TAG = "my_tag";
     private NewsDao newsDao;
-    private LiveData<NewsResponse> allNews;
-    private NewsApiService newsApiService;
-    private LiveData <NewsResponse> responseResults;
 
+    private final NewsApiService newsApiService;
+    private ArrayList<Article> responseResults;
+    private Executor mExecutor;
 
-//    public void getNewsList(String searchQuery, RemoteCallBack<LiveData<NewsResponse>> listener) {
-//        newsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
-//                searchQuery).enqueue(listener);
-//    }
 
     // A constructor that gets a handle to the database and initializes the member variables.
      public NewsRepository(final Application application) {
+         NewsDatabase db = NewsDatabase.getDatabase(application);
+         newsDao = db.newsDao();
+         newsApiService = APIClient.getClient().create(NewsApiService.class);
+         mExecutor = AppExecutors.getInstance().mainThread();
+     }
 
-
-//         NewsDatabase db = NewsDatabase.getDatabase(application);
-//         newsDao = db.newsDao();
-//         if (responseResults != null) {
-//             Log.d(LOG_TAG, "response is not null");
-//             int i;
-//             for (i = 0; i < responseResults.size(); i++) {
-//                 newsDao.insert(responseResults.get(i));
-//             }
-//             allNews = newsDao.getAllNews();
-//         }
-  }
 
     // A wrapper for getAllWords(). Room executes all queries on a separate thread. Observed
     // LiveData will notify the observer when the data has changed.
-    public LiveData<NewsResponse> getAllNews(final String searchQuery) {
-                Log.d(LOG_TAG, "Getting the repository");
-                newsApiService = APIClient.getClient().create(NewsApiService.class);
-                newsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, searchQuery).enqueue(new Callback<LiveData<NewsResponse>>() {
-                    @Override
-                    public void onResponse(Call<LiveData<NewsResponse>> call, Response<LiveData<NewsResponse>> response) {
-                        allNews = response.body();
-                        Log.d(LOG_TAG, "Getting the reponse");
-                    }
+    public LiveData<List<Article>> getAllNews(String searchQuery) {
+        Log.d(LOG_TAG, "Getting the repository");
+        Log.v("my_tag", "newsApiService is: " + newsApiService);
+        final MutableLiveData<List<Article>>  allNews = new MutableLiveData<>();
+        newsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
+                searchQuery).enqueue(new Callback<NewsResponse>() {
+            @Override
+            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+                if (response.isSuccessful()) {
+                    responseResults = (ArrayList<Article>) response.body().getArticles();
+                    Log.d(LOG_TAG, "Getting the reponse size: " + responseResults.size());
+                    mExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            allNews.postValue(responseResults);
+                        }
+                    });
+                } else {
+                    Log.d(LOG_TAG, "Getting Error");
+                }
 
-                    @Override
-                    public void onFailure(Call<LiveData<NewsResponse>> call, Throwable t) {
+            }
 
-                    }
-                });
+            @Override
+            public void onFailure(Call<NewsResponse> call, Throwable t) {
+                Log.e(LOG_TAG, "error is: " + t.getMessage());
+            }
+        });
         return allNews;
     }
-
 
     // A wrapper for the insert() method. You must call this on a non-UI thread or your app will
     // crash. Room ensures that you don't do any long-running operations on the main thread,
