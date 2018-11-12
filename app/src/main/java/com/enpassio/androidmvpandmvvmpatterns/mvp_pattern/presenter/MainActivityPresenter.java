@@ -9,6 +9,7 @@ import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.NewsRepos
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.RemoteCallBack;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivityPresenter extends BasePresenter<MainActivityContract.PresenterPushedSomeAction> implements MainActivityContract.MainView {
     private final NewsRepository mNewsRepository;

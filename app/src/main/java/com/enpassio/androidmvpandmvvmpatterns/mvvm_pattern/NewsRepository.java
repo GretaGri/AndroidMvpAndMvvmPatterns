@@ -4,6 +4,7 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.database.NewsDao;
@@ -14,26 +15,50 @@ import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.APIClien
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.NewsApiService;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.RemoteCallBack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Greta Grigutė on 2018-11-09.
  */
 public class NewsRepository {
-    private NewsDao mNewsDao;
-    private LiveData<List<Article>> mAllNews;
-    private static NewsRepository newsRepository = null;
+    private NewsDao newsDao;
+    private LiveData<List<Article>> allNews;
     private final NewsApiService newsApiService;
+    private ArrayList<Article> responseResults;
 
 
     // A constructor that gets a handle to the database and initializes the member variables.
-    public NewsRepository(Application application) {
+    public NewsRepository(final Application application, String searchQuery) {
 
         newsApiService = APIClient.getClient().create(NewsApiService.class);
+        getNewsList(searchQuery, new RemoteCallBack<NewsResponse>() {
+            @Override
+            public void onSuccess(NewsResponse response) {
+                responseResults = (ArrayList<Article>) response.getArticles();
+                NewsDatabase db = NewsDatabase.getDatabase(application);
+                newsDao = db.newsDao();
+                if (responseResults != null) {
+                    int i;
+                    for (i = 0; i < responseResults.size(); i++) {
+                        newsDao.insert(responseResults.get(i));
+                    }
+                    allNews = newsDao.getAllNews();
+                }
+            }
 
-        NewsDatabase db = NewsDatabase.getDatabase(application);
-        mNewsDao = db.newsDao();
-        mAllNews = mNewsDao.getAllNews();
+            @Override
+            public void onUnauthorized() {
+
+            }
+
+            @Override
+            public void onFailed(Throwable throwable) {
+
+            }
+        });
+
+
     }
 
     public void getNewsList(String searchQuery, RemoteCallBack<NewsResponse> listener) {
@@ -44,14 +69,14 @@ public class NewsRepository {
     // A wrapper for getAllWords(). Room executes all queries on a separate thread. Observed
     // LiveData will notify the observer when the data has changed.
     public LiveData<List<Article>> getAllNews() {
-        return mAllNews;
+        return allNews;
     }
 
     // A wrapper for the insert() method. You must call this on a non-UI thread or your app will
     // crash. Room ensures that you don't do any long-running operations on the main thread,
     // blocking the UI.
     public void insert(Article article) {
-        new insertAsyncTask(mNewsDao).execute(article);
+        new insertAsyncTask(newsDao).execute(article);
     }
 
     //AsyncTask method
@@ -69,14 +94,4 @@ public class NewsRepository {
             return null;
         }
     }
-
-
-    // static method to create instance of Singleton/NewsRepository class
-//    public static NewsRepository getInstance()
-//    {
-//        if (newsRepository == null)
-//            newsRepository = new NewsRepository();
-//
-//        return newsRepository;
-//    }
 }

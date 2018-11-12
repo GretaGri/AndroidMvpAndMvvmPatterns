@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.viewModel.NewsViewModel;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Button clicked", Toast.LENGTH_LONG).show();
-                getSearchPhrase();
+                mNewsViewModel.passSearchPhrase(getSearchPhrase());
                 mNewsViewModel.getAllNews().observe(MainActivity.this, new Observer<List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article>>() {
                     @Override
                     public void onChanged(@Nullable final List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> news) {
@@ -68,11 +69,5 @@ public class MainActivity extends AppCompatActivity {
     public String getSearchPhrase() {
         searchQuery = editText.getText().toString();
         return searchQuery;
-    }
-
-    public void showNewsList(ArrayList<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> news) {
-        Log.d("my_tag", "inside MainActivity, news size is :" + news.size());
-        NewsListAdapter adapter = new NewsListAdapter(news);
-        recyclerView.setAdapter(adapter);
     }
 }

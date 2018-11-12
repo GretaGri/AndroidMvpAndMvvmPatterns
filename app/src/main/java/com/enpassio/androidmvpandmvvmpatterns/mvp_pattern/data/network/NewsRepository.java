@@ -1,7 +1,10 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
+import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.NewsResponse;
+
+import java.util.List;
 
 public class NewsRepository {
     // static variable single_instance of type Singleton/NewsRepository
