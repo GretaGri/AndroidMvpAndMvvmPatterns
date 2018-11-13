@@ -84,12 +84,14 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
         void bindTo(Article article) {
             if (article != null) {
                 newsTitleTextView.setText("" + article.getTitle());
+                newsTitleTextView.setSelected(true);
                 newsAuthorTextView.setText(""+article.getAuthor());
                 String date = article.getPublishedAt();
                 String[] dateArray= date.split("T");
 
                 newsPublishingDateTextView.setText(""+dateArray[0]+" "+dateArray[1].subSequence(0, dateArray[1].length()-1));
                 newsAuthorTextView.setText(article.getUrl());
+                newsAuthorTextView.setSelected(true);
                 container.startShimmer();
                 GlideApp
                         .with(mContext)

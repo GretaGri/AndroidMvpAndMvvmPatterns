@@ -27,7 +27,8 @@
                 android:layout_marginRight="@dimen/margin_medium"
                 android:background="@color/colorWhite"
                 android:hint="@string/find_your_news"
-                android:inputType="text" />
+                android:inputType="text"
+                android:autofillHints="@string/find_your_news" />
 
             <Button
                 android:id="@+id/main_button"
@@ -43,7 +44,7 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="visible"
             tools:visibility="visible">
@@ -51,7 +52,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/main_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
