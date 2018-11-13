@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -90,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
         listLiveData.observe(this, new Observer<PagedList<Article>>() {
             @Override
             public void onChanged(@Nullable PagedList<Article> articles) {
-                Log.v("my_tag", "articles title is: "+articles.get(0).getTitle());
                 mArticlePagedListAdapter.submitList(articles);
             }
         });

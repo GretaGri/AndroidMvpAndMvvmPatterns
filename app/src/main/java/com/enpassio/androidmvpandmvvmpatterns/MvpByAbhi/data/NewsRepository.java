@@ -6,10 +6,9 @@ import android.arch.paging.PagedList;
 import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
-import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.APIClient;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.NewsApiService;
-import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.RemoteCallback;
+import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.RemoteCallBack;
 
 import java.util.concurrent.Executor;
 
@@ -36,30 +35,9 @@ public class NewsRepository {
         return sInstance;
     }
 
-    /*
-    public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery, ListContract.RecyclerView mView) {
+    public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery, RemoteCallBack remoteCallBack) {
 
-        ArticleDataFactory articleDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery, mView);
-
-        PagedList.Config pagedListConfig =
-                (new PagedList.Config.Builder())
-                        .setEnablePlaceholders(false)
-                        .setInitialLoadSizeHint(20 * 3)
-                        .setPageSize(20)
-                        .setPrefetchDistance(10)
-                        .build();
-        LiveData<PagedList<Article>> articleLiveData = (new LivePagedListBuilder(articleDataFactory, pagedListConfig))
-                .setFetchExecutor(mExecutor)
-                .build();
-
-        return articleLiveData;
-    }
-    */
-
-    //handle view leak
-    public LiveData<PagedList<Article>> getLiveDataOfPagedLis(String searchQuery, RemoteCallback<NewsResponse> remoteCallback) {
-
-        ArticleDataFactory articleDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery, remoteCallback);
+        ArticleDataFactory articleDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery, remoteCallBack);
 
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
