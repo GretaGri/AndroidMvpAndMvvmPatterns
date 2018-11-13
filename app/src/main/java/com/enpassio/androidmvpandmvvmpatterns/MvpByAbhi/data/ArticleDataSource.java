@@ -1,6 +1,5 @@
 package com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data;
 
-
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -9,7 +8,7 @@ import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.NewsApiService;
-import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.presenter.mainscreen.ListContract;
+import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.RemoteCallBack;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,14 +19,14 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
     private NewsApiService mNewsApiService;
     private int mPageNumber;
     private String mSearchQuery;
-    private ListContract.RecyclerView mView;
+    private RemoteCallBack mRemoteCallBack;
 
     ArticleDataSource(NewsApiService newsApiService,
-                      String searchQuery, ListContract.RecyclerView view) {
+                      String searchQuery, RemoteCallBack remoteCallBack) {
         this.mNewsApiService = newsApiService;
         this.mPageNumber = 1;
         this.mSearchQuery = searchQuery;
-        this.mView = view;
+        this.mRemoteCallBack = remoteCallBack;
     }
 
     @Override
@@ -39,10 +38,10 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
                 if (response.body() != null) {
                     if (!(response.body().getArticles().size() > 0)) {
-                        mView.showEmpty();
+                        mRemoteCallBack.onEmpty();
 
                     } else {
-                        mView.hideProgress();
+                        mRemoteCallBack.onSuccess();
                         callback.onResult(response.body().getArticles(), (long) mPageNumber, (long) mPageNumber + 1);
                     }
                 }
@@ -50,7 +49,7 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
 
             @Override
             public void onFailure(@NonNull Call<NewsResponse> call, @NonNull Throwable throwable) {
-                    mView.showError(throwable.getMessage().toString());
+                    mRemoteCallBack.onFailure(throwable.getMessage().toString());
             }
         });
     }
@@ -70,10 +69,10 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
                 if (response.body() != null) {
                     if (!(response.body().getArticles().size() > 0)) {
-                        mView.showEmpty();
+                        mRemoteCallBack.onEmpty();
 
                     } else {
-                        mView.hideProgress();
+                        mRemoteCallBack.onSuccess();
                         callback.onResult(response.body().getArticles(), params.key + 1);
                     }
                 }
@@ -81,7 +80,7 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
 
             @Override
             public void onFailure(@NonNull Call<NewsResponse> call, @NonNull Throwable throwable) {
-                mView.showError(throwable.getMessage().toString());
+                mRemoteCallBack.onFailure(throwable.getMessage().toString());
             }
         });
     }

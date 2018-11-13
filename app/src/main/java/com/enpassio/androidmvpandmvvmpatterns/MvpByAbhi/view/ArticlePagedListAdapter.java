@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,7 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
             newsAuthorTextView = itemView.findViewById(R.id.list_item_author);
             newsPublishingDateTextView = itemView.findViewById(R.id.list_item_published_date);
             newsPosterImageView = itemView.findViewById(R.id.list_item_image);
-            container =(ShimmerFrameLayout) itemView.findViewById(R.id.shimmer_view_container);
+            container = itemView.findViewById(R.id.shimmer_view_container);
         }
 
         void bindTo(Article article) {
@@ -102,6 +103,7 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
 
                             @Override
                             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                Log.d("my_tag", "image loaded");
                                 container.stopShimmer();
                                 return false;
                             }
