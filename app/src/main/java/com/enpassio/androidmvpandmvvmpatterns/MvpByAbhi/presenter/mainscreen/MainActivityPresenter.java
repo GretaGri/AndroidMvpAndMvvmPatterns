@@ -3,6 +3,7 @@ package com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.presenter.mainscreen;
 import android.support.annotation.NonNull;
 
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.NewsRepository;
+import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.RemoteCallBack;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.presenter.base.BasePresenter;
 
 
@@ -29,6 +30,21 @@ public class MainActivityPresenter extends BasePresenter<ListContract.RecyclerVi
         if (!isViewAttached()) return;
         mView.showMessageLayout(false);
         mView.showProgress();
-        mView.getPagedListData(mNewsRepository.getLiveDataOfPagedList(searchQuery, mView));
+        mView.getPagedListData(mNewsRepository.getLiveDataOfPagedList(searchQuery, new RemoteCallBack() {
+            @Override
+            public void onFailure(String error) {
+                mView.showError(error);
+            }
+
+            @Override
+            public void onSuccess() {
+                mView.hideProgress();
+            }
+
+            @Override
+            public void onEmpty() {
+                mView.showEmpty();
+            }
+        }));
     }
 }
