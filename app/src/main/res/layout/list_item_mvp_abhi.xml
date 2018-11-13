@@ -48,7 +48,7 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
-                android:padding="@dimen/margin_medium">
+                android:padding="8dp">
                 <TextView
                     android:id="@+id/list_item_published_date"
                     android:layout_width="0dp"
@@ -65,7 +65,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:gravity="end"
-                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
                     tools:text="author"
                     android:textColor="@color/colorWhite"/>
             </LinearLayout>
@@ -77,8 +78,10 @@
                 tools:text="Title"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium"
-                android:paddingBottom="2dp"
-                android:textSize="22sp"
+                android:paddingBottom="8dp"
+                android:textSize="28sp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorWhite"/>
