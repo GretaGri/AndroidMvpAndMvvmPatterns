@@ -1,5 +1,10 @@
 package com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network;
 
+import android.arch.paging.PageKeyedDataSource;
+import android.support.annotation.NonNull;
+
+import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
+
 import java.net.HttpURLConnection;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -36,6 +41,10 @@ public abstract class RemoteCallback<T> implements Callback<T> {
     }
 
     public abstract void onSuccess(T response);
+    public abstract void onCallbackInitial(@NonNull PageKeyedDataSource.LoadInitialParams<Long> params,
+                                           @NonNull final PageKeyedDataSource.LoadInitialCallback<Long, Article> callback, int mPageNumber);
+    public abstract void onCallbackAfter(@NonNull final PageKeyedDataSource.LoadParams<Long> params,
+                                         @NonNull final PageKeyedDataSource.LoadCallback<Long, Article> callback);
 
     public abstract void onUnauthorized();
 

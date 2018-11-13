@@ -9,11 +9,8 @@ import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.NewsApiService;
+import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.network.RemoteCallback;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.presenter.mainscreen.ListContract;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
 
@@ -21,19 +18,24 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
     private int mPageNumber;
     private String mSearchQuery;
     private ListContract.RecyclerView mView;
+    RemoteCallback<NewsResponse> mRemoteCallback;
 
     ArticleDataSource(NewsApiService newsApiService,
-                      String searchQuery, ListContract.RecyclerView view) {
+                      String searchQuery, RemoteCallback<NewsResponse> remoteCallback) {
         this.mNewsApiService = newsApiService;
         this.mPageNumber = 1;
         this.mSearchQuery = searchQuery;
-        this.mView = view;
+        this.mRemoteCallback = remoteCallback;
     }
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Long> params,
                             @NonNull final LoadInitialCallback<Long, Article> callback) {
         Log.d("my_tag", "before page number is " + mPageNumber);
+        mRemoteCallback.onCallbackInitial(params, callback, mPageNumber);
+        mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, mSearchQuery, mPageNumber).enqueue(mRemoteCallback);
+
+        /*
         mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, mSearchQuery, mPageNumber).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
@@ -53,6 +55,7 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
                     mView.showError(throwable.getMessage().toString());
             }
         });
+        */
     }
 
     @Override
@@ -64,7 +67,10 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
     @Override
     public void loadAfter(@NonNull final PageKeyedDataSource.LoadParams<Long> params,
                           @NonNull final LoadCallback<Long, Article> callback) {
+        mRemoteCallback.onCallbackAfter(params, callback);
+        mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, mSearchQuery, Integer.parseInt(params.key.toString())).enqueue(mRemoteCallback);
         Log.d("my_tag", "after page number is " + params.key);
+        /*
         mNewsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY, mSearchQuery, Integer.parseInt(params.key.toString())).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
@@ -84,5 +90,6 @@ public class ArticleDataSource extends PageKeyedDataSource<Long, Article> {
                 mView.showError(throwable.getMessage().toString());
             }
         });
+        */
     }
 }
