@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.NewsRepository;
@@ -20,6 +19,7 @@ import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.presenter.mainscreen.ListContract;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.presenter.mainscreen.MainActivityPresenter;
 import com.enpassio.androidmvpandmvvmpatterns.R;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class MainActivity extends AppCompatActivity implements ListContract.RecyclerView {
 
@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
     /* Adapters for inflating different recyclerview */
     ArticlePagedListAdapter mArticlePagedListAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ProgressBar mContentLoadingProgress;
     private String mUsersSearchQuery;
+    private ShimmerFrameLayout mShimmerViewContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
         mArticlePagedListAdapter = new ArticlePagedListAdapter(this);
         mNewsrecyclerView.setAdapter(mArticlePagedListAdapter);
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
+        mSwipeRefreshLayout.setVisibility(View.GONE);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
                 }
             }
         });
-        mContentLoadingProgress = findViewById(R.id.progress);
+        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        mShimmerViewContainer.startShimmer();
 
         button = findViewById(R.id.main_button);
         mainActivityPresenter = new MainActivityPresenter(NewsRepository.getInstance());
@@ -94,14 +96,18 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
     @Override
     public void showProgress() {
         if (!mSwipeRefreshLayout.isRefreshing()) {
-            mContentLoadingProgress.setVisibility(View.VISIBLE);
+            mShimmerViewContainer.setVisibility(View.VISIBLE);
+            mShimmerViewContainer.startShimmer();
+            mSwipeRefreshLayout.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void hideProgress() {
         mSwipeRefreshLayout.setRefreshing(false);
-        mContentLoadingProgress.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        mShimmerViewContainer.setVisibility(View.GONE);
+        mShimmerViewContainer.stopShimmer();
     }
 
     @Override
@@ -112,14 +118,18 @@ public class MainActivity extends AppCompatActivity implements ListContract.Recy
     @Override
     public void showEmpty() {
         mSwipeRefreshLayout.setRefreshing(false);
-        mContentLoadingProgress.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setVisibility(View.GONE);
+        mShimmerViewContainer.setVisibility(View.VISIBLE);
+        mShimmerViewContainer.startShimmer();
         Toast.makeText(MainActivity.this, "No data found. Please try again", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showError(String errorMessage) {
         mSwipeRefreshLayout.setRefreshing(false);
-        mContentLoadingProgress.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setVisibility(View.GONE);
+        mShimmerViewContainer.setVisibility(View.VISIBLE);
+        mShimmerViewContainer.startShimmer();
         Toast.makeText(MainActivity.this, "Error occured: "+errorMessage, Toast.LENGTH_SHORT).show();
     }
 

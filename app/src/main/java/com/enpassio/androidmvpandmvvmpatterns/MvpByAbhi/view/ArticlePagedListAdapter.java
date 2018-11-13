@@ -95,7 +95,6 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
                         .with(mContext)
                         .load(article.getUrlToImage())
                         .centerCrop()
-                        .placeholder(R.drawable.placeholder)
                         .addListener(new RequestListener<Drawable>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
