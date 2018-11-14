@@ -37,10 +37,10 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
         ((ViewHolder) viewHolder).bindTo(getItem(position));
     }
 
-    /*
- Provide a direct reference to each of the views within a data item
- Used to cache the views within the item layout for fast access
- */
+     /*
+     Provide a direct reference to each of the views within a data item
+     Used to cache the views within the item layout for fast access
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
         /*
         Your holder should contain a member variable

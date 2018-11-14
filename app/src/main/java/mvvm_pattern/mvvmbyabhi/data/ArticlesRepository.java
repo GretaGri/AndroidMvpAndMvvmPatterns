@@ -30,8 +30,6 @@ public class ArticlesRepository {
 
     public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery) {
 
-        ArticleDataFactory articleDataFactory = new ArticleDataFactory(mNewsApiService, searchQuery);
-
         mExecutor.execute(new Runnable() {
             @Override
             public void run() {
