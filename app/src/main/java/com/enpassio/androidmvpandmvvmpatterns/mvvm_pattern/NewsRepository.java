@@ -15,7 +15,6 @@ import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.APIClient;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.NewsApiService;
-import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.RemoteCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,28 +29,34 @@ import retrofit2.Response;
  */
 public class NewsRepository {
     private static final String LOG_TAG = "my_tag";
-    private NewsDao newsDao;
-
     private final NewsApiService newsApiService;
+    MutableLiveData<List<Article>> allNews = new MutableLiveData<>();
+    private NewsDao newsDao;
     private ArrayList<Article> responseResults;
-    private Executor mExecutor;
-
+    private Executor executor;
 
     // A constructor that gets a handle to the database and initializes the member variables.
-     public NewsRepository(final Application application) {
-         NewsDatabase db = NewsDatabase.getDatabase(application);
-         newsDao = db.newsDao();
-         newsApiService = APIClient.getClient().create(NewsApiService.class);
-         mExecutor = AppExecutors.getInstance().mainThread();
-     }
+    public NewsRepository(final Application application) {
+        NewsDatabase db = NewsDatabase.getDatabase(application);
+        newsDao = db.newsDao();
+        newsApiService = APIClient.getClient().create(NewsApiService.class);
+        executor = AppExecutors.getInstance().diskIO();
+    }
 
 
     // A wrapper for getAllWords(). Room executes all queries on a separate thread. Observed
     // LiveData will notify the observer when the data has changed.
     public LiveData<List<Article>> getAllNews(String searchQuery) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                newsDao.deleteAll();
+            }
+        });
+
         Log.d(LOG_TAG, "Getting the repository");
         Log.v("my_tag", "newsApiService is: " + newsApiService);
-        final MutableLiveData<List<Article>>  allNews = new MutableLiveData<>();
+        final LiveData<List<Article>> allNews;
         newsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
                 searchQuery).enqueue(new Callback<NewsResponse>() {
             @Override
@@ -59,16 +64,18 @@ public class NewsRepository {
                 if (response.isSuccessful()) {
                     responseResults = (ArrayList<Article>) response.body().getArticles();
                     Log.d(LOG_TAG, "Getting the reponse size: " + responseResults.size());
-                    mExecutor.execute(new Runnable() {
+                    executor.execute(new Runnable() {
                         @Override
                         public void run() {
-                            allNews.postValue(responseResults);
+                            int i;
+                            for (i = 0; i < responseResults.size(); i++) {
+                                newsDao.insert(responseResults.get(i));
+                            }
                         }
                     });
                 } else {
                     Log.d(LOG_TAG, "Getting Error");
                 }
-
             }
 
             @Override
@@ -76,6 +83,7 @@ public class NewsRepository {
                 Log.e(LOG_TAG, "error is: " + t.getMessage());
             }
         });
+        allNews = newsDao.getAllNews();
         return allNews;
     }
 
