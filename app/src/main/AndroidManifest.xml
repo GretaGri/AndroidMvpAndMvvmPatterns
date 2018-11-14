@@ -14,9 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".mvp_pattern.view.MainActivity"/>
-
-        <activity android:name=".mvp_pattern.view.DetailsActivity" />
         <activity android:name=".mvvm_pattern.view.MainActivity" />
+        <activity android:name=".mvp_pattern.view.DetailsActivity" />
+
         <activity android:name=".mvvm_pattern.view.DetailsActivity" />
         <activity android:name=".FirstActivity">
             <intent-filter>

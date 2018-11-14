@@ -7,14 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
-import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.viewModel.NewsViewModel;
 
 import java.util.ArrayList;
@@ -51,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 Toast.makeText(MainActivity.this, "Button clicked",Toast.LENGTH_LONG).show();
-                mNewsViewModel.getAllNews(getSearchPhrase()).observe(MainActivity.this, new Observer<NewsResponse>() {
+                Toast.makeText(MainActivity.this, "Button clicked",Toast.LENGTH_LONG).show();
+                mNewsViewModel.getAllNews(getSearchPhrase()).observe(MainActivity.this, new Observer<List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article>>() {
                     @Override
-                    public void onChanged(@Nullable NewsResponse news) {
+                    public void onChanged(@Nullable final List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> news) {
                         // Update the cached copy of the words in the adapter.
-                        adapter.setNews(news.getArticles());
+                        adapter.setNews(news);
                         adapter.notifyDataSetChanged();
                     }
                 });
