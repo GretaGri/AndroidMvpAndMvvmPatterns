@@ -30,7 +30,6 @@ import retrofit2.Response;
 public class NewsRepository {
     private static final String LOG_TAG = "my_tag";
     private final NewsApiService newsApiService;
-    MutableLiveData<List<Article>> allNews = new MutableLiveData<>();
     private NewsDao newsDao;
     private ArrayList<Article> responseResults;
     private Executor executor;
@@ -85,28 +84,5 @@ public class NewsRepository {
         });
         allNews = newsDao.getAllNews();
         return allNews;
-    }
-
-    // A wrapper for the insert() method. You must call this on a non-UI thread or your app will
-    // crash. Room ensures that you don't do any long-running operations on the main thread,
-    // blocking the UI.
-    public void insert(Article article) {
-        new insertAsyncTask(newsDao).execute(article);
-    }
-
-    //AsyncTask method
-    private static class insertAsyncTask extends AsyncTask<Article, Void, Void> {
-
-        private NewsDao mAsyncTaskDao;
-
-        insertAsyncTask(NewsDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final Article... params) {
-            mAsyncTaskDao.insert(params[0]);
-            return null;
-        }
     }
 }
