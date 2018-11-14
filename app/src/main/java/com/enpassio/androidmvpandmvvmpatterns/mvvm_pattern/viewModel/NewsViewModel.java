@@ -31,9 +31,9 @@ public class NewsViewModel extends AndroidViewModel {
     }
 
     // a "getter" method for all the news. This completely hides the implementation from the UI.
-    public LiveData<List<Article>> getAllNews(String searchPhrase) {
+   public LiveData<List<Article>> getAllNews(String searchPhrase) {
 
-        allNews = mRepository.getAllNews(searchPhrase);
+       allNews = mRepository.getAllNews(searchPhrase);
         return allNews;
     }
 

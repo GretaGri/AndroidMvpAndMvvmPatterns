@@ -15,6 +15,7 @@ import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.APIClient;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.NewsApiService;
+import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.RemoteCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +38,12 @@ public class NewsRepository {
 
 
     // A constructor that gets a handle to the database and initializes the member variables.
-    public NewsRepository(final Application application) {
-        NewsDatabase db = NewsDatabase.getDatabase(application);
-        newsDao = db.newsDao();
-        newsApiService = APIClient.getClient().create(NewsApiService.class);
-        mExecutor = AppExecutors.getInstance().mainThread();
-    }
+     public NewsRepository(final Application application) {
+         NewsDatabase db = NewsDatabase.getDatabase(application);
+         newsDao = db.newsDao();
+         newsApiService = APIClient.getClient().create(NewsApiService.class);
+         mExecutor = AppExecutors.getInstance().mainThread();
+     }
 
 
     // A wrapper for getAllWords(). Room executes all queries on a separate thread. Observed

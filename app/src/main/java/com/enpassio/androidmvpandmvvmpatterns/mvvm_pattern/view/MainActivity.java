@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Button clicked",Toast.LENGTH_LONG).show();
+                 Toast.makeText(MainActivity.this, "Button clicked",Toast.LENGTH_LONG).show();
                 mNewsViewModel.getAllNews(getSearchPhrase()).observe(MainActivity.this, new Observer<List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article>>() {
                     @Override
                     public void onChanged(@Nullable final List<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> news) {
