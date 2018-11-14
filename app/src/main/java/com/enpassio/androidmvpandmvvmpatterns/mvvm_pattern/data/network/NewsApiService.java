@@ -13,5 +13,5 @@ public interface NewsApiService {
      */
     @GET("v2/top-headlines")
     Call<NewsResponse> getNewsArticles(@Query("apiKey") String publicKey,
-                                                 @Query("q") String searchQuery);
+                                       @Query("q") String searchQuery);
 }

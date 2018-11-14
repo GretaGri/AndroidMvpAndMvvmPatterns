@@ -14,16 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".mvp_pattern.view.MainActivity"/>
-        <activity android:name=".mvvm_pattern.view.MainActivity" />
-        <activity android:name=".mvp_pattern.view.DetailsActivity" />
 
+        <activity android:name=".mvp_pattern.view.DetailsActivity" />
+        <activity android:name=".mvvm_pattern.view.MainActivity" />
         <activity android:name=".mvvm_pattern.view.DetailsActivity" />
         <activity android:name=".FirstActivity">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".MvpByAbhi.view.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
