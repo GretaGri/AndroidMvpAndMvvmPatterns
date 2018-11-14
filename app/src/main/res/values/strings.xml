@@ -2,4 +2,5 @@
     <string name="app_name">AndroidMvpAndMvvmPatterns</string>
     <string name="find_your_news">Find your news</string>
     <string name="give_me_my_news">Give me my news</string>
+    <string name="image_for_the_article">Image for article</string>
 </resources>
