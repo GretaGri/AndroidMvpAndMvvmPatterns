@@ -27,4 +27,7 @@ public class ArticlesViewModel extends AndroidViewModel {
         articleLiveData = mRepository.getLiveDataOfPagedList(searchQuery);
         return articleLiveData;
     }
+    public int getSizeOfArticlesInDatabase(){
+        return mRepository.getSizeOfArticlesListInDatabase();
+    }
 }

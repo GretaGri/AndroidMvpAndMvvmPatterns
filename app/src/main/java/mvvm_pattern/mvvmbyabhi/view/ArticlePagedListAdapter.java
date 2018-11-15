@@ -1,17 +1,23 @@
 package mvvm_pattern.mvvmbyabhi.view;
 
+import android.app.Dialog;
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -25,10 +31,18 @@ import mvvm_pattern.mvvmbyabhi.data.model.Article;
 public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerView.ViewHolder> {
 
     private Context mContext;
+    private FragmentManager mFragmentManager;
 
-    ArticlePagedListAdapter(Context context) {
+    ArticlePagedListAdapter(Context context, FragmentManager fragmentManager) {
         super(Article.DIFF_CALLBACK);
         mContext = context;
+        mFragmentManager = fragmentManager;
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
     }
 
     @NonNull
@@ -63,6 +77,7 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
         final TextView newsPublishingDateTextView;
         final ImageView newsPosterImageView;
         final ShimmerFrameLayout container;
+        final CardView cardView;
 
         /*
         We also create a constructor that accepts the entire item row
@@ -79,6 +94,7 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
             newsPublishingDateTextView = itemView.findViewById(R.id.list_item_published_date);
             newsPosterImageView = itemView.findViewById(R.id.list_item_image);
             container = itemView.findViewById(R.id.shimmer_view_container);
+            cardView = itemView.findViewById(R.id.card_view);
         }
 
         void bindTo(Article article) {
@@ -113,6 +129,21 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
                         .into(newsPosterImageView);
 
             }
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Dialog dialog = new Dialog(mContext);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_details_mvvm);
+                    dialog.setCanceledOnTouchOutside(false);
+
+                    ArticlesDetailsPagerAdapter articlesDetailsPagerAdapter = new ArticlesDetailsPagerAdapter(mFragmentManager);
+                    ViewPager pager =  dialog.findViewById(R.id.viewpager);
+                    //pager.setAdapter(articlesDetailsPagerAdapter);
+                    dialog.show();
+                    Toast.makeText(mContext, "In the dialog fragment now", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

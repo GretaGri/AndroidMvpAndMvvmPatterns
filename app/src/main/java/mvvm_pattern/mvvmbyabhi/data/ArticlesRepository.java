@@ -4,7 +4,6 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
-import android.util.Log;
 
 import java.util.concurrent.Executor;
 
@@ -20,12 +19,23 @@ public class ArticlesRepository {
     private NewsApiService mNewsApiService;
     private ArticlesDao mArticlesDao;
     private Executor mExecutor;
+    private int size;
 
     public ArticlesRepository(Application application) {
         mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
         //create the service
         mNewsApiService = APIClient.getClient().create(NewsApiService.class);
         mExecutor = AppExecutors.getInstance().diskIO();
+    }
+
+    public int getSizeOfArticlesListInDatabase() {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                size = mArticlesDao.getAllArticles().size();
+            }
+        });
+        return size;
     }
 
     public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery) {
@@ -51,14 +61,6 @@ public class ArticlesRepository {
                 .setFetchExecutor(mExecutor)
                 .setBoundaryCallback(articleBoundaryCallback)
                 .build();
-        mExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                Log.v("my_tag", "size of articles is: " + mArticlesDao.getAllArticles().size());
-
-            }
-        });
-
         return articleLiveData;
     }
 

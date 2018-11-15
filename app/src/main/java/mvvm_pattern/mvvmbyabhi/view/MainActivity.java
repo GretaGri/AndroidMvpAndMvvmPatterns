@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayoutManager.VERTICAL, false);
         /* Attach layout manager to the RecyclerView */
         mNewsrecyclerView.setLayoutManager(newslayoutmanager);
-        mNewsAdapter = new ArticlePagedListAdapter(this);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        mNewsAdapter = new ArticlePagedListAdapter(this, fragmentManager);
         mNewsrecyclerView.setAdapter(mNewsAdapter);
 
         button = findViewById(R.id.main_button);
