@@ -1,17 +1,54 @@
 package mvvm_pattern.mvvmbyabhi.view;
 
+
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
+import android.support.v4.app.FragmentPagerAdapter;
 
-import com.enpassio.androidmvpandmvvmpatterns.R;
+public class ArticlesDetailsPagerAdapter extends FragmentPagerAdapter {
+    final int PAGE_COUNT = 4;
+    private String tabTitles[] = new String[]{"City Information", "Reach Here By", "Hotels", "Must Visit"};
+    private Context context;
+    private DetailsFragment detailsFragment;
+    private FragmentManager mfm;
 
+    ArticlesDetailsPagerAdapter(Context fm, FragmentManager fmg) {
+        super(fmg);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        if (position == 0) {
+            Bundle bundle = new Bundle();
+            bundle.putString("key", "value1");
+            DetailsFragment detailsFragment = new DetailsFragment();
+            detailsFragment.setArguments(bundle);
+            return detailsFragment;
+        }
+        else {
+            Bundle bundle = new Bundle();
+            bundle.putString("key", "value2");
+            DetailsFragment detailsFragment = new DetailsFragment();
+            detailsFragment.setArguments(bundle);
+            return detailsFragment;
+        }
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        // Generate title based on item position
+        return tabTitles[position];
+    }
+
+    @Override
+    public int getCount() {
+        return PAGE_COUNT;
+    }
+
+
+/*
 class ArticlesDetailsPagerAdapter extends PagerAdapter {
 
     private Context mContext;
@@ -37,8 +74,9 @@ class ArticlesDetailsPagerAdapter extends PagerAdapter {
         bundle.putString("key", "value");
         DetailsFragment detailsFragment = new DetailsFragment();
         detailsFragment.setArguments(bundle);
+
         mFragmentManager.beginTransaction()
-                .add(R.id.frame_layout, detailsFragment)
+                .replace(R.id.frame_layout, detailsFragment)
                 .commit();
 
         return mLayout;
@@ -63,5 +101,8 @@ class ArticlesDetailsPagerAdapter extends PagerAdapter {
     public CharSequence getPageTitle(int position) {
         return "pager";
     }
+
+}
+*/
 
 }

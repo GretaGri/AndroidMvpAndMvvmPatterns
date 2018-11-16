@@ -22,8 +22,8 @@ public class DetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
         Bundle bundle = getArguments();
-        if (bundle!=null)
-        Toast.makeText(getContext(), "Value is: "+bundle.getString("key"), Toast.LENGTH_SHORT).show();
+        if (bundle != null)
+            Toast.makeText(getContext(), "Value is: " + bundle.getString("key"), Toast.LENGTH_SHORT).show();
         return rootView;
     }
 }
