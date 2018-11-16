@@ -16,12 +16,14 @@ public class DetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
-        Toast.makeText(getContext(), "In the details fragment now", Toast.LENGTH_SHORT).show();
+        Bundle bundle = getArguments();
+        if (bundle!=null)
+        Toast.makeText(getContext(), "Value is: "+bundle.getString("key"), Toast.LENGTH_SHORT).show();
         return rootView;
     }
-
 }

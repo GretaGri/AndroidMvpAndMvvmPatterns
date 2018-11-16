@@ -1,7 +1,9 @@
 package mvvm_pattern.mvvmbyabhi.view;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,23 +16,36 @@ class ArticlesDetailsPagerAdapter extends PagerAdapter {
 
     private Context mContext;
     private int mSizeOfArticleList;
+    private FragmentManager mFragmentManager;
+    private ViewGroup mLayout;
 
-    ArticlesDetailsPagerAdapter(Context context) {
+    ArticlesDetailsPagerAdapter(Context context, FragmentManager fragmentManager) {
         mContext = context;
+        mFragmentManager = fragmentManager;
     }
 
     @NonNull
     @Override
-    public Object instantiateItem(ViewGroup collection, int position) {
+    public Object instantiateItem(@NonNull ViewGroup collection, int position) {
         Toast.makeText(mContext, "In the dialog fragment now", Toast.LENGTH_SHORT).show();
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.fragment_details, collection, false);
-        collection.addView(layout);
-        return layout;
+        if (mLayout == null)
+            mLayout = (ViewGroup) inflater.inflate(R.layout.contents_view_pager, collection, false);
+        collection.addView(mLayout);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("key", "value");
+        DetailsFragment detailsFragment = new DetailsFragment();
+        detailsFragment.setArguments(bundle);
+        mFragmentManager.beginTransaction()
+                .add(R.id.frame_layout, detailsFragment)
+                .commit();
+
+        return mLayout;
     }
 
     @Override
-    public void destroyItem(ViewGroup collection, int position, Object view) {
+    public void destroyItem(@NonNull ViewGroup collection, int position, @NonNull Object view) {
         collection.removeView((View) view);
     }
 
@@ -40,7 +55,7 @@ class ArticlesDetailsPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -141,11 +142,17 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
                     dialog.setContentView(R.layout.dialog_details_mvvm);
                     dialog.setCancelable(true);
                     dialog.setCanceledOnTouchOutside(true);
-                    ArticlesDetailsPagerAdapter articlesDetailsPagerAdapter = new ArticlesDetailsPagerAdapter(mContext);
+                    ArticlesDetailsPagerAdapter articlesDetailsPagerAdapter = new ArticlesDetailsPagerAdapter(mContext, mFragmentManager);
                     ViewPager pager = dialog.findViewById(R.id.viewpager);
                     pager.setAdapter(articlesDetailsPagerAdapter);
                     dialog.show();
-
+                    //set margin around the dialog
+                    Window window = dialog.getWindow();
+                    window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                    params.y = -24;
+                    params.x=-24;
+                    window.setAttributes(params);
                 }
             });
         }
