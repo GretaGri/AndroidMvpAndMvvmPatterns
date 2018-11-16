@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -32,6 +31,7 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
 
     private Context mContext;
     private FragmentManager mFragmentManager;
+    private int mSizeOfArticlesList;
 
     ArticlePagedListAdapter(Context context, FragmentManager fragmentManager) {
         super(Article.DIFF_CALLBACK);
@@ -50,7 +50,6 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
     public ArticlePagedListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
         /* Inflate the custom layout */
         View newsView = inflater.inflate(R.layout.list_item_mvvm_abhi, parent, false);
 
@@ -61,6 +60,11 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         ((ViewHolder) viewHolder).bindTo(getItem(position));
+    }
+
+    void setSizeOfDatabase(int size) {
+        Log.v("my_tag", "setSizeOfDatabase is: "+size);
+        mSizeOfArticlesList = size;
     }
 
     /*
@@ -135,13 +139,13 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
                     final Dialog dialog = new Dialog(mContext);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_details_mvvm);
-                    dialog.setCanceledOnTouchOutside(false);
-
-                    ArticlesDetailsPagerAdapter articlesDetailsPagerAdapter = new ArticlesDetailsPagerAdapter(mFragmentManager);
-                    ViewPager pager =  dialog.findViewById(R.id.viewpager);
-                    //pager.setAdapter(articlesDetailsPagerAdapter);
+                    dialog.setCancelable(true);
+                    dialog.setCanceledOnTouchOutside(true);
+                    ArticlesDetailsPagerAdapter articlesDetailsPagerAdapter = new ArticlesDetailsPagerAdapter(mContext);
+                    ViewPager pager = dialog.findViewById(R.id.viewpager);
+                    pager.setAdapter(articlesDetailsPagerAdapter);
                     dialog.show();
-                    Toast.makeText(mContext, "In the dialog fragment now", Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
