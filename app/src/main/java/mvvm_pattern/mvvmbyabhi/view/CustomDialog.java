@@ -63,6 +63,7 @@ public class CustomDialog extends DialogFragment {
         FragmentPagerAdapter adapterViewPager;
         adapterViewPager = new ArticlesDetailsPagerAdapter(getChildFragmentManager(), mCurrentPosition, mArticleArrayList);
         vpPager.setAdapter(adapterViewPager);
+        vpPager.setCurrentItem(mCurrentPosition);
         return view;
     }
 

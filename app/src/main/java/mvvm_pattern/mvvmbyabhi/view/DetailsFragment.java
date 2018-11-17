@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 
@@ -14,8 +15,6 @@ import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
 public class DetailsFragment extends Fragment {
 
-    private Article article;
-    
     public DetailsFragment() {
         // Required empty public constructor
     }
@@ -23,12 +22,12 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_details, container, false);
         Bundle bundle = getArguments();
-
-        if (bundle != null)
-            article = bundle.getParcelable("key");
-            Log.d("my_tag", "Value is: " + article.getTitle());
-        return rootView;
+        Article article = bundle.getParcelable("key");
+        Log.d("my_tag", "Value is: " + article.getTitle());
+        View view= inflater.inflate(R.layout.fragment_details, container, false);
+        TextView textView = view.findViewById(R.id.title_text_view);
+        textView.setText(""+article.getTitle());
+        return view;
     }
 }
