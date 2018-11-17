@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 
@@ -45,24 +46,32 @@ public class CustomDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       if (getArguments() !=null && !getArguments().isEmpty()){
-           Bundle argumentsBundle= getArguments();
-           mArticleArrayList = argumentsBundle.getParcelableArrayList("articlesArrayList");
-           mCurrentPosition = argumentsBundle.getInt("position");
-           Log.d("my_tag", "articlesArrayList received size is: "+mArticleArrayList.size());
-           Log.d("my_tag", "position received size is: "+mCurrentPosition);
-       }
+        if (getArguments() != null && !getArguments().isEmpty()) {
+            Bundle argumentsBundle = getArguments();
+            mArticleArrayList = argumentsBundle.getParcelableArrayList("articlesArrayList");
+            mCurrentPosition = argumentsBundle.getInt("position");
+            Log.d("my_tag", "articlesArrayList received size is: " + mArticleArrayList.size());
+            Log.d("my_tag", "position received size is: " + mCurrentPosition);
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dialog_details_mvvm, container);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_details_mvvm, container);
         ViewPager vpPager = (ViewPager) view.findViewById(R.id.view_pager);
         FragmentPagerAdapter adapterViewPager;
         adapterViewPager = new ArticlesDetailsPagerAdapter(getChildFragmentManager());
         vpPager.setAdapter(adapterViewPager);
         return view;
+    }
+
+    public void onResume() {
+        WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
+        params.y = -100;
+        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        getDialog().getWindow().setAttributes(params);
+        super.onResume();
     }
 }
