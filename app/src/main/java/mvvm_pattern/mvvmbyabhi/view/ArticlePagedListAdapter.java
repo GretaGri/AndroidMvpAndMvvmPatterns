@@ -1,10 +1,8 @@
 package mvvm_pattern.mvvmbyabhi.view;
 
-import android.app.Dialog;
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -14,8 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -137,24 +133,8 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final Dialog dialog = new Dialog(mContext);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.dialog_details_mvvm);
-                    dialog.setCancelable(true);
-                    dialog.setCanceledOnTouchOutside(true);
-                    dialog.show();
-                    //set margin around the dialog
-                    Window window = dialog.getWindow();
-                    window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-                    params.y = -24;
-                    params.x = -24;
-                    window.setAttributes(params);
-                    DetailsFragment detailsFragment = new DetailsFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("key", "value2");
-                    detailsFragment.setArguments(bundle);
-                    mFragmentManager.beginTransaction().add(R.id.frame_layout, detailsFragment).commit();
+                    CustomDialog editNameDialogFragment = CustomDialog.newInstance();
+                    editNameDialogFragment.show(mFragmentManager, "custom_fragment");
                 }
             });
         }

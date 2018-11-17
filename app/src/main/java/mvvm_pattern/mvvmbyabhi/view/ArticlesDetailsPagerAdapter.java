@@ -1,7 +1,6 @@
 package mvvm_pattern.mvvmbyabhi.view;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,11 +9,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class ArticlesDetailsPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 4;
     private String tabTitles[] = new String[]{"City Information", "Reach Here By", "Hotels", "Must Visit"};
-    private Context context;
     private DetailsFragment detailsFragment;
     private FragmentManager mfm;
 
-    ArticlesDetailsPagerAdapter(Context fm, FragmentManager fmg) {
+    ArticlesDetailsPagerAdapter(FragmentManager fmg) {
         super(fmg);
     }
 
