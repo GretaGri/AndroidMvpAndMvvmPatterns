@@ -3,6 +3,7 @@ package mvvm_pattern.mvvmbyabhi.view;
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -22,13 +23,15 @@ import com.bumptech.glide.request.target.Target;
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.util.ArrayList;
+
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
 public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerView.ViewHolder> {
 
     private Context mContext;
     private FragmentManager mFragmentManager;
-    private int mSizeOfArticlesList;
+    private ArrayList<Article> mArticleArrayList;
 
     ArticlePagedListAdapter(Context context, FragmentManager fragmentManager) {
         super(Article.DIFF_CALLBACK);
@@ -56,14 +59,13 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        ((ViewHolder) viewHolder).bindTo(getItem(position));
+        ((ViewHolder) viewHolder).bindTo(getItem(position), position);
     }
 
-    void setSizeOfDatabase(int size) {
-        Log.v("my_tag", "setSizeOfDatabase is: " + size);
-        mSizeOfArticlesList = size;
+    void setArticlesList(ArrayList<Article> articles){
+        mArticleArrayList = articles;
+        Log.v("my_tag", "mArticleArrayList size is: " + mArticleArrayList.size());
     }
-
     /*
     Provide a direct reference to each of the views within a data item
     Used to cache the views within the item layout for fast access
@@ -98,7 +100,7 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
             cardView = itemView.findViewById(R.id.card_view);
         }
 
-        void bindTo(Article article) {
+        void bindTo(Article article, int position) {
             if (article != null) {
                 newsTitleTextView.setText("" + article.getTitle());
                 newsTitleTextView.setSelected(true);
@@ -133,8 +135,12 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CustomDialog editNameDialogFragment = CustomDialog.newInstance();
-                    editNameDialogFragment.show(mFragmentManager, "custom_fragment");
+                    CustomDialog customDialog = CustomDialog.newInstance();
+                    Bundle arrayListBundle = new Bundle();
+                    arrayListBundle.putInt("position", position);
+                    arrayListBundle.putParcelableArrayList("articlesArrayList", mArticleArrayList);
+                    customDialog.setArguments(arrayListBundle);
+                    customDialog.show(mFragmentManager, "custom_fragment");
                 }
             });
         }

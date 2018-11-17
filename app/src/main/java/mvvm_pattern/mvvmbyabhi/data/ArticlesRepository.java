@@ -28,16 +28,6 @@ public class ArticlesRepository {
         mExecutor = AppExecutors.getInstance().diskIO();
     }
 
-    public int getSizeOfArticlesListInDatabase() {
-        mExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                size = mArticlesDao.getAllArticles().size();
-            }
-        });
-        return size;
-    }
-
     public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery) {
 
         mExecutor.execute(new Runnable() {

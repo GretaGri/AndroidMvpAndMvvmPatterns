@@ -19,10 +19,12 @@ import android.widget.Toast;
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.util.ArrayList;
+
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 import mvvm_pattern.mvvmbyabhi.viewmodel.ArticlesViewModel;
 
-public class MainActivity extends AppCompatActivity implements SizeCallback{
+public class MainActivity extends AppCompatActivity{
 
     private Button button;
     private ArticlesViewModel articlesViewModel;
@@ -36,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements SizeCallback{
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private String mUsersSearchQuery;
     private ShimmerFrameLayout mShimmerViewContainer;
-    private int mListSize;
-    private SizeCallback mSizeCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements SizeCallback{
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
         mShimmerViewContainer.setVisibility(View.VISIBLE);
         mShimmerViewContainer.startShimmer();
-        mSizeCallback = this;
         /*
          * Setup layout manager for items with orientation
          * Also supports `LinearLayoutManager.HORIZONTAL`
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements SizeCallback{
 
         button = findViewById(R.id.main_button);
         articlesViewModel = ViewModelProviders.of(this).get(ArticlesViewModel.class);
-        articlesViewModel.setSizeCallback(mSizeCallback);
         //ob loading, show news from India
         mUsersSearchQuery = "India";
         observeNewsFromViewModel();
@@ -104,7 +102,10 @@ public class MainActivity extends AppCompatActivity implements SizeCallback{
                     @Override
                     public void onChanged(@Nullable PagedList<Article> pagedLists) {
                         if (pagedLists != null && !pagedLists.isEmpty()) {
-                            articlesViewModel.getSizeOfArticlesInDatabase();
+
+                            ArrayList<Article> articles = new ArrayList<>();
+                            articles.addAll(pagedLists);
+                            mNewsAdapter.setArticlesList(articles);
                             mSwipeRefreshLayout.setVisibility(View.VISIBLE);
                             mSwipeRefreshLayout.setRefreshing(false);
                             mShimmerViewContainer.setVisibility(View.GONE);
@@ -113,10 +114,5 @@ public class MainActivity extends AppCompatActivity implements SizeCallback{
                         }
                     }
                 });
-    }
-
-    @Override
-    public void getArticleListSize(int size) {
-        mNewsAdapter.setSizeOfDatabase(size);
     }
 }
