@@ -6,11 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 
@@ -58,7 +58,6 @@ public class CustomDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_details_mvvm, container);
         ViewPager vpPager = (ViewPager) view.findViewById(R.id.view_pager);
         FragmentPagerAdapter adapterViewPager;
@@ -68,10 +67,11 @@ public class CustomDialog extends DialogFragment {
     }
 
     public void onResume() {
-        WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
-        params.y = -100;
-        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        getDialog().getWindow().setAttributes(params);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels - 200;
+        int width = displaymetrics.widthPixels-100;
+        getDialog().getWindow().setLayout(width, height);
         super.onResume();
     }
 }
