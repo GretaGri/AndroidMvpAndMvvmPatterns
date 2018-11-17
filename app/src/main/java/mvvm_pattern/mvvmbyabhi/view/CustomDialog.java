@@ -61,7 +61,7 @@ public class CustomDialog extends DialogFragment {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_details_mvvm, container);
         ViewPager vpPager = (ViewPager) view.findViewById(R.id.view_pager);
         FragmentPagerAdapter adapterViewPager;
-        adapterViewPager = new ArticlesDetailsPagerAdapter(getChildFragmentManager());
+        adapterViewPager = new ArticlesDetailsPagerAdapter(getChildFragmentManager(), mCurrentPosition, mArticleArrayList);
         vpPager.setAdapter(adapterViewPager);
         return view;
     }
