@@ -1,7 +1,5 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PagedList;
 import android.util.Log;
 
@@ -27,7 +25,7 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
     private NewsApiService service;
     private LocalCache cache;
     Boolean insertFinished = false;
-    private Integer page = 1;
+    private int page = 1;
 
     // avoid triggering multiple requests in the same time
     private Boolean isRequestInProgress = false;
@@ -39,34 +37,36 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
     }
 
 
-
-
-
     @Override
-   public void onZeroItemsLoaded() {
+    public void onZeroItemsLoaded() {
+        Log.v("my_tag", "onZeroItemsLoaded called" );
         requestAndSaveData(query, page);
     }
 
     @Override
     public void onItemAtEndLoaded(Article itemAtEnd) {
+        Log.v("my_tag", "onItemAtEndLoaded called" );
         requestAndSaveData(query, page);
         page++;
     }
 
     private void requestAndSaveData(String query, Integer page) {
-        if (isRequestInProgress) {return;}
+        if (isRequestInProgress) {
+            return;
+        }
 
-                isRequestInProgress = true;
+        isRequestInProgress = true;
+        Log.v("my_tag", "page number is: " + page);
         service.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
-                query,page).enqueue(new Callback<NewsResponse>() {
+                query, page).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                 if (response.isSuccessful()) {
                     ArrayList<Article> responseResults = (ArrayList<Article>) response.body().getArticles();
                     Log.d(LOG_TAG, "Getting the reponse size: " + responseResults.size());
 
-                   insertFinished = cache.insert(responseResults, insertFinished);
-                     isRequestInProgress = false;
+                    insertFinished = cache.insert(responseResults, insertFinished);
+                    isRequestInProgress = false;
                 } else {
                     Log.d(LOG_TAG, "Getting Error");
                     isRequestInProgress = false;

@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,9 +16,6 @@ import android.widget.Toast;
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.viewModel.NewsViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
 
-        final NewsListAdapter adapter = new NewsListAdapter(newsList);
+        final NewsListAdapter adapter = new NewsListAdapter();
         recyclerView.setAdapter(adapter);
 
         mNewsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
@@ -57,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                     public void onChanged(@Nullable final PagedList<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> news) {
                         // Update the cached copy of the words in the adapter.
-                        adapter.setNews(news);
+                        adapter.submitList(news);
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -67,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public String getSearchPhrase() {
-        searchQuery = editText.getText().toString();
+        searchQuery = editText.getText().toString().trim();
         return searchQuery;
     }
 }
