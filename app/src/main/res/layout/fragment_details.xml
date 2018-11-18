@@ -69,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:paddingLeft="4dp"
+                    android:paddingLeft="12dp"
                     android:paddingRight="4dp">
 
                     <LinearLayout
@@ -84,6 +84,7 @@
                             android:layout_gravity="center_horizontal"
                             android:ellipsize="marquee"
                             android:gravity="center_horizontal"
+                            android:marqueeRepeatLimit="1"
                             android:singleLine="true"
                             android:textColor="#000000"
                             android:textSize="36sp"
@@ -95,9 +96,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
+                            android:paddingLeft="4dp"
                             android:textColor="#000000"
                             android:textSize="20sp"
-                            android:paddingLeft="4dp"
                             tools:text="content content content content content content" />
                     </LinearLayout>
 
