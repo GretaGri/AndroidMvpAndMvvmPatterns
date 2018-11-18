@@ -1,6 +1,7 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.view;
 
 import android.arch.paging.PagedListAdapter;
+import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,8 +28,10 @@ public class NewsListAdapter extends PagedListAdapter<Article, NewsListAdapter.M
 
     public void onBindViewHolder(NewsListAdapter.MyViewHolder holder, int position) {
         Article article = getItem(position);
-        holder.title.setText(article.getTitle());
-        holder.url.setText(article.getUrl());
+        if (article != null) {
+            holder.title.setText("" + article.getTitle());
+            holder.url.setText(article.getUrl());
+        }
     }
 
     // Provide a reference to the views for each data item
@@ -45,21 +48,17 @@ public class NewsListAdapter extends PagedListAdapter<Article, NewsListAdapter.M
         }
     }
 
-    private static DiffUtil.ItemCallback<Article> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Article>() {
-                // The ID property identifies when items are the same.
-                @Override
-                public boolean areItemsTheSame(Article oldItem, Article newItem) {
-                    return oldItem.getTitle().equals(newItem.getTitle());
-                }
+    public static DiffUtil.ItemCallback<Article> DIFF_CALLBACK = new DiffUtil.ItemCallback<Article>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
+            return oldItem.getUrl().equals(newItem.getUrl());
+        }
 
-                // Use Object.equals() to know when an item's content changes.
-                // Implement equals(), or write custom data comparison logic here.
-                @Override
-                public boolean areContentsTheSame(Article oldItem, Article newItem) {
-                    return oldItem.equals(newItem);
-                }
-            };
+        @Override
+        public boolean areContentsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 
     @Override
     public int getItemCount() {

@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onChanged(@Nullable final PagedList<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> news) {
                         // Update the cached copy of the words in the adapter.
                         adapter.submitList(news);
-                        adapter.notifyDataSetChanged();
                     }
                 });
             }

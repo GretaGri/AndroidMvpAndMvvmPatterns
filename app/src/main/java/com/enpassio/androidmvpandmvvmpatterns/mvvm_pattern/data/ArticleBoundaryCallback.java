@@ -39,22 +39,18 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
 
     @Override
     public void onZeroItemsLoaded() {
-        Log.v("my_tag", "onZeroItemsLoaded called" );
+        Log.v("my_tag", "onZeroItemsLoaded called");
         requestAndSaveData(query, page);
     }
 
     @Override
     public void onItemAtEndLoaded(Article itemAtEnd) {
-        Log.v("my_tag", "onItemAtEndLoaded called" );
+        Log.v("my_tag", "onItemAtEndLoaded called");
         requestAndSaveData(query, page);
         page++;
     }
 
     private void requestAndSaveData(String query, Integer page) {
-        if (isRequestInProgress) {
-            return;
-        }
-
         isRequestInProgress = true;
         Log.v("my_tag", "page number is: " + page);
         service.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
@@ -64,7 +60,6 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
                 if (response.isSuccessful()) {
                     ArrayList<Article> responseResults = (ArrayList<Article>) response.body().getArticles();
                     Log.d(LOG_TAG, "Getting the reponse size: " + responseResults.size());
-
                     insertFinished = cache.insert(responseResults, insertFinished);
                     isRequestInProgress = false;
                 } else {

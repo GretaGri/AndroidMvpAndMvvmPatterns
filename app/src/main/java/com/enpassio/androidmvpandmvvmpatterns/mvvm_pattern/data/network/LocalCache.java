@@ -15,29 +15,26 @@ public class LocalCache {
     private NewsDao newsDao;
     private Executor ioExecutor;
 
-    public LocalCache (NewsDao newsDao, Executor ioExecutor){
+    public LocalCache(NewsDao newsDao, Executor ioExecutor) {
         this.newsDao = newsDao;
         this.ioExecutor = ioExecutor;
 
     }
+
     /**
      * Insert a list of repos in the database, on a background thread.
      */
- public Boolean insert(final List<Article> news, Boolean insertFinished) {
-       if (!insertFinished) {
-     ioExecutor.execute (new Runnable() {
-        @Override
-        public void run() {
-            newsDao.deleteAll();
-            Log.d("LocalCache", "inserting" + news.size() + "articles");
-            int i;
-            for (i = 0; i < news.size(); i++) {
-                newsDao.insert(news.get(i));
+    public Boolean insert(final List<Article> news, Boolean insertFinished) {
+        ioExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("my_tag", "inserting" + news.size() + "articles");
+                int i;
+                for (i = 0; i < news.size(); i++) {
+                    newsDao.insert(news.get(i));
+                }
             }
-
-        }
-    });
-     return true;}
-     else return false;
+        });
+        return true;
     }
 }
