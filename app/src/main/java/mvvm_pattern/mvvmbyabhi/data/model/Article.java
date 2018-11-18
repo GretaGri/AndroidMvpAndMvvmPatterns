@@ -46,6 +46,11 @@ public class Article implements Parcelable, Comparable {
     @SerializedName("publishedAt")
     @Expose
     private String publishedAt;
+    @ColumnInfo(name = "content")
+    @SerializedName("content")
+    @Expose
+    private String content;
+
     public final static Parcelable.Creator<Article> CREATOR = new Creator<Article>() {
         @SuppressWarnings({
                 "unchecked"
@@ -160,11 +165,6 @@ public class Article implements Parcelable, Comparable {
         }
         return 1;
     }
-
-    @ColumnInfo(name = "content")
-    @SerializedName("content")
-    @Expose
-    private String content;
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(source);
