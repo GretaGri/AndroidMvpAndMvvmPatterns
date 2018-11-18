@@ -19,6 +19,7 @@ import com.bumptech.glide.request.target.Target;
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import me.biubiubiu.justifytext.library.JustifyTextView;
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
 public class DetailsFragment extends Fragment {
@@ -34,7 +35,7 @@ public class DetailsFragment extends Fragment {
         Article article = bundle.getParcelable("key");
         View view = inflater.inflate(R.layout.fragment_details, container, false);
         TextView articleTitleTextView = view.findViewById(R.id.article_title_text_view);
-        TextView articleContentTextView = view.findViewById(R.id.article_content_text_view);
+        JustifyTextView articleContentJustifiedTextView = view.findViewById(R.id.article_content_text_view);
         TextView articleAuthorTextView = view.findViewById(R.id.article_author_text_view);
         TextView articleSourceTextView = view.findViewById(R.id.article_source_text_view);
         ImageView articleBannerImageView = view.findViewById(R.id.article_banner_image);
@@ -42,7 +43,7 @@ public class DetailsFragment extends Fragment {
         shimmerFrameLayout.startShimmer();
         articleTitleTextView.setText(article.getTitle());
         articleTitleTextView.setSelected(true);
-        articleContentTextView.setText(article.getContent());
+        articleContentJustifiedTextView.setText(article.getContent());
         Log.v("my_taga", "author is: " + article.getAuthor());
         Log.v("my_taga", "source is: " + article.getSource());
         if (article.getAuthor() != null)
