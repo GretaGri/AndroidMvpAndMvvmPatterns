@@ -27,6 +27,7 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
     private NewsApiService service;
     private LocalCache cache;
     Boolean insertFinished = false;
+    private Integer page = 1;
 
     // avoid triggering multiple requests in the same time
     private Boolean isRequestInProgress = false;
@@ -43,20 +44,21 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
 
     @Override
    public void onZeroItemsLoaded() {
-        requestAndSaveData(query);
+        requestAndSaveData(query, page);
     }
 
     @Override
     public void onItemAtEndLoaded(Article itemAtEnd) {
-            requestAndSaveData(query);
+        requestAndSaveData(query, page);
+        page++;
     }
 
-    private void requestAndSaveData(String query) {
+    private void requestAndSaveData(String query, Integer page) {
         if (isRequestInProgress) {return;}
 
                 isRequestInProgress = true;
         service.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
-                query).enqueue(new Callback<NewsResponse>() {
+                query,page).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                 if (response.isSuccessful()) {
