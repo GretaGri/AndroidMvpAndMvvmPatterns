@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.AppExecutors;
+import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.ArticleBoundaryCallback;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.database.NewsDao;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.database.NewsDatabase;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
@@ -34,7 +35,6 @@ public class NewsRepository {
     private static final int DATABASE_PAGE_SIZE = 10;
     private final NewsApiService newsApiService;
     private NewsDao newsDao;
-    private ArrayList<Article> responseResults;
     private DataSource.Factory<Integer, Article> dataSourceFactory;
     private Executor executor;
 
@@ -64,30 +64,16 @@ public class NewsRepository {
 
         Log.d(LOG_TAG, "Getting the repository");
         Log.v("my_tag", "newsApiService is: " + newsApiService);
-        LiveData<PagedList<Article>> allNews;
-        newsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
-                searchQuery).enqueue(new Callback<NewsResponse>() {
-            @Override
-            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-                if (response.isSuccessful()) {
-                    responseResults = (ArrayList<Article>) response.body().getArticles();
-                    Log.d(LOG_TAG, "Getting the reponse size: " + responseResults.size());
-                    LocalCache localCache = new LocalCache(newsDao,executor);
-                    localCache.insert(responseResults,false);
-                } else {
-                    Log.d(LOG_TAG, "Getting Error");
-                }
-            }
 
-            @Override
-            public void onFailure(Call<NewsResponse> call, Throwable t) {
-                Log.e(LOG_TAG, "error is: " + t.getMessage());
-            }
-        });
+        LocalCache localCache = new LocalCache(newsDao,executor);
         // Get data source factory from the local database
         dataSourceFactory = newsDao.getAllNews();
 
-        allNews = new LivePagedListBuilder(dataSourceFactory, DATABASE_PAGE_SIZE).build();
+        ArticleBoundaryCallback boundaryCallback = new ArticleBoundaryCallback(searchQuery, newsApiService, localCache);
+
+        LiveData<PagedList<Article>> allNews = new LivePagedListBuilder(dataSourceFactory, DATABASE_PAGE_SIZE).
+                setBoundaryCallback(boundaryCallback).
+                build();
 
         return allNews;
     }

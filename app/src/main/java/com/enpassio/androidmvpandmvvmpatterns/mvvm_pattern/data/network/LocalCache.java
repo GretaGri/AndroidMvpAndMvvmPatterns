@@ -24,7 +24,8 @@ public class LocalCache {
      * Insert a list of repos in the database, on a background thread.
      */
  public Boolean insert(final List<Article> news, Boolean insertFinished) {
-        ioExecutor.execute (new Runnable() {
+       if (!insertFinished) {
+     ioExecutor.execute (new Runnable() {
         @Override
         public void run() {
             newsDao.deleteAll();
@@ -33,8 +34,10 @@ public class LocalCache {
             for (i = 0; i < news.size(); i++) {
                 newsDao.insert(news.get(i));
             }
+
         }
     });
-        return insertFinished = true;
+     return true;}
+     else return false;
     }
 }
