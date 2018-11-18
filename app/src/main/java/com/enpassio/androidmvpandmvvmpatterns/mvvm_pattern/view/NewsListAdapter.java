@@ -1,5 +1,8 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.view;
 
+import android.arch.paging.PagedList;
+import android.arch.paging.PagedListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +13,14 @@ import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.MyViewHolder> {
-    private List<Article> mArticleList;
-
-    public NewsListAdapter(List<Article> articleList) {
-        this.mArticleList = articleList;
-    }
+public class NewsListAdapter extends PagedListAdapter<Article, NewsListAdapter.MyViewHolder> {
+    protected NewsListAdapter(PagedList<Article> newsList) {
+        super(DIFF_CALLBACK);
+}
+   private List<Article> mArticleList;
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,8 +34,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.MyView
         Article article = mArticleList.get(position);
         holder.title.setText(article.getTitle());
         holder.url.setText(article.getUrl());
-
-
     }
 
     void setNews (List < Article > articles) {
@@ -59,4 +60,21 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.MyView
                 url = view.findViewById(R.id.list_item_url);
             }
         }
-    }
+
+        private static DiffUtil.ItemCallback<Article> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<Article>() {
+                // The ID property identifies when items are the same.
+                @Override
+                public boolean areItemsTheSame(Article oldItem, Article newItem) {
+                    return oldItem.getTitle().equals(newItem.getTitle());
+                }
+
+                // Use Object.equals() to know when an item's content changes.
+                // Implement equals(), or write custom data comparison logic here.
+                @Override
+                public boolean areContentsTheSame(Article oldItem, Article newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
+
+}

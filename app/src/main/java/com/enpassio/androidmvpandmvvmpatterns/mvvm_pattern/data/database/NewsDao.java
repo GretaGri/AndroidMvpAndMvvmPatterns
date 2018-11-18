@@ -1,6 +1,8 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.database;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.paging.DataSource;
+import android.arch.paging.PagedList;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -24,6 +26,6 @@ public interface NewsDao {
     void deleteAll();
 
     @Query("SELECT * from news_table ORDER BY title ASC")
-    LiveData<List<Article>> getAllNews();
+    DataSource.Factory<Integer, Article> getAllNews();
 
 }

@@ -2,9 +2,10 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern;
 
 
 import android.app.Application;
+import android.app.KeyguardManager;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.os.AsyncTask;
+import android.arch.paging.DataSource;
+import android.arch.paging.PagedList;
 import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
@@ -14,44 +15,56 @@ import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.database.NewsDat
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.APIClient;
+import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.LocalCache;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.NewsApiService;
-import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.RemoteCallBack;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.arch.paging.LivePagedListBuilder;
 
 /**
  * Created by Greta Grigutė on 2018-11-09.
  */
 public class NewsRepository {
     private static final String LOG_TAG = "my_tag";
-    private NewsDao newsDao;
-
+    private static final int DATABASE_PAGE_SIZE = 10;
     private final NewsApiService newsApiService;
+    private NewsDao newsDao;
     private ArrayList<Article> responseResults;
-    private Executor mExecutor;
-
+    private DataSource.Factory<Integer, Article> dataSourceFactory;
+    private Executor executor;
 
     // A constructor that gets a handle to the database and initializes the member variables.
-     public NewsRepository(final Application application) {
-         NewsDatabase db = NewsDatabase.getDatabase(application);
-         newsDao = db.newsDao();
-         newsApiService = APIClient.getClient().create(NewsApiService.class);
-         mExecutor = AppExecutors.getInstance().mainThread();
-     }
+    public NewsRepository(final Application application) {
+        NewsDatabase db = NewsDatabase.getDatabase(application);
+        newsDao = db.newsDao();
+        newsApiService = APIClient.getClient().create(NewsApiService.class);
+        executor = AppExecutors.getInstance().diskIO();
+    }
 
+    public void insert(final Article article) {executor.execute(new Runnable() {
+        @Override
+        public void run() {
+            newsDao.insert(article);}});
+    }
 
     // A wrapper for getAllWords(). Room executes all queries on a separate thread. Observed
     // LiveData will notify the observer when the data has changed.
-    public LiveData<List<Article>> getAllNews(String searchQuery) {
+    public LiveData<PagedList<Article>> getAllNews(String searchQuery) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                newsDao.deleteAll();
+            }
+        });
+
         Log.d(LOG_TAG, "Getting the repository");
         Log.v("my_tag", "newsApiService is: " + newsApiService);
-        final MutableLiveData<List<Article>>  allNews = new MutableLiveData<>();
+        LiveData<PagedList<Article>> allNews;
         newsApiService.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
                 searchQuery).enqueue(new Callback<NewsResponse>() {
             @Override
@@ -59,16 +72,11 @@ public class NewsRepository {
                 if (response.isSuccessful()) {
                     responseResults = (ArrayList<Article>) response.body().getArticles();
                     Log.d(LOG_TAG, "Getting the reponse size: " + responseResults.size());
-                    mExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            allNews.postValue(responseResults);
-                        }
-                    });
+                    LocalCache localCache = new LocalCache(newsDao,executor);
+                    localCache.insert(responseResults,false);
                 } else {
                     Log.d(LOG_TAG, "Getting Error");
                 }
-
             }
 
             @Override
@@ -76,29 +84,11 @@ public class NewsRepository {
                 Log.e(LOG_TAG, "error is: " + t.getMessage());
             }
         });
+        // Get data source factory from the local database
+        dataSourceFactory = newsDao.getAllNews();
+
+        allNews = new LivePagedListBuilder(dataSourceFactory, DATABASE_PAGE_SIZE).build();
+
         return allNews;
-    }
-
-    // A wrapper for the insert() method. You must call this on a non-UI thread or your app will
-    // crash. Room ensures that you don't do any long-running operations on the main thread,
-    // blocking the UI.
-    public void insert(Article article) {
-        new insertAsyncTask(newsDao).execute(article);
-    }
-
-    //AsyncTask method
-    private static class insertAsyncTask extends AsyncTask<Article, Void, Void> {
-
-        private NewsDao mAsyncTaskDao;
-
-        insertAsyncTask(NewsDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final Article... params) {
-            mAsyncTaskDao.insert(params[0]);
-            return null;
-        }
     }
 }

@@ -3,6 +3,7 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.viewModel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.NewsRepository;
@@ -18,7 +19,7 @@ public class NewsViewModel extends AndroidViewModel {
     private NewsRepository mRepository;
 
     //variable to cache the list of news.
-    private LiveData<List<Article>> allNews;
+    private LiveData<PagedList<Article>> allNews;
 
     private String searchPhrase;
 
@@ -31,7 +32,7 @@ public class NewsViewModel extends AndroidViewModel {
     }
 
     // a "getter" method for all the news. This completely hides the implementation from the UI.
-   public LiveData<List<Article>> getAllNews(String searchPhrase) {
+   public LiveData<PagedList<Article>> getAllNews(String searchPhrase) {
 
        allNews = mRepository.getAllNews(searchPhrase);
         return allNews;
