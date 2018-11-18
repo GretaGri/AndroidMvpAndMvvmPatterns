@@ -62,10 +62,11 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
         ((ViewHolder) viewHolder).bindTo(getItem(position), position);
     }
 
-    void setArticlesList(ArrayList<Article> articles){
+    void setArticlesList(ArrayList<Article> articles) {
         mArticleArrayList = articles;
         Log.v("my_tag", "mArticleArrayList size is: " + mArticleArrayList.size());
     }
+
     /*
     Provide a direct reference to each of the views within a data item
     Used to cache the views within the item layout for fast access

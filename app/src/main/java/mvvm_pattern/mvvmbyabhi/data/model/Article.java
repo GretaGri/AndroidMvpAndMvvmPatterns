@@ -19,13 +19,12 @@ public class Article implements Parcelable, Comparable {
     @PrimaryKey(autoGenerate = true)
     private int id = 0;
     @SerializedName("source")
-    @Ignore
     @Expose
-    private Source source;
     @Ignore
+    private Source source;
     @SerializedName("author")
     @Expose
-    private Object author;
+    private String author;
     @ColumnInfo(name = "title")
     @SerializedName("title")
     @Expose
@@ -67,7 +66,7 @@ public class Article implements Parcelable, Comparable {
 
     private Article(Parcel in) {
         this.source = ((Source) in.readValue((Source.class.getClassLoader())));
-        this.author = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.author = ((String) in.readValue((Object.class.getClassLoader())));
         this.title = ((String) in.readValue((String.class.getClassLoader())));
         this.description = ((String) in.readValue((String.class.getClassLoader())));
         this.url = ((String) in.readValue((String.class.getClassLoader())));
@@ -95,11 +94,11 @@ public class Article implements Parcelable, Comparable {
         this.source = source;
     }
 
-    public Object getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Object author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
