@@ -3,6 +3,7 @@ package mvvm_pattern.mvvmbyabhi.view;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -64,13 +65,20 @@ public class CustomDialog extends DialogFragment {
         adapterViewPager = new ArticlesDetailsPagerAdapter(getChildFragmentManager(), mCurrentPosition, mArticleArrayList);
         viewPager.setAdapter(adapterViewPager);
         viewPager.setCurrentItem(mCurrentPosition);
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getDialog().dismiss();
+            }
+        });
         return view;
     }
 
     public void onResume() {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int height = displaymetrics.heightPixels - 160;
+        int height = displaymetrics.heightPixels - 100;
         int width = displaymetrics.widthPixels-20;
         getDialog().getWindow().setLayout(width, height);
         super.onResume();
