@@ -68,13 +68,19 @@ public class NewsRepository {
 
         // Get data source factory from the local database
         dataSourceFactory = newsDao.getAllNews();
+        PagedList.Config pagedListConfig =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(20)
+                        .setPageSize(20)
+                        .setPrefetchDistance(2)
+                        .build();
 
         ArticleBoundaryCallback boundaryCallback = new ArticleBoundaryCallback(searchQuery, newsApiService, newsDao);
 
-        LiveData<PagedList<Article>> allNews = new LivePagedListBuilder(dataSourceFactory, DATABASE_PAGE_SIZE).
+        LiveData<PagedList<Article>> allNews = new LivePagedListBuilder(dataSourceFactory, pagedListConfig).
                 setBoundaryCallback(boundaryCallback).
                 build();
-
         return allNews;
     }
 }
