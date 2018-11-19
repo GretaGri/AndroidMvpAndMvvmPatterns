@@ -27,7 +27,6 @@ public class LocalCache {
      ioExecutor.execute (new Runnable() {
         @Override
         public void run() {
-            newsDao.deleteAll();
             Log.d("LocalCache", "inserting" + news.size() + "articles");
             int i;
             for (i = 0; i < news.size(); i++) {

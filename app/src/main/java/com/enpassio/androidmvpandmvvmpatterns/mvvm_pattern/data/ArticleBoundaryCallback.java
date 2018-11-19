@@ -52,9 +52,10 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
     }
 
     private void requestAndSaveData(String query, Integer page) {
-        if (isRequestInProgress) {return;}
-
-                isRequestInProgress = true;
+       // if (isRequestInProgress) {return;}
+        if (page > 3)////way to avoid number of calls
+            return;
+       //         isRequestInProgress = true;
         service.getNewsArticles(BuildConfig.NEWS_API_DOT_ORG_KEY,
                 query,page).enqueue(new Callback<NewsResponse>() {
             @Override
@@ -65,17 +66,17 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
                     Executor executor = AppExecutors.getInstance().diskIO();
                     LocalCache localCache = new LocalCache(newsDao,executor);
                     localCache.insert(responseResults);
-                     isRequestInProgress = false;
+//                     isRequestInProgress = false;
                 } else {
                     Log.d(LOG_TAG, "Getting Error");
-                    isRequestInProgress = false;
+         //           isRequestInProgress = false;
                 }
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
                 Log.e(LOG_TAG, "error is: " + t.getMessage());
-                isRequestInProgress = false;
+        //        isRequestInProgress = false;
             }
         });
     }

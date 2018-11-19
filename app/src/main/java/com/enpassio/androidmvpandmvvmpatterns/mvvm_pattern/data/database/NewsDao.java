@@ -25,7 +25,7 @@ public interface NewsDao {
     @Query("DELETE FROM news_table")
     void deleteAll();
 
-    @Query("SELECT * from news_table ORDER BY title ASC")
+    @Query("SELECT * from news_table")
     DataSource.Factory<Integer, Article> getAllNews();
 
 }
