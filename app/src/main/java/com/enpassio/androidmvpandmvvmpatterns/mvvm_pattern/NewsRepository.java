@@ -2,30 +2,22 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern;
 
 
 import android.app.Application;
-import android.app.KeyguardManager;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.DataSource;
+import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.util.Log;
 
-import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.AppExecutors;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.ArticleBoundaryCallback;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.database.NewsDao;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.database.NewsDatabase;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
-import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.APIClient;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.LocalCache;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.NewsApiService;
 
-import java.util.ArrayList;
 import java.util.concurrent.Executor;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import android.arch.paging.LivePagedListBuilder;
 
 /**
  * Created by Greta Grigutė on 2018-11-09.
@@ -46,10 +38,13 @@ public class NewsRepository {
         executor = AppExecutors.getInstance().diskIO();
     }
 
-    public void insert(final Article article) {executor.execute(new Runnable() {
-        @Override
-        public void run() {
-            newsDao.insert(article);}});
+    public void insert(final Article article) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                newsDao.insert(article);
+            }
+        });
     }
 
     // A wrapper for getAllWords(). Room executes all queries on a separate thread. Observed
@@ -65,15 +60,23 @@ public class NewsRepository {
         Log.d(LOG_TAG, "Getting the repository");
         Log.v("my_tag", "newsApiService is: " + newsApiService);
 
-        LocalCache localCache = new LocalCache(newsDao,executor);
+        LocalCache localCache = new LocalCache(newsDao, executor);
         // Get data source factory from the local database
         dataSourceFactory = newsDao.getAllNews();
 
-        ArticleBoundaryCallback boundaryCallback = new ArticleBoundaryCallback(searchQuery, newsApiService, localCache);
+        PagedList.Config pagedListConfig =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(20)
+                        .setPageSize(20)
+                        .setPrefetchDistance(2)
+                        .build();
 
-        LiveData<PagedList<Article>> allNews = new LivePagedListBuilder(dataSourceFactory, DATABASE_PAGE_SIZE).
-                setBoundaryCallback(boundaryCallback).
-                build();
+        ArticleBoundaryCallback boundaryCallback = new ArticleBoundaryCallback(searchQuery, newsApiService, localCache);
+        LiveData<PagedList<Article>> allNews =
+                new LivePagedListBuilder(dataSourceFactory, pagedListConfig)
+                        .setBoundaryCallback(boundaryCallback)
+                        .build();
 
         return allNews;
     }

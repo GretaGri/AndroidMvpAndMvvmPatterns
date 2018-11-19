@@ -9,17 +9,12 @@ import android.support.annotation.NonNull;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.NewsRepository;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
 
-import java.util.List;
-
 /**
  * Created by Greta Grigutė on 2018-11-09.
  */
 public class NewsViewModel extends AndroidViewModel {
     //variable to hold the reference to Repository.
     private NewsRepository mRepository;
-
-    //variable to cache the list of news.
-    private LiveData<PagedList<Article>> allNews;
 
     private String searchPhrase;
 
@@ -32,10 +27,8 @@ public class NewsViewModel extends AndroidViewModel {
     }
 
     // a "getter" method for all the news. This completely hides the implementation from the UI.
-   public LiveData<PagedList<Article>> getAllNews(String searchPhrase) {
-
-       allNews = mRepository.getAllNews(searchPhrase);
-        return allNews;
+    public LiveData<PagedList<Article>> getAllNews(String searchPhrase) {
+        return mRepository.getAllNews(searchPhrase);
     }
 
     //a wrapper insert() method that calls the Repository's insert() method. In this way, the

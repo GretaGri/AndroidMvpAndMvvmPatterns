@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     String searchQuery;
     RecyclerView recyclerView;
     private NewsViewModel mNewsViewModel;
-    private PagedList <Article> newsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +39,14 @@ public class MainActivity extends AppCompatActivity {
 
         final NewsListAdapter adapter = new NewsListAdapter();
         recyclerView.setAdapter(adapter);
-
         mNewsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
-
-
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                  Toast.makeText(MainActivity.this, "Button clicked",Toast.LENGTH_LONG).show();
                 mNewsViewModel.getAllNews(getSearchPhrase()).observe(MainActivity.this, new Observer<PagedList<Article>>() {
                         @Override
-                    public void onChanged(@Nullable final PagedList<com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article> news) {
+                    public void onChanged(@Nullable final PagedList<Article> news) {
                         // Update the cached copy of the words in the adapter.
                         adapter.submitList(news);
                     }
@@ -59,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public String getSearchPhrase() {
         searchQuery = editText.getText().toString().trim();

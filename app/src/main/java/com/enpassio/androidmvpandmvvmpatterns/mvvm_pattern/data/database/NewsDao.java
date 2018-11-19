@@ -1,16 +1,12 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.database;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.paging.DataSource;
-import android.arch.paging.PagedList;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
-
-import java.util.List;
 
 /**
  * Created by Greta Grigutė on 2018-11-09.
@@ -25,7 +21,7 @@ public interface NewsDao {
     @Query("DELETE FROM news_table")
     void deleteAll();
 
-    @Query("SELECT * from news_table ORDER BY title ASC")
+    @Query("SELECT * from news_table")
     DataSource.Factory<Integer, Article> getAllNews();
 
 }

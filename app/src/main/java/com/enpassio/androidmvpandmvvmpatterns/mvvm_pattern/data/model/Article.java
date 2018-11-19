@@ -30,7 +30,7 @@ public class Article implements Parcelable {
     @NotNull
     @SerializedName("title")
     @Expose
-    private String title;
+    private String title="title";
 
     @SerializedName("description")
     @Expose

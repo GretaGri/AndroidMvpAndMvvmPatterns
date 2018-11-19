@@ -18,20 +18,20 @@ public class NewsListAdapter extends PagedListAdapter<Article, NewsListAdapter.M
         super(DIFF_CALLBACK);
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item, parent, false);
-
         return new NewsListAdapter.MyViewHolder(itemView);
     }
 
-    public void onBindViewHolder(NewsListAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NewsListAdapter.MyViewHolder holder, int position) {
         Article article = getItem(position);
         if (article != null) {
             holder.title.setText("" + article.getTitle());
-            holder.url.setText(article.getUrl());
         }
+        holder.url.setText(article.getUrl());
     }
 
     // Provide a reference to the views for each data item
@@ -41,14 +41,14 @@ public class NewsListAdapter extends PagedListAdapter<Article, NewsListAdapter.M
         public TextView title;
         public TextView url;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.list_item_title);
             url = view.findViewById(R.id.list_item_url);
         }
     }
 
-    public static DiffUtil.ItemCallback<Article> DIFF_CALLBACK = new DiffUtil.ItemCallback<Article>() {
+    private static DiffUtil.ItemCallback<Article> DIFF_CALLBACK = new DiffUtil.ItemCallback<Article>() {
         @Override
         public boolean areItemsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
             return oldItem.getUrl().equals(newItem.getUrl());
@@ -56,7 +56,7 @@ public class NewsListAdapter extends PagedListAdapter<Article, NewsListAdapter.M
 
         @Override
         public boolean areContentsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
-            return oldItem.equals(newItem);
+            return oldItem.getContent().equals(newItem.getContent());
         }
     };
 

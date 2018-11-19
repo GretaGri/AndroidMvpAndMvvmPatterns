@@ -5,7 +5,7 @@ import android.util.Log;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.database.NewsDao;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.Executor;
 
 /**
@@ -24,14 +24,13 @@ public class LocalCache {
     /**
      * Insert a list of repos in the database, on a background thread.
      */
-    public Boolean insert(final List<Article> news, Boolean insertFinished) {
+    public Boolean insert(final ArrayList<Article> news) {
         ioExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 Log.d("my_tag", "inserting" + news.size() + "articles");
-                int i;
-                for (i = 0; i < news.size(); i++) {
-                    newsDao.insert(news.get(i));
+                for (Article article : news) {
+                    newsDao.insert(article);
                 }
             }
         });
