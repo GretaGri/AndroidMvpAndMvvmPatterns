@@ -3,15 +3,18 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PagedList;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
+import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.database.NewsDao;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.NewsResponse;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.LocalCache;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network.NewsApiService;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,22 +28,17 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
     private static final String LOG_TAG = "my_tag";
     private String query;
     private NewsApiService service;
-    private LocalCache cache;
-    Boolean insertFinished = false;
     private Integer page = 1;
+    NewsDao newsDao;
 
     // avoid triggering multiple requests in the same time
     private Boolean isRequestInProgress = false;
 
-    public ArticleBoundaryCallback(String query, NewsApiService service, LocalCache cache) {
+    public ArticleBoundaryCallback(String query, NewsApiService service, NewsDao newsDao) {
         this.query = query;
         this.service = service;
-        this.cache = cache;
+        this.newsDao = newsDao;
     }
-
-
-
-
 
     @Override
    public void onZeroItemsLoaded() {
@@ -48,7 +46,7 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
     }
 
     @Override
-    public void onItemAtEndLoaded(Article itemAtEnd) {
+    public void onItemAtEndLoaded(@NonNull Article itemAtEnd) {
         requestAndSaveData(query, page);
         page++;
     }
@@ -64,8 +62,9 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
                 if (response.isSuccessful()) {
                     ArrayList<Article> responseResults = (ArrayList<Article>) response.body().getArticles();
                     Log.d(LOG_TAG, "Getting the reponse size: " + responseResults.size());
-
-                   insertFinished = cache.insert(responseResults, insertFinished);
+                    Executor executor = AppExecutors.getInstance().diskIO();
+                    LocalCache localCache = new LocalCache(newsDao,executor);
+                    localCache.insert(responseResults);
                      isRequestInProgress = false;
                 } else {
                     Log.d(LOG_TAG, "Getting Error");
@@ -78,7 +77,6 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
                 Log.e(LOG_TAG, "error is: " + t.getMessage());
                 isRequestInProgress = false;
             }
-
         });
     }
 

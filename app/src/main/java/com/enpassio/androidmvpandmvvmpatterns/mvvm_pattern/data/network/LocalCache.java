@@ -23,8 +23,7 @@ public class LocalCache {
     /**
      * Insert a list of repos in the database, on a background thread.
      */
- public Boolean insert(final List<Article> news, Boolean insertFinished) {
-       if (!insertFinished) {
+ public void insert(final List<Article> news) {
      ioExecutor.execute (new Runnable() {
         @Override
         public void run() {
@@ -37,7 +36,5 @@ public class LocalCache {
 
         }
     });
-     return true;}
-     else return false;
     }
 }

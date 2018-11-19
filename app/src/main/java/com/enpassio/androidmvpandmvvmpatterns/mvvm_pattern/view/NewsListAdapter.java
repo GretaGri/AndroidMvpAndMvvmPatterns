@@ -1,7 +1,7 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.view;
 
-import android.arch.paging.PagedList;
 import android.arch.paging.PagedListAdapter;
+import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,15 +12,11 @@ import android.widget.TextView;
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.Article;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class NewsListAdapter extends PagedListAdapter<Article, NewsListAdapter.MyViewHolder> {
-    protected NewsListAdapter(PagedList<Article> newsList) {
+
+    NewsListAdapter() {
         super(DIFF_CALLBACK);
-}
-   private List<Article> mArticleList;
+    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,50 +27,39 @@ public class NewsListAdapter extends PagedListAdapter<Article, NewsListAdapter.M
     }
 
     public void onBindViewHolder(NewsListAdapter.MyViewHolder holder, int position) {
-        Article article = mArticleList.get(position);
+        Article article = getItem(position);
         holder.title.setText(article.getTitle());
         holder.url.setText(article.getUrl());
     }
 
-    void setNews (List < Article > articles) {
-        mArticleList = articles;
-        notifyDataSetChanged();
+    // Provide a reference to the views for each data item
+// Complex data items may need more than one view per item, and
+// you provide access to all the views for a data item in a view holder
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView title;
+        public TextView url;
+
+        public MyViewHolder(View view) {
+            super(view);
+            title = view.findViewById(R.id.list_item_title);
+            url = view.findViewById(R.id.list_item_url);
+        }
     }
 
+    public static DiffUtil.ItemCallback<Article> DIFF_CALLBACK = new DiffUtil.ItemCallback<Article>() {
         @Override
-        public int getItemCount(){
-            if (mArticleList != null) return mArticleList.size();
-            else return 0;
+        public boolean areItemsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
+            return oldItem.getUrl().equals(newItem.getUrl());
         }
 
-        // Provide a reference to the views for each data item
-        // Complex data items may need more than one view per item, and
-        // you provide access to all the views for a data item in a view holder
-        class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView title;
-            public TextView url;
-
-            public MyViewHolder(View view) {
-                super(view);
-                title = view.findViewById(R.id.list_item_title);
-                url = view.findViewById(R.id.list_item_url);
-            }
+        @Override
+        public boolean areContentsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
+            return oldItem.equals(newItem);
         }
+    };
 
-        private static DiffUtil.ItemCallback<Article> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Article>() {
-                // The ID property identifies when items are the same.
-                @Override
-                public boolean areItemsTheSame(Article oldItem, Article newItem) {
-                    return oldItem.getTitle().equals(newItem.getTitle());
-                }
-
-                // Use Object.equals() to know when an item's content changes.
-                // Implement equals(), or write custom data comparison logic here.
-                @Override
-                public boolean areContentsTheSame(Article oldItem, Article newItem) {
-                    return oldItem.equals(newItem);
-                }
-            };
-
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
+    }
 }

@@ -65,11 +65,11 @@ public class NewsRepository {
         Log.d(LOG_TAG, "Getting the repository");
         Log.v("my_tag", "newsApiService is: " + newsApiService);
 
-        LocalCache localCache = new LocalCache(newsDao,executor);
+
         // Get data source factory from the local database
         dataSourceFactory = newsDao.getAllNews();
 
-        ArticleBoundaryCallback boundaryCallback = new ArticleBoundaryCallback(searchQuery, newsApiService, localCache);
+        ArticleBoundaryCallback boundaryCallback = new ArticleBoundaryCallback(searchQuery, newsApiService, newsDao);
 
         LiveData<PagedList<Article>> allNews = new LivePagedListBuilder(dataSourceFactory, DATABASE_PAGE_SIZE).
                 setBoundaryCallback(boundaryCallback).
