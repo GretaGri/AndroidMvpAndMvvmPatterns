@@ -34,6 +34,7 @@
                     android:id="@+id/article_banner_image"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
+                    android:background="#dddddd"
                     android:contentDescription="@string/article_banner_content_description"
                     android:scaleType="centerCrop" />
             </com.facebook.shimmer.ShimmerFrameLayout>
