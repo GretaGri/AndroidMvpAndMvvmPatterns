@@ -47,7 +47,7 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
                             for (Article aricle :
                                     response.body().getArticles()) {
                                 if (aricle != null)
-                                    mArticlesDao.insertArticle(aricle);
+                                mArticlesDao.insertArticle(aricle);
                             }
                         }
                     });
@@ -81,7 +81,7 @@ public class ArticleBoundaryCallback extends PagedList.BoundaryCallback<Article>
                             for (Article aricle :
                                     response.body().getArticles()) {
                                 if (aricle != null)
-                                    mArticlesDao.insertArticle(aricle);
+                                mArticlesDao.insertArticle(aricle);
                             }
                         }
                     });

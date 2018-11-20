@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 
 import java.util.ArrayList;
+
 public class ArticlesDetailsPagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<Article> mArticleArrayList;

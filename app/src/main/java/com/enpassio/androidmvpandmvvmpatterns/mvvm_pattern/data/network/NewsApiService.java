@@ -1,9 +1,10 @@
-package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.network;
+package com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.network;
 
-import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.NewsResponse;
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+        import com.enpassio.androidmvpandmvvmpatterns.mvvm_pattern.data.model.NewsResponse;
+
+        import retrofit2.Call;
+        import retrofit2.http.GET;
+        import retrofit2.http.Query;
 
 public interface NewsApiService {
 
@@ -13,4 +14,5 @@ public interface NewsApiService {
     @GET("v2/everything")
     Call<NewsResponse> getNewsArticles(@Query("apiKey") String publicKey,
                                        @Query("q") String searchQuery,
-                                       @Query("page") int pageNumber);
+                                       @Query("page") Integer page);
+}
