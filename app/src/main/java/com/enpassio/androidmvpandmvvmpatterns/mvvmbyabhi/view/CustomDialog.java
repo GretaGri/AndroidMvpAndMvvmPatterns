@@ -18,21 +18,21 @@ import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 
 import java.util.ArrayList;
 
-public class CustomDialogMvvmAbhi extends DialogFragment {
+public class CustomDialog extends DialogFragment {
 
-    private static CustomDialogMvvmAbhi customDialog;
+    private static CustomDialog customDialog;
     private ArrayList<Article> mArticleArrayList;
     private int mCurrentPosition;
 
-    public CustomDialogMvvmAbhi() {
+    public CustomDialog() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
 
-    public static CustomDialogMvvmAbhi newInstance() {
+    public static CustomDialog newInstance() {
         if (customDialog == null) {
-            customDialog = new CustomDialogMvvmAbhi();
+            customDialog = new CustomDialog();
         }
         return customDialog;
     }
@@ -61,7 +61,7 @@ public class CustomDialogMvvmAbhi extends DialogFragment {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_details_mvvm_abhi, container);
         ViewPager viewPager = view.findViewById(R.id.view_pager);
         FragmentPagerAdapter adapterViewPager;
-        adapterViewPager = new ArticlesDetailsPagerAdapterMvvmAbhi(getChildFragmentManager(), mCurrentPosition, mArticleArrayList);
+        adapterViewPager = new ArticlesDetailsPagerAdapter(getChildFragmentManager(), mCurrentPosition, mArticleArrayList);
         viewPager.setAdapter(adapterViewPager);
         viewPager.setCurrentItem(mCurrentPosition);
         FloatingActionButton floatingActionButton = view.findViewById(R.id.fab);

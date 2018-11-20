@@ -1,4 +1,4 @@
-package com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi;
+package com.enpassio.androidmvpandmvvmpatterns;
 
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;

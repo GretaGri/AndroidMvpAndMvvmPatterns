@@ -56,7 +56,7 @@ public class NewsListAdapter extends PagedListAdapter<Article, NewsListAdapter.M
 
         @Override
         public boolean areContentsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
-            return oldItem.getContent().equals(newItem.getContent());
+            return oldItem.getUrl().equals(newItem.getUrl());
         }
     };
 

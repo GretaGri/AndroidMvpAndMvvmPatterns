@@ -1,4 +1,4 @@
-package com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi;
+package com.enpassio.androidmvpandmvvmpatterns;
 
 import android.app.Application;
 

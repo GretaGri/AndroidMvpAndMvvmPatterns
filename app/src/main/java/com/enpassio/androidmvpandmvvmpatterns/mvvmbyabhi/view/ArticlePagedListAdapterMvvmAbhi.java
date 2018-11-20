@@ -15,13 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.enpassio.androidmvpandmvvmpatterns.GlideApp;
+import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.GlideApp;
+
 import java.util.ArrayList;
 
 public class ArticlePagedListAdapterMvvmAbhi extends PagedListAdapter<Article, RecyclerView.ViewHolder> {

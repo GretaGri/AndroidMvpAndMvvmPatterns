@@ -23,12 +23,12 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 
-public class MainActivityMvvmAbhi extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity{
 
     private Button button;
     private ArticlesViewModel articlesViewModel;
     /* Adapters for inflating different recyclerview */
-    private ArticlePagedListAdapterMvvmAbhi mNewsAdapter;
+    private ArticlePagedListAdapter mNewsAdapter;
     /* Set layout managers on those recycler views */
     private LinearLayoutManager newslayoutmanager;
     private RecyclerView mNewsrecyclerView;
@@ -60,7 +60,7 @@ public class MainActivityMvvmAbhi extends AppCompatActivity{
         /* Attach layout manager to the RecyclerView */
         mNewsrecyclerView.setLayoutManager(newslayoutmanager);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        mNewsAdapter = new ArticlePagedListAdapterMvvmAbhi(this, fragmentManager);
+        mNewsAdapter = new ArticlePagedListAdapter(this, fragmentManager);
         mNewsrecyclerView.setAdapter(mNewsAdapter);
 
         button = findViewById(R.id.main_button);
@@ -75,7 +75,7 @@ public class MainActivityMvvmAbhi extends AppCompatActivity{
             public void onClick(View v) {
                 mUsersSearchQuery = searchQueryEditText.getText().toString().trim();
                 if (mUsersSearchQuery.isEmpty()) {
-                    Toast.makeText(MainActivityMvvmAbhi.this, "Please input a news topic to search", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Please input a news topic to search", Toast.LENGTH_SHORT).show();
                 } else {
                     observeNewsFromViewModel();
                 }
@@ -87,7 +87,7 @@ public class MainActivityMvvmAbhi extends AppCompatActivity{
             @Override
             public void onRefresh() {
                 if (mUsersSearchQuery == null || mUsersSearchQuery.isEmpty()) {
-                    Toast.makeText(MainActivityMvvmAbhi.this, "Showing top news from India", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Showing top news from India", Toast.LENGTH_SHORT).show();
                     mUsersSearchQuery = "India";
                 }
                 observeNewsFromViewModel();
@@ -97,7 +97,7 @@ public class MainActivityMvvmAbhi extends AppCompatActivity{
 
     private void observeNewsFromViewModel() {
         articlesViewModel.getArticleLiveData(mUsersSearchQuery)
-                .observe(MainActivityMvvmAbhi.this, new Observer<PagedList<Article>>() {
+                .observe(MainActivity.this, new Observer<PagedList<Article>>() {
                     @Override
                     public void onChanged(@Nullable PagedList<Article> pagedLists) {
                         if (pagedLists != null && !pagedLists.isEmpty()) {

@@ -28,9 +28,9 @@ import me.biubiubiu.justifytext.library.JustifyTextView;
 import saschpe.android.customtabs.CustomTabsHelper;
 import saschpe.android.customtabs.WebViewFallback;
 
-public class DetailsFragmentMvvmAbhi extends Fragment {
+public class DetailsFragment extends Fragment {
 
-    public DetailsFragmentMvvmAbhi() {
+    public DetailsFragment() {
         // Required empty public constructor
     }
 
@@ -79,7 +79,7 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
             });
         }
         GlideApp
-                .with(getActivity())
+                .with(articleTitleTextView.getContext())
                 .load(article.getUrlToImage())
                 .centerCrop()
                 .addListener(new RequestListener<Drawable>() {

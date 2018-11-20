@@ -1,15 +1,12 @@
 package com.enpassio.androidmvpandmvvmpatterns;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.view.MainActivity;
-
-import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view.MainActivityMvvmAbhi;
-
 public class FirstActivity extends AppCompatActivity {
 
     Button mvpButton;
@@ -55,7 +52,7 @@ public class FirstActivity extends AppCompatActivity {
         mvvmAbhiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FirstActivity.this, MainActivityMvvmAbhi.class);
+                Intent intent = new Intent(FirstActivity.this, com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view.MainActivity.class);
                 startActivity(intent);
             }
         });

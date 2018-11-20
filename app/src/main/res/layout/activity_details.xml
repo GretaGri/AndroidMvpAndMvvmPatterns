@@ -6,7 +6,7 @@
     android:background="@color/colorPrimaryDark"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    tools:context=".mvp_pattern.view.MainActivity">
+    tools:context=".mvvmbyabhi.view.MainActivity">
 
     <!-- A CardView that contains a TextViews -->
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -23,27 +23,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:padding="@dimen/margin_medium"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:padding="@dimen/margin_medium">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/details_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
-                android:textColor="@color/colorWhite"
+                tools:text="Name"
                 android:textSize="@dimen/text_size_big"
-                tools:text="Name" />
+                android:textColor="@color/colorWhite"/>
 
             <TextView
                 android:id="@+id/details_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
+                tools:text="Place"
                 android:textSize="@dimen/text_size_small"
-                tools:text="Place" />
+                android:textColor="@color/colorWhite"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
