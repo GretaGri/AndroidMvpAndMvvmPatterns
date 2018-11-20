@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
-public class ArticlesDetailsPagerAdapter extends FragmentPagerAdapter {
+public class ArticlesDetailsPagerAdapterMvvmAbhi extends FragmentPagerAdapter {
 
     private ArrayList<Article> mArticleArrayList;
     private int mCurrentPosition;
     private FragmentManager mfm;
 
-    ArticlesDetailsPagerAdapter(FragmentManager fmg, int currentPosition, ArrayList<Article> articleArrayList) {
+    ArticlesDetailsPagerAdapterMvvmAbhi(FragmentManager fmg, int currentPosition, ArrayList<Article> articleArrayList) {
         super(fmg);
         mArticleArrayList = articleArrayList;
         mCurrentPosition = currentPosition;
@@ -26,7 +26,7 @@ public class ArticlesDetailsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Bundle bundleForCurrent = new Bundle();
         bundleForCurrent.putParcelable("key", mArticleArrayList.get(position));
-        DetailsFragment detailsFragment = new DetailsFragment();
+        DetailsFragmentMvvmAbhi detailsFragment = new DetailsFragmentMvvmAbhi();
         detailsFragment.setArguments(bundleForCurrent);
         return detailsFragment;
     }

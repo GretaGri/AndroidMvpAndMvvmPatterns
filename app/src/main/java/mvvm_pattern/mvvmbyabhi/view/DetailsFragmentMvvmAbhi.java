@@ -27,9 +27,9 @@ import mvvm_pattern.mvvmbyabhi.data.model.Article;
 import saschpe.android.customtabs.CustomTabsHelper;
 import saschpe.android.customtabs.WebViewFallback;
 
-public class DetailsFragment extends Fragment {
+public class DetailsFragmentMvvmAbhi extends Fragment {
 
-    public DetailsFragment() {
+    public DetailsFragmentMvvmAbhi() {
         // Required empty public constructor
     }
 
@@ -38,7 +38,7 @@ public class DetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         Article article = bundle.getParcelable("key");
-        View view = inflater.inflate(R.layout.fragment_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_details_mvvm_abhi, container, false);
         TextView articleTitleTextView = view.findViewById(R.id.article_title_text_view);
         JustifyTextView articleContentJustifiedTextView = view.findViewById(R.id.article_content_text_view);
         TextView articleAuthorTextView = view.findViewById(R.id.article_author_text_view);

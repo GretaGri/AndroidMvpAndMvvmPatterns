@@ -19,21 +19,21 @@ import java.util.ArrayList;
 
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
-public class CustomDialog extends DialogFragment {
+public class CustomDialogMvvmAbhi extends DialogFragment {
 
-    private static CustomDialog customDialog;
+    private static CustomDialogMvvmAbhi customDialog;
     private ArrayList<Article> mArticleArrayList;
     private int mCurrentPosition;
 
-    public CustomDialog() {
+    public CustomDialogMvvmAbhi() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
 
-    public static CustomDialog newInstance() {
+    public static CustomDialogMvvmAbhi newInstance() {
         if (customDialog == null) {
-            customDialog = new CustomDialog();
+            customDialog = new CustomDialogMvvmAbhi();
         }
         return customDialog;
     }
@@ -59,10 +59,10 @@ public class CustomDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_details_mvvm, container);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_details_mvvm_abhi, container);
         ViewPager viewPager = view.findViewById(R.id.view_pager);
         FragmentPagerAdapter adapterViewPager;
-        adapterViewPager = new ArticlesDetailsPagerAdapter(getChildFragmentManager(), mCurrentPosition, mArticleArrayList);
+        adapterViewPager = new ArticlesDetailsPagerAdapterMvvmAbhi(getChildFragmentManager(), mCurrentPosition, mArticleArrayList);
         viewPager.setAdapter(adapterViewPager);
         viewPager.setCurrentItem(mCurrentPosition);
         FloatingActionButton floatingActionButton = view.findViewById(R.id.fab);

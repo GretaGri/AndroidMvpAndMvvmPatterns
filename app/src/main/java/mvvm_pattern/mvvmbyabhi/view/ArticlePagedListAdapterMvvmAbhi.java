@@ -27,13 +27,13 @@ import java.util.ArrayList;
 
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
 
-public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerView.ViewHolder> {
+public class ArticlePagedListAdapterMvvmAbhi extends PagedListAdapter<Article, RecyclerView.ViewHolder> {
 
     private Context mContext;
     private FragmentManager mFragmentManager;
     private ArrayList<Article> mArticleArrayList;
 
-    ArticlePagedListAdapter(Context context, FragmentManager fragmentManager) {
+    ArticlePagedListAdapterMvvmAbhi(Context context, FragmentManager fragmentManager) {
         super(Article.DIFF_CALLBACK);
         mContext = context;
         mFragmentManager = fragmentManager;
@@ -47,14 +47,14 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
 
     @NonNull
     @Override
-    public ArticlePagedListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ArticlePagedListAdapterMvvmAbhi.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         /* Inflate the custom layout */
         View newsView = inflater.inflate(R.layout.list_item_mvvm_abhi, parent, false);
 
         /* Return a new holder instance */
-        return new ArticlePagedListAdapter.ViewHolder(newsView);
+        return new ArticlePagedListAdapterMvvmAbhi.ViewHolder(newsView);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CustomDialog customDialog = CustomDialog.newInstance();
+                    CustomDialogMvvmAbhi customDialog = CustomDialogMvvmAbhi.newInstance();
                     Bundle arrayListBundle = new Bundle();
                     arrayListBundle.putInt("position", position);
                     arrayListBundle.putParcelableArrayList("articlesArrayList", mArticleArrayList);
