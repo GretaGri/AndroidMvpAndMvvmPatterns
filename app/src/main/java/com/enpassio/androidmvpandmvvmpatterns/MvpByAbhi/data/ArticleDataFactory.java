@@ -1,6 +1,5 @@
 package com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data;
 
-
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
 import android.support.annotation.NonNull;
@@ -14,8 +13,8 @@ public class ArticleDataFactory extends DataSource.Factory {
     private String mSearchQuery;
     private RemoteCallBack mRemoteCallBack;
 
-    public ArticleDataFactory(NewsApiService newsApiService,
-                              String searchQuery, RemoteCallBack remoteCallBack) {
+    ArticleDataFactory(NewsApiService newsApiService,
+                       String searchQuery, RemoteCallBack remoteCallBack) {
         this.mNewsApiService = newsApiService;
         this.mSearchQuery = searchQuery;
         this.mutableLiveData = new MutableLiveData<ArticleDataSource>();
@@ -29,9 +28,5 @@ public class ArticleDataFactory extends DataSource.Factory {
                 mSearchQuery, mRemoteCallBack);
         mutableLiveData.postValue(articleDataSource);
         return articleDataSource;
-    }
-
-    MutableLiveData<ArticleDataSource> getMutableLiveData() {
-        return mutableLiveData;
     }
 }

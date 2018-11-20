@@ -7,10 +7,6 @@ import android.support.annotation.NonNull;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-/*
-this class has been referenced from:
-https://github.com/udacity/ud851-Exercises/blob/05cc7c2f3a6475297a1e69f8ba7862ec83e2337e/Lesson09b-ToDo-List-AAC/T09b.04-Exercise-Executors/app/src/main/java/com/example/android/todolist/AppExecutors.java
- */
 public class AppExecutors {
 
     // For Singleton instantiation

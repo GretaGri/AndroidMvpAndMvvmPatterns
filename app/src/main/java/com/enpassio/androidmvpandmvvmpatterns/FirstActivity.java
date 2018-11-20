@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.view.MainActivity;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view.MainActivityMvvmAbhi;
+
 public class FirstActivity extends AppCompatActivity {
 
     Button mvpButton;
@@ -52,7 +54,7 @@ public class FirstActivity extends AppCompatActivity {
         mvvmAbhiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FirstActivity.this, com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view.MainActivity.class);
+                Intent intent = new Intent(FirstActivity.this, MainActivityMvvmAbhi.class);
                 startActivity(intent);
             }
         });

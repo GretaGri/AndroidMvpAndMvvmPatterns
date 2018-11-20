@@ -19,7 +19,6 @@ public class ArticlesRepository {
     private NewsApiService mNewsApiService;
     private ArticlesDao mArticlesDao;
     private Executor mExecutor;
-    private int size;
 
     public ArticlesRepository(Application application) {
         mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
@@ -47,11 +46,10 @@ public class ArticlesRepository {
                         .setPageSize(20)
                         .setPrefetchDistance(10)
                         .build();
-        LiveData<PagedList<Article>> articleLiveData = (new LivePagedListBuilder(mArticlesDao.getAllArticlesPage(), pagedListConfig))
+        return (LiveData<PagedList<Article>>) (new LivePagedListBuilder(mArticlesDao.getAllArticlesPage(), pagedListConfig))
                 .setFetchExecutor(mExecutor)
                 .setBoundaryCallback(articleBoundaryCallback)
                 .build();
-        return articleLiveData;
     }
 
     public void insert(Article article) {

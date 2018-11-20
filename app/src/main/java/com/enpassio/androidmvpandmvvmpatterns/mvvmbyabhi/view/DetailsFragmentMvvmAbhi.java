@@ -65,7 +65,7 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
         CustomTabsHelper.addKeepAliveExtra(articleTitleTextView.getContext(), customTabsIntent.intent);
 
         if (article.getAuthor() != null) {
-            articleAuthorTextView.setText(String.format("Author: %s", article.getAuthor().toString()));
+            articleAuthorTextView.setText(String.format("Author: %s", article.getAuthor()));
         }
         if (article.getUrl() != null) {
             articleSourceTextView.setText(String.format(article.getUrl()));
@@ -79,7 +79,7 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
             });
         }
         GlideApp
-                .with(getActivity())
+                .with(articleSourceTextView.getContext())
                 .load(article.getUrlToImage())
                 .centerCrop()
                 .addListener(new RequestListener<Drawable>() {

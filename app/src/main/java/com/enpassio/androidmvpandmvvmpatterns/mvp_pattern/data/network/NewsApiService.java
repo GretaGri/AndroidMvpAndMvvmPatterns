@@ -1,9 +1,6 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network;
 
-import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.NewsResponse;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

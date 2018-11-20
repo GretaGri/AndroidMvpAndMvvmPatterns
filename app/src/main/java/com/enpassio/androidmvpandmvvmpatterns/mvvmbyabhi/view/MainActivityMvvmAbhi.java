@@ -100,8 +100,8 @@ public class MainActivityMvvmAbhi extends AppCompatActivity{
                 .observe(MainActivityMvvmAbhi.this, new Observer<PagedList<Article>>() {
                     @Override
                     public void onChanged(@Nullable PagedList<Article> pagedLists) {
-                        if (pagedLists != null && !pagedLists.isEmpty()) {
 
+                        if (pagedLists != null && !pagedLists.isEmpty()) {
                             ArrayList<Article> articles = new ArrayList<>();
                             articles.addAll(pagedLists);
                             mNewsAdapter.setArticlesList(articles);

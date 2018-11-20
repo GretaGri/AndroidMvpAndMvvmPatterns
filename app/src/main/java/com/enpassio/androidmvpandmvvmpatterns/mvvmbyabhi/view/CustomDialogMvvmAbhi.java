@@ -61,7 +61,7 @@ public class CustomDialogMvvmAbhi extends DialogFragment {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_details_mvvm_abhi, container);
         ViewPager viewPager = view.findViewById(R.id.view_pager);
         FragmentPagerAdapter adapterViewPager;
-        adapterViewPager = new ArticlesDetailsPagerAdapterMvvmAbhi(getChildFragmentManager(), mCurrentPosition, mArticleArrayList);
+        adapterViewPager = new ArticlesDetailsPagerAdapterMvvmAbhi(getChildFragmentManager(), mArticleArrayList);
         viewPager.setAdapter(adapterViewPager);
         viewPager.setCurrentItem(mCurrentPosition);
         FloatingActionButton floatingActionButton = view.findViewById(R.id.fab);

@@ -46,10 +46,9 @@ public class NewsRepository {
                         .setPageSize(20)
                         .setPrefetchDistance(10)
                         .build();
-        LiveData<PagedList<Article>> articleLiveData = (new LivePagedListBuilder(articleDataFactory, pagedListConfig))
+
+        return (LiveData<PagedList<Article>>) (new LivePagedListBuilder(articleDataFactory, pagedListConfig))
                 .setFetchExecutor(mExecutor)
                 .build();
-
-        return articleLiveData;
     }
 }

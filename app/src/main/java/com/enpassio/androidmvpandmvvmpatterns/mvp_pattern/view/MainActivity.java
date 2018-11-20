@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void showNewsList(ArrayList<Article> news) {
-        Log.d("my_tag", "inside MainActivity, news size is :" + news.size());
+        Log.d("my_tag", "inside MainActivityMvvmAbhi, news size is :" + news.size());
         NewsAdapter adapter = new NewsAdapter(news);
         recyclerView.setAdapter(adapter);
     }

@@ -13,13 +13,10 @@ import java.util.ArrayList;
 public class ArticlesDetailsPagerAdapterMvvmAbhi extends FragmentPagerAdapter {
 
     private ArrayList<Article> mArticleArrayList;
-    private int mCurrentPosition;
-    private FragmentManager mfm;
 
-    ArticlesDetailsPagerAdapterMvvmAbhi(FragmentManager fmg, int currentPosition, ArrayList<Article> articleArrayList) {
+    ArticlesDetailsPagerAdapterMvvmAbhi(FragmentManager fmg, ArrayList<Article> articleArrayList) {
         super(fmg);
         mArticleArrayList = articleArrayList;
-        mCurrentPosition = currentPosition;
     }
 
     @Override
