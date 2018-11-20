@@ -6,4 +6,6 @@
     <string name="mvvm_example">MVVM example</string>
     <string name="mvp_example_by_abhi">MVP by Abhi</string>
     <string name="image_for_the_article">Image for the article</string>
+    <string name="mvvm_example_by_abhi">MVVM BY ABHI</string>
+    <string name="article_banner_content_description">article banner image</string>
 </resources>

@@ -18,9 +18,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.GlideApp;
 import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.data.model.Article;
-import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerView.ViewHolder> {

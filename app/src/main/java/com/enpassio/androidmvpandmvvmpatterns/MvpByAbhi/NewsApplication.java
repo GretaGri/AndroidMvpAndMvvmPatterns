@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 
+import saschpe.android.customtabs.CustomTabsActivityLifecycleCallbacks;
+
 public class NewsApplication extends Application {
 
     @Override public void onCreate() {
@@ -14,6 +16,8 @@ public class NewsApplication extends Application {
             return;
         }
         LeakCanary.install(this);
-        // Normal app init code...
+        // Preload custom tabs service for improved performance
+        // This is optional but recommended
+        registerActivityLifecycleCallbacks(new CustomTabsActivityLifecycleCallbacks());
     }
 }

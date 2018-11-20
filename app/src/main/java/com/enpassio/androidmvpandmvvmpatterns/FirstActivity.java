@@ -8,10 +8,13 @@ import android.widget.Button;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.view.MainActivity;
 
+import mvvm_pattern.mvvmbyabhi.view.MainActivityMvvmAbhi;
+
 public class FirstActivity extends AppCompatActivity {
 
     Button mvpButton;
     Button mvvmButton;
+    Button mvpAbhiButton;
     Button mvvmAbhiButton;
 
     @Override
@@ -21,6 +24,7 @@ public class FirstActivity extends AppCompatActivity {
 
         mvpButton = findViewById(R.id.mvp_example_button);
         mvvmButton = findViewById(R.id.mvvm_example_button);
+        mvpAbhiButton = findViewById(R.id.mvp_example_by_abhi_button);
         mvvmAbhiButton = findViewById(R.id.mvvm_example_by_abhi_button);
 
 
@@ -40,10 +44,18 @@ public class FirstActivity extends AppCompatActivity {
             }
         });
 
-        mvvmAbhiButton.setOnClickListener(new View.OnClickListener() {
+        mvpAbhiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FirstActivity.this, com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.view.MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mvvmAbhiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FirstActivity.this, MainActivityMvvmAbhi.class);
                 startActivity(intent);
             }
         });
