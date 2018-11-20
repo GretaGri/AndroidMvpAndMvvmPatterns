@@ -19,11 +19,12 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.enpassio.androidmvpandmvvmpatterns.MvpByAbhi.GlideApp;
 import com.enpassio.androidmvpandmvvmpatterns.R;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import me.biubiubiu.justifytext.library.JustifyTextView;
-import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 import saschpe.android.customtabs.CustomTabsHelper;
 import saschpe.android.customtabs.WebViewFallback;
 

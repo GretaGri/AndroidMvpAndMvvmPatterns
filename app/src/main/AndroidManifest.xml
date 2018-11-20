@@ -8,7 +8,7 @@
 
     <application
         android:allowBackup="true"
-        android:name=".mvvmbyabhi.NewsApplication"
+        android:name=".MvpByAbhi.NewsApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -24,6 +24,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".mvvmbyabhi.view.DetailsActivity" />
+        <activity android:name=".mvp_pattern.view.MainActivity" />
+        <activity android:name=".mvvm_pattern.view.MainActivity" />
+        <activity android:name=".MvpByAbhi.view.MainActivity" />
     </application>
 
 </manifest>
