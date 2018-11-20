@@ -1,17 +1,17 @@
-package mvvm_pattern.mvvmbyabhi.data;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data;
 
 import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.BuildConfig;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.database.ArticlesDao;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.NewsResponse;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.network.NewsApiService;
 
 import java.util.concurrent.Executor;
 
-import mvvm_pattern.mvvmbyabhi.data.database.ArticlesDao;
-import mvvm_pattern.mvvmbyabhi.data.model.Article;
-import mvvm_pattern.mvvmbyabhi.data.model.NewsResponse;
-import mvvm_pattern.mvvmbyabhi.data.network.NewsApiService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

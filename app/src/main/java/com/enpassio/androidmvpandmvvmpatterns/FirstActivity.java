@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.view.MainActivity;
 
-import mvvm_pattern.mvvmbyabhi.view.MainActivityMvvmAbhi;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view.MainActivityMvvmAbhi;
 
 public class FirstActivity extends AppCompatActivity {
 

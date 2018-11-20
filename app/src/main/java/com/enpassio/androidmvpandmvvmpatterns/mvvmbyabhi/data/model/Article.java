@@ -1,4 +1,4 @@
-package mvvm_pattern.mvvmbyabhi.data.model;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

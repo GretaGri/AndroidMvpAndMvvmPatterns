@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.data.network.NewsRepository;
 import com.enpassio.androidmvpandmvvmpatterns.mvp_pattern.presenter.MainActivityContract;

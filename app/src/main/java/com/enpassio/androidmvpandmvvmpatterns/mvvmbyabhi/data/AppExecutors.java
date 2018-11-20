@@ -1,4 +1,4 @@
-package mvvm_pattern.mvvmbyabhi.data;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data;
 
 import android.os.Handler;
 import android.os.Looper;

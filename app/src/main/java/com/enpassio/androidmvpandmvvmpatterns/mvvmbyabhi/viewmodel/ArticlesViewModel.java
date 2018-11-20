@@ -1,12 +1,12 @@
-package mvvm_pattern.mvvmbyabhi.viewmodel;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.PagedList;
 
-import mvvm_pattern.mvvmbyabhi.data.ArticlesRepository;
-import mvvm_pattern.mvvmbyabhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.ArticlesRepository;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 
 public class ArticlesViewModel extends AndroidViewModel {
 

@@ -1,4 +1,4 @@
-package mvvm_pattern.mvvmbyabhi.view;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -15,14 +15,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
-
 import java.util.ArrayList;
-
-import mvvm_pattern.mvvmbyabhi.data.model.Article;
-import mvvm_pattern.mvvmbyabhi.viewmodel.ArticlesViewModel;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.viewmodel.ArticlesViewModel;
 
 public class MainActivityMvvmAbhi extends AppCompatActivity{
 

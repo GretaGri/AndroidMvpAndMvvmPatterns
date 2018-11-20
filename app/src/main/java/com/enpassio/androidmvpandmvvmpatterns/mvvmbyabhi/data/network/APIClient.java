@@ -1,4 +1,4 @@
-package mvvm_pattern.mvvmbyabhi.data.network;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.network;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

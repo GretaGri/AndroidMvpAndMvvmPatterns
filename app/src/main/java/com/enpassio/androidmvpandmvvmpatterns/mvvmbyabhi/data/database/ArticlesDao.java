@@ -1,4 +1,4 @@
-package mvvm_pattern.mvvmbyabhi.data.database;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.database;
 
 import android.arch.paging.DataSource;
 import android.arch.persistence.room.Dao;
@@ -7,9 +7,9 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import java.util.List;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 
-import mvvm_pattern.mvvmbyabhi.data.model.Article;
+import java.util.List;
 
 @Dao
 public interface ArticlesDao {

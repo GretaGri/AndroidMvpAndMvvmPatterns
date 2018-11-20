@@ -1,4 +1,4 @@
-package mvvm_pattern.mvvmbyabhi.data.model;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

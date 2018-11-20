@@ -1,11 +1,11 @@
-package mvvm_pattern.mvvmbyabhi.data.database;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import mvvm_pattern.mvvmbyabhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 
 @Database(entities = {Article.class}, version = 1)
 public abstract class ArticlesDatabase extends RoomDatabase {

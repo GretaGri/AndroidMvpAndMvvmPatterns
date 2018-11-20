@@ -1,17 +1,17 @@
-package mvvm_pattern.mvvmbyabhi.data;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 
-import java.util.concurrent.Executor;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.database.ArticlesDao;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.database.ArticlesDatabase;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.network.APIClient;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.network.NewsApiService;
 
-import mvvm_pattern.mvvmbyabhi.data.database.ArticlesDao;
-import mvvm_pattern.mvvmbyabhi.data.database.ArticlesDatabase;
-import mvvm_pattern.mvvmbyabhi.data.model.Article;
-import mvvm_pattern.mvvmbyabhi.data.network.APIClient;
-import mvvm_pattern.mvvmbyabhi.data.network.NewsApiService;
+import java.util.concurrent.Executor;
 
 public class ArticlesRepository {
 

@@ -1,4 +1,4 @@
-package mvvm_pattern.mvvmbyabhi.view;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,12 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.enpassio.androidmvpandmvvmpatterns.R;
-
 import java.util.ArrayList;
 
-import mvvm_pattern.mvvmbyabhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 
 public class CustomDialogMvvmAbhi extends DialogFragment {
 

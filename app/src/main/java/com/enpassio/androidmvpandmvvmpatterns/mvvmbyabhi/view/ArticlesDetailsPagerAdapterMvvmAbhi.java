@@ -1,4 +1,4 @@
-package mvvm_pattern.mvvmbyabhi.view;
+package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 
 
 import android.os.Bundle;
@@ -6,9 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import java.util.ArrayList;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 
-import mvvm_pattern.mvvmbyabhi.data.model.Article;
+import java.util.ArrayList;
 
 public class ArticlesDetailsPagerAdapterMvvmAbhi extends FragmentPagerAdapter {
 

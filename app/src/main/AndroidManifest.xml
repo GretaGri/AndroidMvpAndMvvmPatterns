@@ -31,7 +31,7 @@
             android:name=".MvpByAbhi.view.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".MvpByAbhi.view.DetailsActivity" />
-        <activity android:name="mvvm_pattern.mvvmbyabhi.view.MainActivityMvvmAbhi" />
+        <activity android:name=".mvvmbyabhi.view.MainActivityMvvmAbhi" />
     </application>
 
 </manifest>
