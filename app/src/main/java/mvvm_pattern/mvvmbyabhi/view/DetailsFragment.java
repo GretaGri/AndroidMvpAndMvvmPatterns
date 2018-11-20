@@ -1,11 +1,14 @@
 package mvvm_pattern.mvvmbyabhi.view;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,8 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 
 import me.biubiubiu.justifytext.library.JustifyTextView;
 import mvvm_pattern.mvvmbyabhi.data.model.Article;
+import saschpe.android.customtabs.CustomTabsHelper;
+import saschpe.android.customtabs.WebViewFallback;
 
 public class DetailsFragment extends Fragment {
 
@@ -44,12 +49,34 @@ public class DetailsFragment extends Fragment {
         articleTitleTextView.setText(article.getTitle());
         articleTitleTextView.setSelected(true);
         articleContentJustifiedTextView.setText(article.getContent());
-        Log.v("my_taga", "author is: " + article.getAuthor());
-        Log.v("my_taga", "source is: " + article.getSource());
-        if (article.getAuthor() != null)
+
+        Bitmap closeIcon = BitmapFactory.decodeResource(getResources(),
+                R.drawable.ic_close);
+
+        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                .addDefaultShareMenuItem()
+                .setToolbarColor(articleTitleTextView.getContext().getResources().getColor(R.color.colorPrimary))
+                .setShowTitle(true)
+                .setCloseButtonIcon(closeIcon)
+                .build();
+
+        // This is optional but recommended
+        CustomTabsHelper.addKeepAliveExtra(articleTitleTextView.getContext(), customTabsIntent.intent);
+
+        if (article.getAuthor() != null) {
             articleAuthorTextView.setText(String.format("Author: %s", article.getAuthor().toString()));
-        if (article.getUrl() != null)
-            articleSourceTextView.setText(String.format("Source: %s", article.getUrl()));
+        }
+        if (article.getUrl() != null) {
+            articleSourceTextView.setText(String.format(article.getUrl()));
+            articleSourceTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CustomTabsHelper.openCustomTab(articleTitleTextView.getContext(), customTabsIntent,
+                            Uri.parse(article.getUrl()),
+                            new WebViewFallback());
+                }
+            });
+        }
         GlideApp
                 .with(getActivity())
                 .load(article.getUrlToImage())

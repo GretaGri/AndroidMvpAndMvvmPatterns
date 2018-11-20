@@ -33,7 +33,7 @@
                 <ImageView
                     android:id="@+id/article_banner_image"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="350dp"
                     android:contentDescription="@string/article_banner_content_description"
                     android:scaleType="centerCrop" />
             </com.facebook.shimmer.ShimmerFrameLayout>
@@ -46,7 +46,7 @@
         android:background="@drawable/custom_selector"
         android:elevation="8dp"
         android:scrollbars="none"
-        app:behavior_overlapTop="100dp"
+        app:behavior_overlapTop="50dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ScrollView
@@ -69,8 +69,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="4dp">
+                    android:paddingStart="12dp"
+                    android:paddingEnd="4dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -98,7 +98,7 @@
                             android:gravity="center_horizontal"
                             android:paddingLeft="4dp"
                             android:textColor="#000000"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             tools:text="content content content content content content" />
                     </LinearLayout>
 
@@ -113,18 +113,34 @@
                         android:textSize="18sp"
                         tools:text="author" />
 
-                    <TextView
-                        android:id="@+id/article_source_text_view"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:ellipsize="end"
-                        android:gravity="center_horizontal"
-                        android:paddingTop="8dp"
-                        android:singleLine="true"
-                        android:textColor="#0000ff"
-                        android:textSize="18sp"
-                        tools:text="source" />
+                        android:orientation="horizontal"
+                        android:paddingTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:paddingRight="4dp"
+                            android:text="Source: "
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/article_source_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:ellipsize="end"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:singleLine="true"
+                            android:textColor="#0000ff"
+                            android:textSize="18sp"
+                            tools:text="source" />
+                    </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </ScrollView>

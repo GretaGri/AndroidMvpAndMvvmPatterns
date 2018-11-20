@@ -60,7 +60,7 @@ public class CustomDialog extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_details_mvvm, container);
-        ViewPager viewPager =  view.findViewById(R.id.view_pager);
+        ViewPager viewPager = view.findViewById(R.id.view_pager);
         FragmentPagerAdapter adapterViewPager;
         adapterViewPager = new ArticlesDetailsPagerAdapter(getChildFragmentManager(), mCurrentPosition, mArticleArrayList);
         viewPager.setAdapter(adapterViewPager);
@@ -78,8 +78,8 @@ public class CustomDialog extends DialogFragment {
     public void onResume() {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int height = displaymetrics.heightPixels - 100;
-        int width = displaymetrics.widthPixels-20;
+        int height = displaymetrics.heightPixels - 80;
+        int width = displaymetrics.widthPixels - 20;
         getDialog().getWindow().setLayout(width, height);
         super.onResume();
     }
