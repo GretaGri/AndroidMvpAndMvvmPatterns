@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,11 +47,29 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
         TextView articleSourceTextView = view.findViewById(R.id.article_source_text_view);
         ImageView articleBannerImageView = view.findViewById(R.id.article_banner_image);
         ShimmerFrameLayout shimmerFrameLayout = view.findViewById(R.id.shimmer_view_container);
+        FloatingActionButton favoriteButton = view.findViewById(R.id.favorite_button);
         shimmerFrameLayout.startShimmer();
         articleTitleTextView.setText(article.getTitle());
         articleTitleTextView.setSelected(true);
         articleContentJustifiedTextView.setText(article.getContent());
 
+        int favoriteFilledId = getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/" + "ic_favorite_filled", null, null);
+        int favoriteUnFilledId = getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/" + "ic_favorite_unfilled", null, null);
+
+        if (isFavorite(article)) {
+            favoriteButton.setImageResource(favoriteFilledId);
+        }
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFavorite(article)) {
+                    favoriteButton.setImageResource(favoriteUnFilledId);
+                    deleteFromFavorite(article);
+                } else {
+                    saveToFavorite(article);
+                }
+            }
+        });
         Bitmap closeIcon = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_close);
 
@@ -103,5 +122,17 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
                 })
                 .into(articleBannerImageView);
         return view;
+    }
+
+    private void saveToFavorite(Article article) {
+
+    }
+
+    private void deleteFromFavorite(Article article) {
+
+    }
+
+    private boolean isFavorite(Article article) {
+        return false;
     }
 }
