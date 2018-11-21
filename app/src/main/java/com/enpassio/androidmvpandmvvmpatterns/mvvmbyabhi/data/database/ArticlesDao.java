@@ -23,12 +23,6 @@ public interface ArticlesDao {
     @Query("DELETE FROM articlestable")
     void deleteAll();
 
-    @Query("DELETE FROM articlestable WHERE url = :urlOfArticle")
-    int deleteArticle(String urlOfArticle);
-
-    @Query("SELECT * FROM articlestable WHERE url = :urlOfArticle")
-    Article getArticleByUrl(String urlOfArticle);
-
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateArticle(Article article);
 

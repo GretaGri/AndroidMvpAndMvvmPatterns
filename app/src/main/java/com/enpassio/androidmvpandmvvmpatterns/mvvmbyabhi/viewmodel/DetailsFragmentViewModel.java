@@ -4,7 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.ArticlesRepository;
-import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
 
 public class DetailsFragmentViewModel extends AndroidViewModel {
 
@@ -15,17 +15,15 @@ public class DetailsFragmentViewModel extends AndroidViewModel {
         mRepository = new ArticlesRepository(application);
     }
 
-    public void insertArticleToFavorite(Article article) {
-        mRepository.insertFavoriteArticle(article);
-
+    public long insertArticleToFavorite(FavoriteArticle article) {
+        return mRepository.insertFavoriteArticle(article);
     }
 
-    public void deleteArticleFromFavorite(Article article) {
-        mRepository.deleteFavoriteArticle(article.getUrl());
+    public int deleteArticleFromFavorite(FavoriteArticle article) {
+        return mRepository.deleteFavoriteArticle(article.getUrl());
     }
 
-    public boolean checkIfArticleIsFavorite(Article article) {
-        Article favoriteArticle = mRepository.checkIfArticleExistInDatabase(article.getUrl());
-        return favoriteArticle != null;
+    public boolean checkIfArticleIsFavorite(FavoriteArticle article) {
+        return mRepository.checkIfArticleExistInDatabase(article.getUrl()) != -1;
     }
 }
