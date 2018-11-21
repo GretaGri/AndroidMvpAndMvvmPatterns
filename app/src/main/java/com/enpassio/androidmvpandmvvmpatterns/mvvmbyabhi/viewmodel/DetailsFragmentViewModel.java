@@ -16,15 +16,16 @@ public class DetailsFragmentViewModel extends AndroidViewModel {
     }
 
     public void insertArticleToFavorite(Article article) {
-        mRepository.insert(article);
+        mRepository.insertFavoriteArticle(article);
+
     }
 
     public void deleteArticleFromFavorite(Article article) {
-        mRepository.delete(article.getUrl());
+        mRepository.deleteFavoriteArticle(article.getUrl());
     }
 
     public boolean checkIfArticleIsFavorite(Article article) {
-        mRepository.checkIfArticleExistInDatabase(article.getUrl());
-        return false;
+        Article favoriteArticle = mRepository.checkIfArticleExistInDatabase(article.getUrl());
+        return favoriteArticle != null;
     }
 }

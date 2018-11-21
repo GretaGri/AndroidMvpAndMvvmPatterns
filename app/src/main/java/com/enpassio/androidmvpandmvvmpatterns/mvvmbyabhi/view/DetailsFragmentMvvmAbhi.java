@@ -34,9 +34,15 @@ import saschpe.android.customtabs.WebViewFallback;
 public class DetailsFragmentMvvmAbhi extends Fragment {
 
     private DetailsFragmentViewModel detailsFragmentViewModel;
+    boolean isFav = false;
 
     public DetailsFragmentMvvmAbhi() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -65,17 +71,19 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
         int favoriteFilledId = getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/" + "ic_favorite_filled", null, null);
         int favoriteUnFilledId = getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/" + "ic_favorite_unfilled", null, null);
 
-        if (isFavorite(article)) {
-            favoriteButton.setImageResource(favoriteFilledId);
-        }
+        isFav = isFavorite(article);
+
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isFavorite(article)) {
-                    favoriteButton.setImageResource(favoriteUnFilledId);
+                if (isFav) {
                     deleteFromFavorite(article);
+                    isFav = false;
+                    favoriteButton.setImageResource(favoriteUnFilledId);
                 } else {
                     saveToFavorite(article);
+                    isFav = true;
+                    favoriteButton.setImageResource(favoriteFilledId);
                 }
             }
         });
@@ -144,4 +152,5 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
     private boolean isFavorite(Article article) {
         return detailsFragmentViewModel.checkIfArticleIsFavorite(article);
     }
+
 }

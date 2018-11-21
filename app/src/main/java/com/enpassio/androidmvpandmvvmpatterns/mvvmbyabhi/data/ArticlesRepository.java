@@ -19,12 +19,17 @@ public class ArticlesRepository {
     private NewsApiService mNewsApiService;
     private ArticlesDao mArticlesDao;
     private Executor mExecutor;
+    private Executor favoriteExecutor;
+    private Article favoriteArticle;
+    private long idAfterInsert = -1;
+    private int idAfterDelete = -1;
 
     public ArticlesRepository(Application application) {
         mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
         //create the service
         mNewsApiService = APIClient.getClient().create(NewsApiService.class);
         mExecutor = AppExecutors.getInstance().diskIO();
+        favoriteExecutor = AppExecutors.getInstance().networkIO();
     }
 
     public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery) {
@@ -56,11 +61,33 @@ public class ArticlesRepository {
         mArticlesDao.insertArticle(article);
     }
 
-    public void delete(String url) {
-
+    public Article checkIfArticleExistInDatabase(String url) {
+        favoriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                favoriteArticle = mArticlesDao.getArticleByUrl(url);
+            }
+        });
+        return favoriteArticle;
     }
 
-    public void checkIfArticleExistInDatabase(String url) {
+    public long insertFavoriteArticle(Article article) {
+        favoriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                idAfterInsert = mArticlesDao.insertArticle(article);
+            }
+        });
+        return idAfterInsert;
+    }
 
+    public int deleteFavoriteArticle(String url) {
+        favoriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                idAfterDelete = mArticlesDao.deleteArticle(url);
+            }
+        });
+        return idAfterDelete;
     }
 }
