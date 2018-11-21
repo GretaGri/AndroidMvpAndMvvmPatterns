@@ -1,5 +1,6 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,8 @@ import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.viewmodel.DetailsFragmentViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
+
+import java.util.List;
 
 import me.biubiubiu.justifytext.library.JustifyTextView;
 import saschpe.android.customtabs.CustomTabsHelper;
@@ -69,17 +72,32 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
         int favoriteUnFilledId = getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/" + "ic_favorite_unfilled", null, null);
 
         FavoriteArticle favoriteArticle = new FavoriteArticle(article.getUrl());
-        if (isFavorite(favoriteArticle)) {
-            favoriteButton.setImageResource(favoriteFilledId);
-        }
+
+        detailsFragmentViewModel.getArticlesListLiveData()
+                .observe(this,
+                        new Observer<List<FavoriteArticle>>() {
+                            @Override
+                            public void onChanged(@Nullable List<FavoriteArticle> favoriteArticles) {
+                                for (FavoriteArticle favorite : favoriteArticles) {
+                                    if (article.getUrl().equals(favorite.getUrl())) {
+                                        favoriteButton.setImageResource(favoriteFilledId);
+                                        break;
+                                    } else {
+                                        favoriteButton.setImageResource(favoriteUnFilledId);
+                                    }
+                                }
+                            }
+                        });
 
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isFavorite(favoriteArticle)) {
-                    deleteFromFavorite(favoriteArticle, favoriteButton, favoriteFilledId, favoriteUnFilledId);
+                if (favoriteButton.getTag() != null && favoriteButton.getTag().equals("fav")) {
+                    deleteFromFavorite(favoriteArticle);
+                    favoriteButton.setTag("unfav");
                 } else {
-                    saveToFavorite(favoriteArticle, favoriteButton, favoriteFilledId, favoriteUnFilledId);
+                    favoriteButton.setTag("fav");
+                    saveToFavorite(favoriteArticle);
                 }
             }
         });
@@ -137,28 +155,13 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
         return view;
     }
 
-    private void saveToFavorite(FavoriteArticle article, FloatingActionButton favoriteButton, int favoriteFilledId, int favoriteUnFilledId) {
+    private void saveToFavorite(FavoriteArticle article) {
         long id = detailsFragmentViewModel.insertArticleToFavorite(article);
         Log.d("my_taggg", "saveToFavorite called id is: " + id);
-        if (id != -1) {
-            favoriteButton.setImageResource(favoriteFilledId);
-        } else {
-            favoriteButton.setImageResource(favoriteUnFilledId);
-        }
     }
 
-    private void deleteFromFavorite(FavoriteArticle article, FloatingActionButton favoriteButton, int favoriteFilledId, int favoriteUnFilledId) {
+    private void deleteFromFavorite(FavoriteArticle article) {
         int id = detailsFragmentViewModel.deleteArticleFromFavorite(article);
         Log.d("my_taggg", "deleteFromFavorite called id is: " + id);
-        if (id != -1) {
-            favoriteButton.setImageResource(favoriteUnFilledId);
-        } else {
-            favoriteButton.setImageResource(favoriteFilledId);
-        }
-    }
-
-    private boolean isFavorite(FavoriteArticle article) {
-        Log.d("my_taggg", "isFavorite called and is: " + detailsFragmentViewModel.checkIfArticleIsFavorite(article));
-        return detailsFragmentViewModel.checkIfArticleIsFavorite(article);
     }
 }

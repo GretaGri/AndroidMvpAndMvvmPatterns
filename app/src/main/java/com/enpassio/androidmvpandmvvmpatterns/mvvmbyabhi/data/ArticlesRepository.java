@@ -2,6 +2,7 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.util.Log;
@@ -24,11 +25,10 @@ public class ArticlesRepository {
     private ArticlesDao mArticlesDao;
     private FavoriteArticlesDao favoriteArticlesDao;
     private Executor mExecutor;
-    private Executor favoriteExecutor;
-    private Article favoriteArticle;
     private long idAfterInsert = -1;
     private int idAfterDelete = -1;
     private long idAfterQuery = -1;
+    private LiveData<List<FavoriteArticle>> listLiveData;
 
     public ArticlesRepository(Application application) {
         mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
@@ -36,7 +36,6 @@ public class ArticlesRepository {
         //create the service
         mNewsApiService = APIClient.getClient().create(NewsApiService.class);
         mExecutor = AppExecutors.getInstance().diskIO();
-        favoriteExecutor = AppExecutors.getInstance().networkIO();
     }
 
     public LiveData<PagedList<Article>> getLiveDataOfPagedList(String searchQuery) {
@@ -68,25 +67,8 @@ public class ArticlesRepository {
         mArticlesDao.insertArticle(article);
     }
 
-    public long checkIfArticleExistInDatabase(String url) {
-        favoriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                List<FavoriteArticle> articleArrayList = favoriteArticlesDao.getArticleByUrl();
-                for (FavoriteArticle favoriteArticle : articleArrayList) {
-                    if (favoriteArticle.getUrl().equals(url)) {
-                        idAfterQuery = 0;
-                        break;
-                    }
-                }
-            }
-        });
-        Log.d("my_taggg", "repository checkIfArticleExistInDatabase called idAfterQuery is: " + idAfterQuery);
-        return idAfterQuery;
-    }
-
     public long insertFavoriteArticle(FavoriteArticle article) {
-        favoriteExecutor.execute(new Runnable() {
+        mExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 idAfterInsert = favoriteArticlesDao.insertArticle(article);
@@ -97,7 +79,7 @@ public class ArticlesRepository {
     }
 
     public int deleteFavoriteArticle(String url) {
-        favoriteExecutor.execute(new Runnable() {
+        mExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 idAfterDelete = favoriteArticlesDao.deleteArticle(url);
@@ -105,5 +87,16 @@ public class ArticlesRepository {
         });
         Log.d("my_taggg", "repository deleteFavoriteArticle called idAfterDelete is: " + idAfterDelete);
         return idAfterDelete;
+    }
+
+    public LiveData<List<FavoriteArticle>> getArticlesListLiveData() {
+        MutableLiveData<List<FavoriteArticle>> mutableLiveData = new MutableLiveData<>();
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mutableLiveData.postValue(favoriteArticlesDao.getAllArticles());
+            }
+        });
+        return mutableLiveData;
     }
 }

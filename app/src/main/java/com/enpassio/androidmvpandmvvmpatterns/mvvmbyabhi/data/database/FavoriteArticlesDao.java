@@ -1,5 +1,6 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -19,5 +20,8 @@ public interface FavoriteArticlesDao {
     int deleteArticle(String urlOfArticle);
 
     @Query("SELECT * FROM favoritearticlestable")
-    List<FavoriteArticle> getArticleByUrl();
+    List<FavoriteArticle> getAllArticles();
+
+    @Query("SELECT * FROM favoritearticlestable")
+    LiveData<List<FavoriteArticle>> getFavoriteArticlesLiveData();
 }

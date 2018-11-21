@@ -2,9 +2,12 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.ArticlesRepository;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
+
+import java.util.List;
 
 public class DetailsFragmentViewModel extends AndroidViewModel {
 
@@ -23,7 +26,7 @@ public class DetailsFragmentViewModel extends AndroidViewModel {
         return mRepository.deleteFavoriteArticle(article.getUrl());
     }
 
-    public boolean checkIfArticleIsFavorite(FavoriteArticle article) {
-        return mRepository.checkIfArticleExistInDatabase(article.getUrl()) != -1;
+    public LiveData<List<FavoriteArticle>> getArticlesListLiveData() {
+        return mRepository.getArticlesListLiveData();
     }
 }
