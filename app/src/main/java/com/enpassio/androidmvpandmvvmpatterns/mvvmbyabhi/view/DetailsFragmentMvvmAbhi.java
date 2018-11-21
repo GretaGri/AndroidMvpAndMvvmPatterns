@@ -1,5 +1,6 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.target.Target;
 import com.enpassio.androidmvpandmvvmpatterns.GlideApp;
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.viewmodel.DetailsFragmentViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import me.biubiubiu.justifytext.library.JustifyTextView;
@@ -30,6 +32,8 @@ import saschpe.android.customtabs.CustomTabsHelper;
 import saschpe.android.customtabs.WebViewFallback;
 
 public class DetailsFragmentMvvmAbhi extends Fragment {
+
+    private DetailsFragmentViewModel detailsFragmentViewModel;
 
     public DetailsFragmentMvvmAbhi() {
         // Required empty public constructor
@@ -40,7 +44,12 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
                              Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         Article article = bundle.getParcelable("key");
+
+        //set the view for the fragment
         View view = inflater.inflate(R.layout.fragment_details_mvvm_abhi, container, false);
+
+        detailsFragmentViewModel = ViewModelProviders.of(this).get(DetailsFragmentViewModel.class);
+
         TextView articleTitleTextView = view.findViewById(R.id.article_title_text_view);
         JustifyTextView articleContentJustifiedTextView = view.findViewById(R.id.article_content_text_view);
         TextView articleAuthorTextView = view.findViewById(R.id.article_author_text_view);
@@ -125,14 +134,14 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
     }
 
     private void saveToFavorite(Article article) {
-
+        detailsFragmentViewModel.insertArticleToFavorite(article);
     }
 
     private void deleteFromFavorite(Article article) {
-
+        detailsFragmentViewModel.deleteArticleFromFavorite(article);
     }
 
     private boolean isFavorite(Article article) {
-        return false;
+        return detailsFragmentViewModel.checkIfArticleIsFavorite(article);
     }
 }

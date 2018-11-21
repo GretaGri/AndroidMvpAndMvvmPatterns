@@ -56,4 +56,11 @@ public class ArticlesRepository {
         mArticlesDao.insertArticle(article);
     }
 
+    public void delete(String url) {
+
+    }
+
+    public void checkIfArticleExistInDatabase(String url) {
+
+    }
 }
