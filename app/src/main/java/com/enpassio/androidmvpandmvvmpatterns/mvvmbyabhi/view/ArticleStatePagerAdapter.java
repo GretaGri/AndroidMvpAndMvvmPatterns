@@ -1,6 +1,5 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -25,10 +24,6 @@ public class ArticleStatePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Bundle bundleForCurrent = new Bundle();
-        bundleForCurrent.putParcelable("key", mArticleArrayList.get(position));
-        DetailsFragmentMvvmAbhi detailsFragment = new DetailsFragmentMvvmAbhi();
-        detailsFragment.setArguments(bundleForCurrent);
-        return detailsFragment;
+        return DetailsFragmentMvvmAbhi.newInstance(mArticleArrayList.get(position));
     }
 }

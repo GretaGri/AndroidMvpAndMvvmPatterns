@@ -3,10 +3,12 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.ArticlesRepository;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailsFragmentViewModel extends AndroidViewModel {
@@ -28,5 +30,9 @@ public class DetailsFragmentViewModel extends AndroidViewModel {
 
     public LiveData<List<FavoriteArticle>> getArticlesListLiveData() {
         return mRepository.getArticlesListLiveData();
+    }
+
+    public MutableLiveData<ArrayList<FavoriteArticle>> getFavoriteArticleList() {
+        return mRepository.getFavoriteArticleList();
     }
 }

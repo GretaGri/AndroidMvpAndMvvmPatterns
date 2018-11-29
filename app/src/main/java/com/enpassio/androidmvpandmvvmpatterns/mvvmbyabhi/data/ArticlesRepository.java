@@ -15,6 +15,7 @@ import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArti
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.network.APIClient;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.network.NewsApiService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -28,7 +29,8 @@ public class ArticlesRepository {
     private long idAfterInsert = -1;
     private int idAfterDelete = -1;
     private long idAfterQuery = -1;
-    private LiveData<List<FavoriteArticle>> listLiveData;
+    private MutableLiveData<ArrayList<FavoriteArticle>> listMutableLiveData;
+    private ArrayList<FavoriteArticle> favoriteArticles;
 
     public ArticlesRepository(Application application) {
         mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
@@ -98,5 +100,16 @@ public class ArticlesRepository {
             }
         });
         return mutableLiveData;
+    }
+
+    public MutableLiveData<ArrayList<FavoriteArticle>> getFavoriteArticleList() {
+        listMutableLiveData = new MutableLiveData<>();
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                listMutableLiveData.postValue((ArrayList<FavoriteArticle>) favoriteArticlesDao.getAllArticles());
+            }
+        });
+        return listMutableLiveData;
     }
 }
