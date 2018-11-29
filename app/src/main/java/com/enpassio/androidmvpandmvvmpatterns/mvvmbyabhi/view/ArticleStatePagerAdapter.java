@@ -1,22 +1,26 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 
 import java.util.ArrayList;
 
-public class ArticlesDetailsPagerAdapterMvvmAbhi extends FragmentPagerAdapter {
+public class ArticleStatePagerAdapter extends FragmentStatePagerAdapter {
 
     private ArrayList<Article> mArticleArrayList;
 
-    ArticlesDetailsPagerAdapterMvvmAbhi(FragmentManager fmg, ArrayList<Article> articleArrayList) {
+    ArticleStatePagerAdapter(FragmentManager fmg, ArrayList<Article> articleArrayList) {
         super(fmg);
         mArticleArrayList = articleArrayList;
+    }
+
+    @Override
+    public int getCount() {
+        return mArticleArrayList.size();
     }
 
     @Override
@@ -26,10 +30,5 @@ public class ArticlesDetailsPagerAdapterMvvmAbhi extends FragmentPagerAdapter {
         DetailsFragmentMvvmAbhi detailsFragment = new DetailsFragmentMvvmAbhi();
         detailsFragment.setArguments(bundleForCurrent);
         return detailsFragment;
-    }
-
-    @Override
-    public int getCount() {
-        return mArticleArrayList.size();
     }
 }

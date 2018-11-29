@@ -136,7 +136,7 @@ public class ArticlePagedListAdapterMvvmAbhi extends PagedListAdapter<Article, R
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CustomDialogMvvmAbhi customDialog = CustomDialogMvvmAbhi.newInstance();
+                    CustomDialogMvvmAbhi customDialog = new CustomDialogMvvmAbhi();
                     Bundle arrayListBundle = new Bundle();
                     arrayListBundle.putInt("position", position);
                     arrayListBundle.putParcelableArrayList("articlesArrayList", mArticleArrayList);

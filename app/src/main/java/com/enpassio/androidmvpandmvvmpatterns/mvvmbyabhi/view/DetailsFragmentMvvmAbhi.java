@@ -44,6 +44,7 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
         // Required empty public constructor
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,8 +69,10 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
         articleTitleTextView.setSelected(true);
         articleContentJustifiedTextView.setText(article.getContent());
 
-        int favoriteFilledId = getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/" + "ic_favorite_filled", null, null);
-        int favoriteUnFilledId = getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/" + "ic_favorite_unfilled", null, null);
+        int favoriteFilledId = getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/"
+                + "ic_favorite_filled", null, null);
+        int favoriteUnFilledId = getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/"
+                + "ic_favorite_unfilled", null, null);
 
         FavoriteArticle favoriteArticle = new FavoriteArticle(article.getUrl());
 
@@ -79,11 +82,15 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
                             @Override
                             public void onChanged(@Nullable List<FavoriteArticle> favoriteArticles) {
                                 for (FavoriteArticle favorite : favoriteArticles) {
+                                    Log.d("my_taggg", "onChanged getUrl is: " + article.getUrl() + " fav url is: " + favorite.getUrl());
+                                    Log.d("my_taggg", "onChanged tag is: " + favoriteButton.getTag());
                                     if (article.getUrl().equals(favorite.getUrl())) {
                                         favoriteButton.setImageResource(favoriteFilledId);
-                                        break;
+                                        favoriteButton.setTag("fav");
+                                        return;
                                     } else {
                                         favoriteButton.setImageResource(favoriteUnFilledId);
+                                        favoriteButton.setTag("unfav");
                                     }
                                 }
                             }
@@ -92,11 +99,14 @@ public class DetailsFragmentMvvmAbhi extends Fragment {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("my_taggg", "onClick tag is: " + favoriteButton.getTag());
                 if (favoriteButton.getTag() != null && favoriteButton.getTag().equals("fav")) {
                     deleteFromFavorite(favoriteArticle);
+                    Log.d("my_taggg", "onClick deleteFromFavorite  called");
                     favoriteButton.setTag("unfav");
                 } else {
                     favoriteButton.setTag("fav");
+                    Log.d("my_taggg", "onClick saveToFavorite  called");
                     saveToFavorite(favoriteArticle);
                 }
             }
