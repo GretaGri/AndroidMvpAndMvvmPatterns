@@ -2,15 +2,21 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
+import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.database.ArticlesDao;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.database.ArticlesDatabase;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.database.FavoriteArticlesDao;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.network.APIClient;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.network.NewsApiService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 public class ArticlesRepository {
@@ -18,10 +24,17 @@ public class ArticlesRepository {
     private static final String LOG_TAG = ArticlesRepository.class.getSimpleName();
     private NewsApiService mNewsApiService;
     private ArticlesDao mArticlesDao;
+    private FavoriteArticlesDao favoriteArticlesDao;
     private Executor mExecutor;
+    private long idAfterInsert = -1;
+    private int idAfterDelete = -1;
+    private long idAfterQuery = -1;
+    private MutableLiveData<ArrayList<FavoriteArticle>> listMutableLiveData;
+    private ArrayList<FavoriteArticle> favoriteArticles;
 
     public ArticlesRepository(Application application) {
         mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
+        favoriteArticlesDao = ArticlesDatabase.getDatabase(application).favoriteArticlesDao();
         //create the service
         mNewsApiService = APIClient.getClient().create(NewsApiService.class);
         mExecutor = AppExecutors.getInstance().diskIO();
@@ -56,4 +69,47 @@ public class ArticlesRepository {
         mArticlesDao.insertArticle(article);
     }
 
+    public long insertFavoriteArticle(FavoriteArticle article) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                idAfterInsert = favoriteArticlesDao.insertArticle(article);
+            }
+        });
+        Log.d("my_taggg", "repository insertFavoriteArticle called idAfterInsert is: " + idAfterInsert);
+        return idAfterInsert;
+    }
+
+    public int deleteFavoriteArticle(String url) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                idAfterDelete = favoriteArticlesDao.deleteArticle(url);
+            }
+        });
+        Log.d("my_taggg", "repository deleteFavoriteArticle called idAfterDelete is: " + idAfterDelete);
+        return idAfterDelete;
+    }
+
+    public LiveData<List<FavoriteArticle>> getArticlesListLiveData() {
+        MutableLiveData<List<FavoriteArticle>> mutableLiveData = new MutableLiveData<>();
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mutableLiveData.postValue(favoriteArticlesDao.getAllArticles());
+            }
+        });
+        return mutableLiveData;
+    }
+
+    public MutableLiveData<ArrayList<FavoriteArticle>> getFavoriteArticleList() {
+        listMutableLiveData = new MutableLiveData<>();
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                listMutableLiveData.postValue((ArrayList<FavoriteArticle>) favoriteArticlesDao.getAllArticles());
+            }
+        });
+        return listMutableLiveData;
+    }
 }

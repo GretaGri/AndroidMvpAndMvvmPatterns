@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 
 public class CustomDialogMvvmAbhi extends DialogFragment {
 
-    private static CustomDialogMvvmAbhi customDialog;
     private ArrayList<Article> mArticleArrayList;
     private int mCurrentPosition;
 
@@ -30,17 +28,9 @@ public class CustomDialogMvvmAbhi extends DialogFragment {
         // Use `newInstance` instead as shown below
     }
 
-    public static CustomDialogMvvmAbhi newInstance() {
-        if (customDialog == null) {
-            customDialog = new CustomDialogMvvmAbhi();
-        }
-        return customDialog;
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        customDialog = null;
     }
 
     @Override
@@ -58,12 +48,13 @@ public class CustomDialogMvvmAbhi extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_details_mvvm_abhi, container);
+        View view = inflater.inflate(R.layout.dialog_details_mvvm_abhi, container);
         ViewPager viewPager = view.findViewById(R.id.view_pager);
-        FragmentPagerAdapter adapterViewPager;
-        adapterViewPager = new ArticlesDetailsPagerAdapterMvvmAbhi(getChildFragmentManager(), mArticleArrayList);
+        ArticleStatePagerAdapter adapterViewPager;
+        adapterViewPager = new ArticleStatePagerAdapter(getChildFragmentManager(), mArticleArrayList);
         viewPager.setAdapter(adapterViewPager);
         viewPager.setCurrentItem(mCurrentPosition);
+        viewPager.setOffscreenPageLimit(0);
         FloatingActionButton floatingActionButton = view.findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

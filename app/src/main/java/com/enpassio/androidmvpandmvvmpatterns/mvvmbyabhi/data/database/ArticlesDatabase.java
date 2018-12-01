@@ -6,8 +6,9 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
 
-@Database(entities = {Article.class}, version = 1)
+@Database(entities = {Article.class, FavoriteArticle.class}, version = 1)
 public abstract class ArticlesDatabase extends RoomDatabase {
     // marking the instance as volatile to ensure atomic access to the variable
     private static volatile ArticlesDatabase INSTANCE;
@@ -28,4 +29,6 @@ public abstract class ArticlesDatabase extends RoomDatabase {
     }
 
     public abstract ArticlesDao articlesDao();
+
+    public abstract FavoriteArticlesDao favoriteArticlesDao();
 }

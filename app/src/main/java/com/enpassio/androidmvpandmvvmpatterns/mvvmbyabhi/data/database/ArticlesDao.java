@@ -18,7 +18,7 @@ public interface ArticlesDao {
     List<Article> getAllArticles();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertArticle(Article article);
+    long insertArticle(Article article);
 
     @Query("DELETE FROM articlestable")
     void deleteAll();

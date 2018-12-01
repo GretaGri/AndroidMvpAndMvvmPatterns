@@ -9,6 +9,7 @@
 /build
 /captures
 .externalNativeBuild
+<<<<<<< Updated upstream
 /gradle.properties
 .idea/caches/
 .idea/codeStyles/
@@ -17,6 +18,12 @@
 .idea/markdown-navigator/
 .idea/runConfigurations.xml
 .idea/vcs.xml
+.idea/
+app/src/main/gen/
+>>>>>>> Stashed changes
 gradle/
 gradlew
 gradlew.bat
+/.idea
+.idea/assetWizardSettings.xml
+.idea/markdown-navigator.xml
