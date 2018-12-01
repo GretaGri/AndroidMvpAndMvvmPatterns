@@ -2,6 +2,7 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,11 +13,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.enpassio.androidmvpandmvvmpatterns.GlideApp;
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.Article;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.viewmodel.DetailsFragmentViewModel;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +66,37 @@ public class DetailsFragmentMvvmAbhi extends Fragment implements FavoriteCallbac
         Log.d("my_tag", "onCreateView called");
         //set the view for the fragment
         View view = inflater.inflate(R.layout.fragment_details_mvvm_abhi, container, false);
+
+        ImageView articleBannerImageView = view.findViewById(R.id.article_banner_image);
+        ShimmerFrameLayout shimmerFrameLayout = view.findViewById(R.id.shimmer_view_container);
+        shimmerFrameLayout.startShimmer();
+
+        GlideApp
+                .with(articleBannerImageView.getContext())
+                .load(mArticle.getUrlToImage())
+                .centerCrop()
+                .addListener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e,
+                                                Object model,
+                                                Target<Drawable> target,
+                                                boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource,
+                                                   Object model,
+                                                   Target<Drawable> target,
+                                                   DataSource dataSource,
+                                                   boolean isFirstResource) {
+                        shimmerFrameLayout.stopShimmer();
+                        return false;
+                    }
+                })
+                .into(articleBannerImageView);
+
+
         ArrayList<FavoriteArticle> favoriteArticles = detailsFragmentViewModel.getFavoriteArticleList().getValue();
         if (favoriteArticles != null) {
             for (FavoriteArticle favoriteArticle : favoriteArticles) {
