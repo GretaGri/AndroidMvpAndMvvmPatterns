@@ -27,6 +27,7 @@
         <activity android:name=".MvpByAbhi.view.MainActivity" />
         <activity android:name=".mvp_pattern.view.DetailsActivity" />
         <activity android:name=".mvvmbyabhi.view.MainActivityMvvmAbhi" />
+        <activity android:name=".mvvmbyabhi.view.FavoriteActivity"></activity>
     </application>
 
 </manifest>
