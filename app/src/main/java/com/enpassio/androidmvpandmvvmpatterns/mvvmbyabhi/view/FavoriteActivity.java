@@ -21,6 +21,7 @@ public class FavoriteActivity extends AppCompatActivity {
     private DetailsFragmentViewModel detailsFragmentViewModel;
     private RecyclerView recyclerView;
     private LinearLayoutManager mLayoutmanager;
+    private FavoriteArticlesAdapter favoriteFragmentAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,12 +31,16 @@ public class FavoriteActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view_activity_favorite);
         mLayoutmanager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutmanager);
+        favoriteFragmentAdapter = new FavoriteArticlesAdapter(this, new ArrayList<FavoriteArticle>());
+        recyclerView.setAdapter(favoriteFragmentAdapter);
         detailsFragmentViewModel = ViewModelProviders.of(this).get(DetailsFragmentViewModel.class);
         detailsFragmentViewModel.getArticlesListLiveData().observe(this, new Observer<List<FavoriteArticle>>() {
             @Override
             public void onChanged(@Nullable List<FavoriteArticle> favoriteArticles) {
                 ArrayList<FavoriteArticle> articles = new ArrayList<>();
                 articles.addAll(favoriteArticles);
+                favoriteFragmentAdapter = new FavoriteArticlesAdapter(FavoriteActivity.this, articles);
+                recyclerView.setAdapter(favoriteFragmentAdapter);
                 for (FavoriteArticle article : articles
                         ) {
                     Log.v("my_tag", "url of article is: " + article.getUrl());
