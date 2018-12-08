@@ -49,18 +49,20 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
     private void bindTo(FavoriteArticle mArticle, FavoriteArticlesAdapter.ViewHolder viewHolder) {
 
         if (mArticle != null) {
-            viewHolder.articleSourceTextView.setText(mArticle.getUrl());
+            viewHolder.articleTitlerTextView.setText(mArticle.getTitle());
+            viewHolder.articleDescriptionTextView.setText(mArticle.getDescription());
+            String date = mArticle.getPublishedAt();
+            String[] dateArray = date.split("T");
+            viewHolder.articlePublishingDateTextView.setText("" + dateArray[0] + " " + dateArray[1].subSequence(0, dateArray[1].length() - 1));
+            viewHolder.articleTitlerTextView.setSelected(true);
+            viewHolder.articleAuthorTextView.setText(mArticle.getAuthor());
+            viewHolder.articleUrlTextView.setText(mArticle.getUrl());
         }
     }
 
     @Override
     public int getItemCount() {
         return mFavoriteArticle.size();
-    }
-
-    void setArticleData(ArrayList<FavoriteArticle> article) {
-        mFavoriteArticle = article;
-        notifyDataSetChanged();
     }
 
     /*
@@ -72,7 +74,11 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
         Your holder should contain a member variable
         for any view that will be set as you render a row
         */
-        final TextView articleSourceTextView;
+        final TextView articleTitlerTextView;
+        final TextView articleDescriptionTextView;
+        final TextView articlePublishingDateTextView;
+        final TextView articleAuthorTextView;
+        final TextView articleUrlTextView;
 
         ViewHolder(View view) {
             /*
@@ -80,7 +86,12 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
             to access the context from any ViewHolder instance.
             */
             super(view);
-            articleSourceTextView = view.findViewById(R.id.url_favorite_article_source);
+            articleTitlerTextView = view.findViewById(R.id.list_item_title);
+            articleDescriptionTextView = view.findViewById(R.id.list_item_description);
+            articlePublishingDateTextView = view.findViewById(R.id.list_item_published_date);
+            articleAuthorTextView = view.findViewById(R.id.list_item_author);
+            articleUrlTextView = view.findViewById(R.id.url_favorite_article_source);
+
         }
 
     }

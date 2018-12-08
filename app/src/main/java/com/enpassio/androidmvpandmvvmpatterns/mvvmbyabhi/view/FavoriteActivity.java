@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
@@ -41,10 +40,6 @@ public class FavoriteActivity extends AppCompatActivity {
                 articles.addAll(favoriteArticles);
                 favoriteFragmentAdapter = new FavoriteArticlesAdapter(FavoriteActivity.this, articles);
                 recyclerView.setAdapter(favoriteFragmentAdapter);
-                for (FavoriteArticle article : articles
-                        ) {
-                    Log.v("my_tag", "url of article is: " + article.getUrl());
-                }
             }
         });
     }

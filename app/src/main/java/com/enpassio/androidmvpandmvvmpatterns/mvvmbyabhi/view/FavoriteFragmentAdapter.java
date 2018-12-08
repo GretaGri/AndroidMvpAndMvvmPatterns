@@ -75,7 +75,7 @@ public class FavoriteFragmentAdapter extends RecyclerView.Adapter<FavoriteFragme
         } else {
             viewHolder.favoriteButton.setImageResource(favoriteUnFilledId);
         }
-        FavoriteArticle favoriteArticle = new FavoriteArticle(mArticle.getUrl());
+        FavoriteArticle favoriteArticle = new FavoriteArticle(mArticle.getTitle(), mArticle.getDescription(), mArticle.getPublishedAt(), mArticle.getAuthor(), mArticle.getUrl());
         viewHolder.favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
