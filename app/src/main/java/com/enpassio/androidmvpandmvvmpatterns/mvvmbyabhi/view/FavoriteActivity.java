@@ -15,31 +15,39 @@ import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.viewmodel.DetailsFragme
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoriteActivity extends AppCompatActivity {
+public class FavoriteActivity extends AppCompatActivity implements DeleteFavoriteItemCallback {
 
     private DetailsFragmentViewModel detailsFragmentViewModel;
     private RecyclerView recyclerView;
     private LinearLayoutManager mLayoutmanager;
     private FavoriteArticlesAdapter favoriteFragmentAdapter;
+    private DeleteFavoriteItemCallback deleteFavoriteItemCallback;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
-
+        deleteFavoriteItemCallback = this;
         recyclerView = findViewById(R.id.recycler_view_activity_favorite);
         mLayoutmanager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutmanager);
-        favoriteFragmentAdapter = new FavoriteArticlesAdapter(this, new ArrayList<FavoriteArticle>(), detailsFragmentViewModel);
+        favoriteFragmentAdapter = new FavoriteArticlesAdapter(this, new ArrayList<FavoriteArticle>(), deleteFavoriteItemCallback);
         recyclerView.setAdapter(favoriteFragmentAdapter);
         detailsFragmentViewModel = ViewModelProviders.of(this).get(DetailsFragmentViewModel.class);
         detailsFragmentViewModel.getArticlesListLiveData().observe(this, new Observer<List<FavoriteArticle>>() {
             @Override
             public void onChanged(@Nullable List<FavoriteArticle> favoriteArticles) {
-                ArrayList<FavoriteArticle> articles = new ArrayList<>();
-                articles.addAll(favoriteArticles);
-                favoriteFragmentAdapter.onNewData(articles);
+                if (favoriteArticles != null) {
+                    ArrayList<FavoriteArticle> articles = new ArrayList<>();
+                    articles.addAll(favoriteArticles);
+                    favoriteFragmentAdapter.onNewData(articles);
+                }
             }
         });
+    }
+
+    @Override
+    public void deleteFavoriteItem(FavoriteArticle favoriteArticle) {
+        detailsFragmentViewModel.deleteArticleFromFavorite(favoriteArticle);
     }
 }

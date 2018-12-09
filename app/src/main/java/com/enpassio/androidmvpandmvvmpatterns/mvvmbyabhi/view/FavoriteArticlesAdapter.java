@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
-import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.viewmodel.DetailsFragmentViewModel;
 
 import java.util.ArrayList;
 
@@ -21,13 +20,13 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
     private ArrayList<FavoriteArticle> mFavoriteArticle;
     /* Store the context for easy access */
     private Context mContext;
-    private DetailsFragmentViewModel mDetailsFragmentViewModel;
+    private DeleteFavoriteItemCallback mDeleteFavoriteItemCallback;
 
     FavoriteArticlesAdapter(Context context,
-                            ArrayList<FavoriteArticle> article, DetailsFragmentViewModel detailsFragmentViewModel) {
+                            ArrayList<FavoriteArticle> article, DeleteFavoriteItemCallback deleteFavoriteItemCallback) {
         mFavoriteArticle = article;
         mContext = context;
-        mDetailsFragmentViewModel = detailsFragmentViewModel;
+        mDeleteFavoriteItemCallback = deleteFavoriteItemCallback;
     }
 
     /* Easy access to the context object in the recyclerview */
@@ -68,8 +67,10 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
                     int favoriteUnFilledId = mContext.getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/"
                             + "ic_favorite_unfilled", null, null);
                     viewHolder.favButton.setImageResource(favoriteUnFilledId);
-                    if (mArticle != null)
-                        mDetailsFragmentViewModel.deleteArticleFromFavorite(mArticle);
+                    if (mArticle.getUrl() != null) {
+
+                        mDeleteFavoriteItemCallback.deleteFavoriteItem(mArticle);
+                    }
                 }
             });
         }
@@ -80,8 +81,7 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
         return mFavoriteArticle.size();
     }
 
-    public void onNewData(ArrayList<FavoriteArticle> newData) {
-
+    void onNewData(ArrayList<FavoriteArticle> newData) {
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffUtilCallback(newData, mFavoriteArticle));
         this.mFavoriteArticle.clear();
         this.mFavoriteArticle.addAll(newData);
