@@ -30,7 +30,7 @@ public class FavoriteActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view_activity_favorite);
         mLayoutmanager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutmanager);
-        favoriteFragmentAdapter = new FavoriteArticlesAdapter(this, new ArrayList<FavoriteArticle>());
+        favoriteFragmentAdapter = new FavoriteArticlesAdapter(this, new ArrayList<FavoriteArticle>(), detailsFragmentViewModel);
         recyclerView.setAdapter(favoriteFragmentAdapter);
         detailsFragmentViewModel = ViewModelProviders.of(this).get(DetailsFragmentViewModel.class);
         detailsFragmentViewModel.getArticlesListLiveData().observe(this, new Observer<List<FavoriteArticle>>() {
@@ -38,8 +38,7 @@ public class FavoriteActivity extends AppCompatActivity {
             public void onChanged(@Nullable List<FavoriteArticle> favoriteArticles) {
                 ArrayList<FavoriteArticle> articles = new ArrayList<>();
                 articles.addAll(favoriteArticles);
-                favoriteFragmentAdapter = new FavoriteArticlesAdapter(FavoriteActivity.this, articles);
-                recyclerView.setAdapter(favoriteFragmentAdapter);
+                favoriteFragmentAdapter.onNewData(articles);
             }
         });
     }

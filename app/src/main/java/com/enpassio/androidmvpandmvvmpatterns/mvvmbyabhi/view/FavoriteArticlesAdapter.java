@@ -2,14 +2,17 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
+import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.viewmodel.DetailsFragmentViewModel;
 
 import java.util.ArrayList;
 
@@ -18,11 +21,13 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
     private ArrayList<FavoriteArticle> mFavoriteArticle;
     /* Store the context for easy access */
     private Context mContext;
+    private DetailsFragmentViewModel mDetailsFragmentViewModel;
 
     FavoriteArticlesAdapter(Context context,
-                            ArrayList<FavoriteArticle> article) {
+                            ArrayList<FavoriteArticle> article, DetailsFragmentViewModel detailsFragmentViewModel) {
         mFavoriteArticle = article;
         mContext = context;
+        mDetailsFragmentViewModel = detailsFragmentViewModel;
     }
 
     /* Easy access to the context object in the recyclerview */
@@ -57,12 +62,30 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
             viewHolder.articleTitlerTextView.setSelected(true);
             viewHolder.articleAuthorTextView.setText(mArticle.getAuthor());
             viewHolder.articleUrlTextView.setText(mArticle.getUrl());
+            viewHolder.favButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int favoriteUnFilledId = mContext.getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/"
+                            + "ic_favorite_unfilled", null, null);
+                    viewHolder.favButton.setImageResource(favoriteUnFilledId);
+                    if (mArticle != null)
+                        mDetailsFragmentViewModel.deleteArticleFromFavorite(mArticle);
+                }
+            });
         }
     }
 
     @Override
     public int getItemCount() {
         return mFavoriteArticle.size();
+    }
+
+    public void onNewData(ArrayList<FavoriteArticle> newData) {
+
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffUtilCallback(newData, mFavoriteArticle));
+        this.mFavoriteArticle.clear();
+        this.mFavoriteArticle.addAll(newData);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     /*
@@ -79,6 +102,7 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
         final TextView articlePublishingDateTextView;
         final TextView articleAuthorTextView;
         final TextView articleUrlTextView;
+        final ImageButton favButton;
 
         ViewHolder(View view) {
             /*
@@ -91,6 +115,7 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
             articlePublishingDateTextView = view.findViewById(R.id.list_item_published_date);
             articleAuthorTextView = view.findViewById(R.id.list_item_author);
             articleUrlTextView = view.findViewById(R.id.url_favorite_article_source);
+            favButton = view.findViewById(R.id.button_favorite);
 
         }
 
