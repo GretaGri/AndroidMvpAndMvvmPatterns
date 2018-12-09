@@ -3,6 +3,7 @@ package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +11,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -23,7 +26,7 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 
-public class MainActivityMvvmAbhi extends AppCompatActivity{
+public class MainActivityMvvmAbhi extends AppCompatActivity {
 
     private Button button;
     private ArticlesViewModel articlesViewModel;
@@ -93,6 +96,24 @@ public class MainActivityMvvmAbhi extends AppCompatActivity{
                 observeNewsFromViewModel();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.favorite:
+                startActivity(new Intent(this, FavoriteActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void observeNewsFromViewModel() {
