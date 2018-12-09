@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
@@ -34,12 +35,14 @@ public class FavoriteActivity extends AppCompatActivity implements DeleteFavorit
         favoriteFragmentAdapter = new FavoriteArticlesAdapter(this, new ArrayList<FavoriteArticle>(), deleteFavoriteItemCallback);
         recyclerView.setAdapter(favoriteFragmentAdapter);
         detailsFragmentViewModel = ViewModelProviders.of(this).get(DetailsFragmentViewModel.class);
-        detailsFragmentViewModel.getArticlesListLiveData().observe(this, new Observer<List<FavoriteArticle>>() {
+        detailsFragmentViewModel.getFavoriteArticlesLiveData().observe(this, new Observer<List<FavoriteArticle>>() {
             @Override
             public void onChanged(@Nullable List<FavoriteArticle> favoriteArticles) {
+                Log.d("my_tag", "onChanged called");
                 if (favoriteArticles != null) {
                     ArrayList<FavoriteArticle> articles = new ArrayList<>();
                     articles.addAll(favoriteArticles);
+                    //making use of DiffUtil
                     favoriteFragmentAdapter.onNewData(articles);
                 }
             }

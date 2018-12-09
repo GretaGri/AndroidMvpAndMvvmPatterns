@@ -32,6 +32,9 @@ public class DetailsFragmentViewModel extends AndroidViewModel {
         return mRepository.getArticlesListLiveData();
     }
 
+    public LiveData<List<FavoriteArticle>> getFavoriteArticlesLiveData() {
+        return mRepository.getFavoriteArticlesLiveData();
+    }
     public MutableLiveData<ArrayList<FavoriteArticle>> getFavoriteArticleList() {
         return mRepository.getFavoriteArticleList();
     }

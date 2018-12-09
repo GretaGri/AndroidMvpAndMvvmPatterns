@@ -31,6 +31,7 @@ public class ArticlesRepository {
     private long idAfterQuery = -1;
     private MutableLiveData<ArrayList<FavoriteArticle>> listMutableLiveData;
     private ArrayList<FavoriteArticle> favoriteArticles;
+    private LiveData<List<FavoriteArticle>> listLiveData;
 
     public ArticlesRepository(Application application) {
         mArticlesDao = ArticlesDatabase.getDatabase(application).articlesDao();
@@ -100,6 +101,17 @@ public class ArticlesRepository {
             }
         });
         return mutableLiveData;
+    }
+
+    public LiveData<List<FavoriteArticle>> getFavoriteArticlesLiveData() {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                //Issue here
+                listLiveData = favoriteArticlesDao.getFavoriteArticlesLiveData();
+            }
+        });
+        return listLiveData;
     }
 
     public MutableLiveData<ArrayList<FavoriteArticle>> getFavoriteArticleList() {
