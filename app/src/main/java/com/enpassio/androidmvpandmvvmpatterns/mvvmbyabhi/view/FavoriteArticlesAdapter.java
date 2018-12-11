@@ -1,8 +1,13 @@
 package com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +19,9 @@ import com.enpassio.androidmvpandmvvmpatterns.R;
 import com.enpassio.androidmvpandmvvmpatterns.mvvmbyabhi.data.model.FavoriteArticle;
 
 import java.util.ArrayList;
+
+import saschpe.android.customtabs.CustomTabsHelper;
+import saschpe.android.customtabs.WebViewFallback;
 
 public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticlesAdapter.ViewHolder> {
 
@@ -77,6 +85,29 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
                     }
                 }
             });
+            setupChromeTabForDetailsActivity(viewHolder, mArticle);
+        }
+    }
+
+    private void setupChromeTabForDetailsActivity(ViewHolder viewHolder, FavoriteArticle mArticle) {
+        Bitmap closeIcon = BitmapFactory.decodeResource(mContext.getResources(),
+                R.drawable.ic_close);
+
+        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                .addDefaultShareMenuItem()
+                .setToolbarColor(viewHolder.articlesContainerCardView.getContext().getResources().getColor(R.color.colorPrimary))
+                .setShowTitle(true)
+                .setCloseButtonIcon(closeIcon)
+                .build();
+        if (mArticle.getUrl() != null) {
+            viewHolder.articlesContainerCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CustomTabsHelper.openCustomTab(viewHolder.articlesContainerCardView.getContext(), customTabsIntent,
+                            Uri.parse(mArticle.getUrl()),
+                            new WebViewFallback());
+                }
+            });
         }
     }
 
@@ -107,6 +138,7 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
         final TextView articleAuthorTextView;
         final TextView articleUrlTextView;
         final ImageButton favButton;
+        final CardView articlesContainerCardView;
 
         ViewHolder(View view) {
             /*
@@ -120,6 +152,7 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
             articleAuthorTextView = view.findViewById(R.id.list_item_author);
             articleUrlTextView = view.findViewById(R.id.url_favorite_article_source);
             favButton = view.findViewById(R.id.button_favorite);
+            articlesContainerCardView = view.findViewById(R.id.articles_container_card_view);
 
         }
 
