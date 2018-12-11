@@ -24,10 +24,17 @@
         </activity>
         <activity android:name=".mvp_pattern.view.MainActivity" />
         <activity android:name=".mvvm_pattern.view.MainActivity" />
-        <activity android:name=".MvpByAbhi.view.MainActivity" />
+        <activity
+            android:name=".MvpByAbhi.view.MainActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".mvp_pattern.view.DetailsActivity" />
-        <activity android:name=".mvvmbyabhi.view.MainActivityMvvmAbhi" />
-        <activity android:name=".mvvmbyabhi.view.FavoriteActivity"></activity>
+        <activity
+            android:name=".mvvmbyabhi.view.MainActivityMvvmAbhi"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".mvvmbyabhi.view.FavoriteActivity"
+            android:label="Favorite Articles"
+            android:parentActivityName=".mvvmbyabhi.view.MainActivityMvvmAbhi" />
     </application>
 
 </manifest>

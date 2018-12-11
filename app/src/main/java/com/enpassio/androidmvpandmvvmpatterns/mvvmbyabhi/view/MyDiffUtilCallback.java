@@ -42,15 +42,16 @@ public class MyDiffUtilCallback extends DiffUtil.Callback {
     @Nullable
     @Override
     public Object getChangePayload(int oldItemPosition, int newItemPosition) {
-        FavoriteArticle newArticle = newList.get(newItemPosition);
-        FavoriteArticle oldArticle = oldList.get(oldItemPosition);
-
         Bundle diff = new Bundle();
-        if (!newArticle.getUrl().equals(oldArticle.getUrl())) {
-            diff.putString("url", newArticle.getUrl());
-        }
-        if (diff.size() == 0) {
-            return null;
+        if (!(newItemPosition >= newList.size()) && !(oldItemPosition >= oldList.size())) {
+            FavoriteArticle newArticle = newList.get(newItemPosition);
+            FavoriteArticle oldArticle = oldList.get(oldItemPosition);
+            if (!newArticle.getUrl().equals(oldArticle.getUrl())) {
+                diff.putString("url", newArticle.getUrl());
+            }
+            if (diff.size() == 0) {
+                return null;
+            }
         }
         return diff;
     }

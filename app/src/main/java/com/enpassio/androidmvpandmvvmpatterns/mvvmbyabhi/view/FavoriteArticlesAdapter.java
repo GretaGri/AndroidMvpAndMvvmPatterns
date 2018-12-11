@@ -61,6 +61,10 @@ public class FavoriteArticlesAdapter extends RecyclerView.Adapter<FavoriteArticl
             viewHolder.articleTitlerTextView.setSelected(true);
             viewHolder.articleAuthorTextView.setText(mArticle.getAuthor());
             viewHolder.articleUrlTextView.setText(mArticle.getUrl());
+            int favoriteFilledId = mContext.getResources().getIdentifier("com.enpassio.androidmvpandmvvmpatterns:drawable/"
+                    + "ic_favorite_filled", null, null);
+            viewHolder.favButton.setImageResource(favoriteFilledId);
+
             viewHolder.favButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
