@@ -4,38 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context=".mvvmbyabhi.view.MainActivityMvvmAbhi">
 
-
     <LinearLayout
-        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/search_query_edit_text"
+
+        <LinearLayout
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:autofillHints="@string/find_your_news"
-            android:background="@color/colorWhite"
-            android:hint="@string/find_your_news"
-            android:inputType="text" />
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:paddingTop="16dp">
 
-        <Button
-            android:id="@+id/main_button"
+            <EditText
+                android:id="@+id/search_query_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:autofillHints="@string/find_your_news"
+                android:background="@drawable/edittext_shape"
+                android:foregroundGravity="center_horizontal|center_vertical"
+                android:hint="@string/find_your_news"
+                android:inputType="text"
+                android:paddingLeft="8dp" />
+
+            <ImageButton
+                android:id="@+id/main_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/search_icon"
+                android:foregroundGravity="center_horizontal|center_vertical" />
+        </LinearLayout>
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_medium"
-            android:background="@color/colorPrimary"
-            android:text="@string/give_me_my_news"
-            android:textColor="@color/colorWhite" />
-
+            android:layout_height="3dp"
+            android:layout_marginBottom="4dp" />
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout

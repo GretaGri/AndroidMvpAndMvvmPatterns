@@ -15,7 +15,7 @@ public class NewsApplication extends Application {
             // You should not init your app in this process.
             return;
         }
-        LeakCanary.install(this);
+        //LeakCanary.install(this);
         // Preload custom tabs service for improved performance
         // This is optional but recommended
         registerActivityLifecycleCallbacks(new CustomTabsActivityLifecycleCallbacks());

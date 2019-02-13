@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.enpassio.androidmvpandmvvmpatterns.R;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 
 public class MainActivityMvvmAbhi extends AppCompatActivity {
 
-    private Button button;
+    private ImageButton button;
     private ArticlesViewModel articlesViewModel;
     /* Adapters for inflating different recyclerview */
     private ArticlePagedListAdapterMvvmAbhi mNewsAdapter;

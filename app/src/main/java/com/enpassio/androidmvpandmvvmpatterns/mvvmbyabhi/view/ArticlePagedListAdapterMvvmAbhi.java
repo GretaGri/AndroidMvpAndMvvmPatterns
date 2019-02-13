@@ -64,7 +64,6 @@ public class ArticlePagedListAdapterMvvmAbhi extends PagedListAdapter<Article, R
 
     void setArticlesList(ArrayList<Article> articles) {
         mArticleArrayList = articles;
-        Log.v("my_tag", "mArticleArrayList size is: " + mArticleArrayList.size());
     }
 
     /*
