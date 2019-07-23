@@ -27,6 +27,14 @@ android {
     buildTypes.each {
         it.buildConfigField "String", "NEWS_API_DOT_ORG_KEY", newsApiKey
     }
+    signingConfigs {
+        release {
+            keyAlias keyAliasTopnews
+            keyPassword keyPasswordTopnews
+            storeFile file("topnewsjskfile.jks")
+            storePassword storePasswordTopnews
+        }
+    }
 }
 
 dependencies {

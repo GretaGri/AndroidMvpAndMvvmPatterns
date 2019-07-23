@@ -105,7 +105,6 @@ public class ArticlePagedListAdapter extends PagedListAdapter<Article, RecyclerV
 
                             @Override
                             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                Log.d("my_tag", "image loaded");
                                 container.stopShimmer();
                                 return false;
                             }

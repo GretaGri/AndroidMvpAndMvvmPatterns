@@ -6,4 +6,5 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGreenAccent">#90AA86</color>
     <color name="colorText">#000001</color>
+    <color name="colorPrimaryLight">#b2799f</color>
 </resources>
